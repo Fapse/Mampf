@@ -9,7 +9,7 @@
    <center>
       <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
          <content>
-            <GridPane gridLinesVisible="true">
+            <GridPane fx:id="dayGrid" gridLinesVisible="true">
                <rowConstraints>
                   <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
                   <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
