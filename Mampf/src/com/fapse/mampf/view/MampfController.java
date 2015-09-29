@@ -38,7 +38,6 @@ public class MampfController {
 				});
 			}
 		}
-		
 		dayGrid.setGridLinesVisible(true);
 		scrollPane.setContent(dayGrid);
 	}

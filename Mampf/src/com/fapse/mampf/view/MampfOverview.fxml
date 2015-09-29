@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.MampfController">
+<BorderPane maxHeight="400.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.MampfController">
    <center>
-      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="400.0" vbarPolicy="ALWAYS" />
+      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" vbarPolicy="ALWAYS" />
    </center>
 </BorderPane>
