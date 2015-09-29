@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
-</GridPane>
 
+<GridPane gridLinesVisible="true" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
+      <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
+   </columnConstraints>
+</GridPane>
