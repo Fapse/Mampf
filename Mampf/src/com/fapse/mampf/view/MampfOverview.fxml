@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-
-<BorderPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.MampfController">
    <center>
       <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
          <content>
