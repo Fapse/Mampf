@@ -5,33 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<BorderPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.MampfController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.MampfController">
    <center>
-      <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
-         <content>
-            <GridPane fx:id="dayGrid" gridLinesVisible="true">
-               <rowConstraints>
-                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
-               </rowConstraints>
-               <columnConstraints>
-                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
-               </columnConstraints>
-            </GridPane>
-         </content>
-      </ScrollPane>
+      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="400.0" vbarPolicy="ALWAYS" />
    </center>
 </BorderPane>
