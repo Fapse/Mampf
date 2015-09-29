@@ -17,6 +17,7 @@ public class MampfApp extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		//just a comment, for no reason
 		this.stage = stage;
 		this.stage.setTitle("Mampf");
 		FXMLLoader loader = new FXMLLoader();
