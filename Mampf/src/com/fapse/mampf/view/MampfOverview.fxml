@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <GridPane gridLinesVisible="true">
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
-         </rowConstraints>
-         <columnConstraints>
-            <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
-            <ColumnConstraints minWidth="10.0" prefWidth="70.0" />
-         </columnConstraints>
-      </GridPane>
+      <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS">
+         <content>
+            <GridPane gridLinesVisible="true">
+               <rowConstraints>
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+                  <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
+                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
+                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
+                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
+                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
+                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
+                  <ColumnConstraints maxWidth="70.0" minWidth="70.0" prefWidth="70.0" />
+               </columnConstraints>
+            </GridPane>
+         </content>
+      </ScrollPane>
    </center>
 </BorderPane>
