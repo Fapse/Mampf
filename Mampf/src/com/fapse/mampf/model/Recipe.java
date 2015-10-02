@@ -4,8 +4,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Recipe {
-	private final SimpleStringProperty name;
-	private final SimpleStringProperty recipe;
+	private final StringProperty name;
+	private final StringProperty recipe;
 	
 	public Recipe(String name) {
 		this.name = new SimpleStringProperty(name);
@@ -14,21 +14,20 @@ public class Recipe {
 	public Recipe(String name, String recipe) {
 		this.name = new SimpleStringProperty(name);
 		this.recipe = new SimpleStringProperty(recipe);
-		System.out.println(this.name);
 	}
-	String getName() {
+	public String getName() {
 		return name.get();
 	}
-	void setName(String name) {
+	public void setName(String name) {
 		this.name.set(name);
 	}
-	String getRecipe() {
+	public String getRecipe() {
 		return recipe.get();
 	}
-	void setRecipe(String recipe) {
+	public void setRecipe(String recipe) {
 		this.recipe.set(recipe);
 	}
-	public SimpleStringProperty nameProperty() {
+	public StringProperty nameProperty() {
 		return name;
 	}
 	public StringProperty recipeProperty() {
