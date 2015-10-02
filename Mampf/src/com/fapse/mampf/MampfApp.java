@@ -1,6 +1,12 @@
 package com.fapse.mampf;
 
+import java.util.Date;
+
+import com.fapse.mampf.model.Recipe;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -10,6 +16,7 @@ public class MampfApp extends Application {
 
 	private Stage stage;
 	private BorderPane rootLayout;
+	private ObservableMap<Date, Recipe> mealAgenda = FXCollections.checkedObservableMap(null, null, null);
 
 	public static void main(String[] args) {
 		launch(args);
