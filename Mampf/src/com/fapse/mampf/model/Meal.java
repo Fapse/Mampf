@@ -1,22 +1,23 @@
 package com.fapse.mampf.model;
 
 import java.time.LocalDate;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.ReadOnlySetWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
 
 public class Meal {
-	private SimpleStringProperty recipeName;
 	private Recipe recipe;
-	private final ObjectProperty<LocalDate> date;
-	public Meal(Recipe recipe, LocalDate date) {
+	private final ObservableSet<LocalDate> dateSet = FXCollections.observableSet();
+	private final ReadOnlySetWrapper<LocalDate> readOnlyDateSet = new ReadOnlySetWrapper<>(dateSet);
+	private final StringProperty recipeName = new SimpleStringProperty();
+	public Meal(Recipe recipe, LocalDate[] dates) {
 		this.recipe = recipe;
-		this.date = new SimpleObjectProperty<LocalDate>(date);
-		StringProperty sp = recipe.nameProperty();
-		System.out.println("Hier gehts: " + sp);
-		this.recipeName.bind(recipe.nameProperty());
-		System.out.println("Hier gehts nimmer!");
+		for (LocalDate date : dates) {
+			dateSet.add(date);
+		}
+		recipeName.bind(recipe.nameProperty());
 	}
 	public void setRecipe(Recipe recipe) {
 		this.recipe = recipe;
@@ -28,19 +29,12 @@ public class Meal {
 		return recipeName;
 	}
 	public String getRecipeName() {
-		return recipeName.get();
+		return recipe.getName();
 	}
-	public ObjectProperty<LocalDate> dateProperty() {
-		return date;
+	public void addDate(LocalDate date) {
+		dateSet.add(date);
 	}
-	public String getDate() {
-		return date.toString();
-	}
-	public void setDate(LocalDate date) {
-		try {
-			this.date.set(date);
-		} catch (Exception e) {
-			//ignore
-		}
+	public final ReadOnlySetWrapper<LocalDate> getDateSetWrapper() {
+		return readOnlyDateSet;
 	}
 }
