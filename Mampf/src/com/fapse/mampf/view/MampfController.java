@@ -8,7 +8,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 public class MampfController {
-
 	@FXML
 	private TableView tableView = new TableView();
 	@FXML
