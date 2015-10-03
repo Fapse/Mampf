@@ -1,48 +1,32 @@
 package com.fapse.mampf.model;
 
 import java.time.LocalDate;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlySetWrapper;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 
 public class DaySchedule {
-	private Recipe recipe;
-	private final ObjectProperty<LocalDate> cookDate = new SimpleObjectProperty<>();
-	private final ObservableSet<LocalDate> eatDatesSet = FXCollections.observableSet();
-	private final ReadOnlySetWrapper<LocalDate> readOnlyDateSet = new ReadOnlySetWrapper<>(eatDatesSet);
-	private final StringProperty recipeName = new SimpleStringProperty();
-	public DaySchedule(Recipe recipe, LocalDate cookDate, LocalDate[] eatDates) {
-		this.recipe = recipe;
-		this.cookDate.set(cookDate);
-		for (LocalDate date : eatDates) {
-			eatDatesSet.add(date);
+	private final ObjectProperty<LocalDate> date = new SimpleObjectProperty<>();
+	private final ObservableSet<Meal> mealsSet = FXCollections.observableSet();
+	private final ReadOnlySetWrapper<Meal> readOnlyMealsSet = new ReadOnlySetWrapper<>(mealsSet);
+	public DaySchedule(LocalDate date) {
+		this.date.set(date);
+	}	
+	public DaySchedule(LocalDate date, Meal[] meals) {
+		this.date.set(date);
+		for (Meal meal : meals) {
+			mealsSet.add(meal);
 		}
-		recipeName.bind(recipe.nameProperty());
 	}
-	public void setRecipe(Recipe recipe) {
-		this.recipe = recipe;
+	public void addMeal(Meal meal) {
+		mealsSet.add(meal);
 	}
-	public Recipe getRecipe() {
-		return recipe;
+	public void removeMeal(Meal meal) {
+		mealsSet.remove(meal);
 	}
-	public StringProperty recipeNameProperty() {
-		return recipeName;
-	}
-	public String getRecipeName() {
-		return recipe.getName();
-	}
-	public void setCookDate(LocalDate date) {
-		cookDate.set(date);
-	}
-	public void addEatDate(LocalDate date) {
-		eatDatesSet.add(date);
-	}
-	public final ReadOnlySetWrapper<LocalDate> getDateSetWrapper() {
-		return readOnlyDateSet;
+	public final ReadOnlySetWrapper<Meal> getMealsSetWrapper() {
+		return readOnlyMealsSet;
 	}
 }
