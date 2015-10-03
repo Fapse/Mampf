@@ -2,8 +2,10 @@ package com.fapse.mampf;
 
 import java.time.LocalDate;
 import com.fapse.mampf.model.DaySchedule;
+import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlySetWrapper;
 import javafx.collections.SetChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,22 +17,28 @@ public class MampfApp extends Application {
 	private Stage stage;
 	private BorderPane rootLayout;
 	private LocalDate day = LocalDate.of(1977, 6, 1);
-	private LocalDate[] days = {LocalDate.of(1977, 5, 29), LocalDate.of(1977, 5, 30), LocalDate.of(1977, 5, 31)};
 	private Recipe spatzen = new Recipe("Käsespatzen", "Rühren, hobeln, kochen");
 	private Recipe pommes = new Recipe("Pommes", "Schnippeln, fritieren");
-	private DaySchedule mittagessen = new DaySchedule(spatzen, day, days);
+	private Recipe kuchen = new Recipe("Kuchen", "Rühren, backen");
+	private Meal meal1 = new Meal(spatzen);
+	private Meal meal2 = new Meal(pommes);
+	private Meal meal3 = new Meal(kuchen);
+	private Meal[] meals = {meal1, meal2};
+	private DaySchedule daySched = new DaySchedule(day, meals);
+	private ReadOnlySetWrapper<Meal> readMeals = new ReadOnlySetWrapper<>();
 	
 	public MampfApp() {
-		System.out.println("Die Mahlzeit ist: " + mittagessen.getRecipeName());
-		spatzen.setName("Kässpätzle");
-		System.out.println("Die Mahlzeit ist: " + mittagessen.getRecipeName());
-		mittagessen.getDateSetWrapper().addListener(new SetChangeListener<LocalDate>() {
+			daySched.getMealsSetWrapper().addListener(new SetChangeListener<Meal>() {
 			@Override
-			public void onChanged(SetChangeListener.Change<? extends LocalDate> c) {
-				System.out.println("Neu dabei: " + c.getElementAdded().toString());
+			public void onChanged(SetChangeListener.Change<? extends Meal> c) {
+				System.out.println("Neu dabei: " + c.getElementAdded().getRecipeName());
 			}
 		});
-		mittagessen.addEatDate(LocalDate.of(1977, 6, 1));
+		daySched.addMeal(meal3);
+		readMeals = daySched.getMealsSetWrapper();
+		for (Meal meal : readMeals) {
+			System.out.println("Es gibt " + meal.getRecipeName());
+		}
 	}
 
 	public static void main(String[] args) {
