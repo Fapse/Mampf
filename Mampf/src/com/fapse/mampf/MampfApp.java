@@ -1,7 +1,7 @@
 package com.fapse.mampf;
 
 import java.time.LocalDate;
-import com.fapse.mampf.model.Meal;
+import com.fapse.mampf.model.DaySchedule;
 import com.fapse.mampf.model.Recipe;
 import javafx.application.Application;
 import javafx.collections.SetChangeListener;
@@ -14,10 +14,11 @@ public class MampfApp extends Application {
 
 	private Stage stage;
 	private BorderPane rootLayout;
+	private LocalDate day = LocalDate.of(1977, 6, 1);
 	private LocalDate[] days = {LocalDate.of(1977, 5, 29), LocalDate.of(1977, 5, 30), LocalDate.of(1977, 5, 31)};
 	private Recipe spatzen = new Recipe("Käsespatzen", "Rühren, hobeln, kochen");
 	private Recipe pommes = new Recipe("Pommes", "Schnippeln, fritieren");
-	private Meal mittagessen = new Meal(spatzen, days);
+	private DaySchedule mittagessen = new DaySchedule(spatzen, day, days);
 	
 	public MampfApp() {
 		System.out.println("Die Mahlzeit ist: " + mittagessen.getRecipeName());
@@ -29,7 +30,7 @@ public class MampfApp extends Application {
 				System.out.println("Neu dabei: " + c.getElementAdded().toString());
 			}
 		});
-		mittagessen.addDate(LocalDate.of(1977, 6, 1));
+		mittagessen.addEatDate(LocalDate.of(1977, 6, 1));
 	}
 
 	public static void main(String[] args) {
