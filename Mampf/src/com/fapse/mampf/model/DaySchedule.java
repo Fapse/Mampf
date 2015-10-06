@@ -20,15 +20,18 @@ public class DaySchedule {
 			mealsSet.add(meal);
 		}
 	}
+	public LocalDate getDate() {
+		return date.getValue();
+	}
 	public void addMeal(Meal meal) {
 		mealsSet.add(meal);
 	}
 	public void removeMeal(Meal meal) {
 		mealsSet.remove(meal);
 	}
-	public Meal[] getMeals() {
+	/*public Meal[] getMeals() {
 		return (Meal[]) mealsSet.toArray();
-	}
+	}*/
 	public final ReadOnlySetWrapper<Meal> getMealsSetWrapper() {
 		return readOnlyMealsSet;
 	}

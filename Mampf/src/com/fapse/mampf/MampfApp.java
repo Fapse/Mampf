@@ -31,7 +31,7 @@ public class MampfApp extends Application {
 	private DaySchedule daySched = new DaySchedule(day, meals);
 	private ReadOnlySetWrapper<Meal> readMeals = new ReadOnlySetWrapper<>();
 	
-	private MampfData mampfData = new MampfData();
+	private MampfData mampfData = MampfData.getMampfData();
 	
 	public MampfApp() {
 			daySched.getMealsSetWrapper().addListener(new SetChangeListener<Meal>() {
