@@ -26,6 +26,9 @@ public class DaySchedule {
 	public void removeMeal(Meal meal) {
 		mealsSet.remove(meal);
 	}
+	public Meal[] getMeals() {
+		return (Meal[]) mealsSet.toArray();
+	}
 	public final ReadOnlySetWrapper<Meal> getMealsSetWrapper() {
 		return readOnlyMealsSet;
 	}
