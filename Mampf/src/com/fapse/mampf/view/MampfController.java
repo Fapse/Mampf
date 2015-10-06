@@ -8,6 +8,7 @@ import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.util.DateUtil;
 
 import javafx.beans.property.ReadOnlySetWrapper;
+import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
@@ -18,6 +19,7 @@ import javafx.scene.text.TextAlignment;
 
 public class MampfController {
 	private MampfData mampfData = MampfData.getMampfData();
+	private ReadOnlySetWrapper<DaySchedule> readDaySchedules = mampfData.getDaySchedulesSetWrapper();
 	@FXML
 	private GridPane gridPane = new GridPane();
 
@@ -25,6 +27,16 @@ public class MampfController {
 	private ScrollPane scrollPane = new ScrollPane();
 	
 	public MampfController() {
+		readDaySchedules.addListener(new SetChangeListener<DaySchedule>() {
+			@Override
+			public void onChanged(SetChangeListener.Change<? extends DaySchedule> c) {
+				if (c.wasAdded()) {
+					System.out.println("Neu dabei: " + c.getElementAdded().getDate());
+				} else if (c.wasRemoved()) {
+					System.out.println("Gelöscht: " + c.getElementRemoved().getDate());				
+				}
+			}
+		});
 	}
 	
 	@FXML
@@ -50,7 +62,6 @@ public class MampfController {
 					DaySchedule daySched = mampfData.getDaySchedule(gridDay);
 					if (daySched != null) {
 						Text dateText = new Text(DateUtil.format(daySched.getDate()));
-						//dateText.setTextAlignment(TextAlignment.RIGHT);
 						vBox.getChildren().add(dateText);
 						((Text) vBox.getChildren().get(0)).setTextAlignment(TextAlignment.CENTER);
 						ReadOnlySetWrapper<Meal> readMeals = daySched.getMealsSetWrapper();

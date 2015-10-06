@@ -5,11 +5,14 @@ import java.util.Random;
 import com.fapse.mampf.model.DaySchedule;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
+
+import javafx.beans.property.ReadOnlySetWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 
 public class MampfData {
 	private final ObservableSet<DaySchedule> daySchedules = FXCollections.observableSet();
+	private final ReadOnlySetWrapper<DaySchedule> readOnlyDaySchedulesSet = new ReadOnlySetWrapper<>(daySchedules);
 	
 	private static class MampfDataHolder{
 		public static MampfData mampfData = new MampfData();
@@ -33,6 +36,10 @@ public class MampfData {
 		return daySchedule;
 	}
 	
+	public ReadOnlySetWrapper<DaySchedule> getDaySchedulesSetWrapper() {
+		return readOnlyDaySchedulesSet;
+	}
+	
 	private void generateTestData() {
 		Recipe spatzen = new Recipe("Käsespatzen", "Rühren, hobeln, kochen");
 		Recipe pommes = new Recipe("Pommes", "Schnippeln, fritieren");
@@ -45,7 +52,6 @@ public class MampfData {
 		//generate daily schedules for each day in month
 		LocalDate today = LocalDate.now();
 		Random random = new Random();
-		
 		int monthLength = today.lengthOfMonth();
 		for (int m = 1; m <= monthLength; m++) {
 			LocalDate day = today.withDayOfMonth(m);
