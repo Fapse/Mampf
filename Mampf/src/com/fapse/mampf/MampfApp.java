@@ -1,6 +1,7 @@
 package com.fapse.mampf;
 
 import java.time.LocalDate;
+import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.DaySchedule;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
@@ -20,18 +21,27 @@ public class MampfApp extends Application {
 	private Recipe spatzen = new Recipe("Käsespatzen", "Rühren, hobeln, kochen");
 	private Recipe pommes = new Recipe("Pommes", "Schnippeln, fritieren");
 	private Recipe kuchen = new Recipe("Kuchen", "Rühren, backen");
+	private Recipe salat = new Recipe("Chefsalat", "Schneiden, anmachen");
 	private Meal meal1 = new Meal(spatzen);
 	private Meal meal2 = new Meal(pommes);
 	private Meal meal3 = new Meal(kuchen);
+	private Meal meal4 = new Meal(salat);
+	
 	private Meal[] meals = {meal1, meal2};
 	private DaySchedule daySched = new DaySchedule(day, meals);
 	private ReadOnlySetWrapper<Meal> readMeals = new ReadOnlySetWrapper<>();
+	
+	private MampfData mampfData = new MampfData();
 	
 	public MampfApp() {
 			daySched.getMealsSetWrapper().addListener(new SetChangeListener<Meal>() {
 			@Override
 			public void onChanged(SetChangeListener.Change<? extends Meal> c) {
-				System.out.println("Neu dabei: " + c.getElementAdded().getRecipeName());
+				if (c.wasAdded()) {
+					System.out.println("Neu dabei: " + c.getElementAdded().getRecipeName());
+				} else if (c.wasRemoved()) {
+					System.out.println("Gelöscht: " + c.getElementRemoved().getRecipeName());				
+				}
 			}
 		});
 		daySched.addMeal(meal3);
@@ -39,6 +49,9 @@ public class MampfApp extends Application {
 		for (Meal meal : readMeals) {
 			System.out.println("Es gibt " + meal.getRecipeName());
 		}
+		daySched.removeMeal(meal2);
+		daySched.addMeal(meal4);
+		
 	}
 
 	public static void main(String[] args) {
