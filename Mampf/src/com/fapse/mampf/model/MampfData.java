@@ -2,7 +2,6 @@ package com.fapse.mampf.model;
 
 import java.time.LocalDate;
 import java.util.Random;
-
 import com.fapse.mampf.model.DaySchedule;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
@@ -12,11 +11,27 @@ import javafx.collections.ObservableSet;
 public class MampfData {
 	private final ObservableSet<DaySchedule> daySchedules = FXCollections.observableSet();
 	
-	public MampfData() {
+	private static class MampfDataHolder{
+		public static MampfData mampfData = new MampfData();
+	}
+	
+	public static MampfData getMampfData() {
+		return MampfDataHolder.mampfData;
+	}
+		
+	private MampfData() {
 		generateTestData();
 	}
 	
-	
+	public DaySchedule getDaySchedule(LocalDate date) {
+		DaySchedule daySchedule = null;
+		for (DaySchedule schedule : daySchedules) {
+			if (date.equals(schedule.getDate())) {
+				daySchedule = schedule;
+			}
+		}
+		return daySchedule;
+	}
 	
 	private void generateTestData() {
 		Recipe spatzen = new Recipe("Käsespatzen", "Rühren, hobeln, kochen");

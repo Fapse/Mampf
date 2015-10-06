@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -9,15 +10,24 @@
    <center>
       <ScrollPane fx:id="scrollPane">
          <content>
-            <TableView fx:id="tableView">
-              <columns>
-                <TableColumn fx:id="col1" prefWidth="75.0" text="C1" />
-                <TableColumn fx:id="col2" prefWidth="75.0" text="C2" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
+            <GridPane fx:id="gridPane" gridLinesVisible="true">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
+                <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
+                <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
+                <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
+              </rowConstraints>
+            </GridPane>
          </content></ScrollPane>
    </center>
 </BorderPane>
