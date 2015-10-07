@@ -1,25 +1,22 @@
 package com.fapse.mampf.view;
 
 import java.time.LocalDate;
-
-import com.fapse.mampf.model.DaySchedule;
+import java.util.stream.Stream;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.util.DateUtil;
-
-import javafx.beans.property.ReadOnlySetWrapper;
-import javafx.collections.SetChangeListener;
+import javafx.beans.property.ReadOnlyListWrapper;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
 public class MampfController {
 	private MampfData mampfData = MampfData.getMampfData();
-	private ReadOnlySetWrapper<DaySchedule> readDaySchedules = mampfData.getDaySchedulesSetWrapper();
+	private ReadOnlyListWrapper<Meal> readMeals = mampfData.getMealListWrapper();
 	@FXML
 	private GridPane gridPane = new GridPane();
 
@@ -27,13 +24,13 @@ public class MampfController {
 	private ScrollPane scrollPane = new ScrollPane();
 	
 	public MampfController() {
-		readDaySchedules.addListener(new SetChangeListener<DaySchedule>() {
+		readMeals.addListener(new ListChangeListener<Meal>() {
 			@Override
-			public void onChanged(SetChangeListener.Change<? extends DaySchedule> c) {
+			public void onChanged(ListChangeListener.Change<? extends Meal> c) {
 				if (c.wasAdded()) {
-					System.out.println("Neu dabei: " + c.getElementAdded().getDate());
+					System.out.println("Soviel neu dabei: " + c.getAddedSubList().size());
 				} else if (c.wasRemoved()) {
-					System.out.println("Gelöscht: " + c.getElementRemoved().getDate());				
+					System.out.println("Soviel gelöscht: " + c.getRemovedSize());				
 				}
 			}
 		});
@@ -59,15 +56,11 @@ public class MampfController {
 					VBox vBox = new VBox();
 					vBox.setPadding(new Insets(5,5,5,5));
 					LocalDate gridDay = day.withDayOfMonth(dayOfMonthCounter++);
-					DaySchedule daySched = mampfData.getDaySchedule(gridDay);
-					if (daySched != null) {
-						Text dateText = new Text(DateUtil.format(daySched.getDate()));
+					Stream<Meal> meals = mampfData.getMeals(gridDay);
+					if (meals != null) {
+						Text dateText = new Text(DateUtil.format(gridDay));
 						vBox.getChildren().add(dateText);
-						((Text) vBox.getChildren().get(0)).setTextAlignment(TextAlignment.CENTER);
-						ReadOnlySetWrapper<Meal> readMeals = daySched.getMealsSetWrapper();
-						for (Meal meals : readMeals) {
-							vBox.getChildren().add(new Text(meals.getRecipeName()));							
-						}
+						meals.forEach(meal -> vBox.getChildren().add(new Text(meal.getRecipeName())));
 					} else {
 						vBox.getChildren().add(new Text("No data"));						
 					}
