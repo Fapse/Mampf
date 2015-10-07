@@ -1,65 +1,57 @@
 package com.fapse.mampf.model;
 
 import java.time.LocalDate;
-import java.util.Random;
-import com.fapse.mampf.model.DaySchedule;
+import java.util.stream.Stream;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
-
-import javafx.beans.property.ReadOnlySetWrapper;
+import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
+import javafx.collections.ObservableList;
 
 public class MampfData {
-	private final ObservableSet<DaySchedule> daySchedules = FXCollections.observableSet();
-	private final ReadOnlySetWrapper<DaySchedule> readOnlyDaySchedulesSet = new ReadOnlySetWrapper<>(daySchedules);
+	private final ObservableList<Meal> mealList = FXCollections.observableArrayList();
+	private final ReadOnlyListWrapper<Meal> readOnlyMealList = new ReadOnlyListWrapper<>(mealList);
 	
 	private static class MampfDataHolder{
 		public static MampfData mampfData = new MampfData();
 	}
-	
 	public static MampfData getMampfData() {
 		return MampfDataHolder.mampfData;
 	}
-		
 	private MampfData() {
-		generateTestData();
+		generateTestData2();
 	}
-	
-	public DaySchedule getDaySchedule(LocalDate date) {
-		DaySchedule daySchedule = null;
-		for (DaySchedule schedule : daySchedules) {
-			if (date.equals(schedule.getDate())) {
-				daySchedule = schedule;
-			}
-		}
-		return daySchedule;
+	public Stream<Meal> getMeals(LocalDate date) {
+		Stream<Meal> allMeals = mealList.stream();
+		Stream<Meal> dayMeals = allMeals.filter(meal -> meal.getDatesSetWrapper().contains(date));
+		return dayMeals;
 	}
-	
-	public ReadOnlySetWrapper<DaySchedule> getDaySchedulesSetWrapper() {
-		return readOnlyDaySchedulesSet;
-	}
-	
-	private void generateTestData() {
+	private void generateTestData2() {
 		Recipe spatzen = new Recipe("Käsespatzen", "Rühren, hobeln, kochen");
 		Recipe pommes = new Recipe("Pommes", "Schnippeln, fritieren");
 		Recipe kuchen = new Recipe("Kuchen", "Rühren, backen");
 		Recipe salat = new Recipe("Chefsalat", "Schneiden, anmachen");
 		Recipe brotzeit = new Recipe("Brotzeit", "Schneiden, belegen");
-		Meal[] meals = {new Meal(spatzen), new Meal(pommes), 
-				new Meal(kuchen), new Meal(salat), 
-				new Meal(brotzeit)};
-		//generate daily schedules for each day in month
-		LocalDate today = LocalDate.now();
-		Random random = new Random();
-		int monthLength = today.lengthOfMonth();
-		for (int m = 1; m <= monthLength; m++) {
-			LocalDate day = today.withDayOfMonth(m);
-			DaySchedule daySchedule = new DaySchedule(day);
-			for (int n = random.nextInt(5) + 1; n <= 5; n++) {
-				daySchedule.addMeal(meals[random.nextInt(meals.length - 1)]);
-			}
-			daySchedules.add(daySchedule);
+		LocalDate day1 = LocalDate.of(2015, 10, 4);
+		LocalDate day2 = LocalDate.of(2015, 10, 5);
+		LocalDate day3 = LocalDate.of(2015, 10, 6);
+		LocalDate day4 = LocalDate.of(2015, 10, 7);
+		LocalDate day5 = LocalDate.of(2015, 10, 7);
+		LocalDate day6 = LocalDate.of(2015, 10, 9);
+		LocalDate[] days1 = {day1, day2, day3};
+		LocalDate[] days2 = {day3, day4, day5, day6};
+		LocalDate[] days3 = {day3, day5, day6};	
+		Meal[] meals = {new Meal(spatzen, days1),
+				new Meal(pommes, days2), 
+				new Meal(kuchen, days3),
+				new Meal(salat, days3), 
+				new Meal(brotzeit, days1)};
+		for (Meal meal : meals) {
+			mealList.add(meal);
 		}
+	}
+
+	public ReadOnlyListWrapper<Meal> getMealListWrapper() {
+		return readOnlyMealList;
 	}
 }
