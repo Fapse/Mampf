@@ -1,7 +1,6 @@
 package com.fapse.mampf.model;
 
 import java.time.LocalDate;
-
 import javafx.beans.property.ReadOnlySetWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -19,6 +18,13 @@ public class Meal {
 		recipeName.bind(recipe.nameProperty());
 		for (LocalDate date : dates) {
 			datesSet.add(date);
+		}
+	}
+	public boolean hasDate(LocalDate date) {
+		if (datesSet.contains(date)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 	public void setRecipe(Recipe recipe) {
