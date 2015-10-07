@@ -7,6 +7,7 @@ import com.fapse.mampf.model.Recipe;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import static com.fapse.mampf.model.MealPredicates.*;
 
 public class MampfData {
 	private final ObservableList<Meal> mealList = FXCollections.observableArrayList();
@@ -25,6 +26,9 @@ public class MampfData {
 		Stream<Meal> allMeals = mealList.stream();
 		Stream<Meal> dayMeals = allMeals.filter(meal -> meal.getDatesSetWrapper().contains(date));
 		return dayMeals;
+	}
+	public ReadOnlyListWrapper<Meal> getReadOnlyMeals(LocalDate date) {
+		return new ReadOnlyListWrapper<Meal>(filterMeals(mealList, hasDate(date)));
 	}
 	private void generateTestData2() {
 		Recipe spatzen = new Recipe("Käsespatzen", "Rühren, hobeln, kochen");
@@ -50,7 +54,6 @@ public class MampfData {
 			mealList.add(meal);
 		}
 	}
-
 	public ReadOnlyListWrapper<Meal> getMealListWrapper() {
 		return readOnlyMealList;
 	}

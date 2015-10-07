@@ -6,28 +6,34 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.MampfController">
-   <center>
-      <ScrollPane fx:id="scrollPane">
-         <content>
-            <GridPane fx:id="gridPane" gridLinesVisible="true">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
-                <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
-                <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
-                <RowConstraints minHeight="120.0" prefHeight="50.0" vgrow="ALWAYS" />
-              </rowConstraints>
-            </GridPane>
-         </content></ScrollPane>
-   </center>
-</BorderPane>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.MampfController">
+   <children>
+      <BorderPane prefHeight="700.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="0.5" layoutY="0.5" prefHeight="700.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="120.0" prefHeight="120.0" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="120.0" prefHeight="120.0" vgrow="ALWAYS" />
+                      <RowConstraints minHeight="120.0" prefHeight="120.0" vgrow="ALWAYS" />
+                      <RowConstraints minHeight="120.0" prefHeight="120.0" vgrow="ALWAYS" />
+                      <RowConstraints minHeight="120.0" prefHeight="120.0" vgrow="ALWAYS" />
+                    </rowConstraints>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
