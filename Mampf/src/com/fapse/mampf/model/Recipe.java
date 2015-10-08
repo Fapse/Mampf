@@ -25,7 +25,11 @@ public class Recipe {
 		return recipe.get();
 	}
 	public void setRecipe(String recipe) {
-		this.recipe.set(recipe);
+		if (recipe != null) {
+			this.recipe.set(recipe);
+		} else {
+			this.recipe.set("No recipe available!");
+		}
 	}
 	public StringProperty nameProperty() {
 		return name;
