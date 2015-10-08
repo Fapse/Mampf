@@ -1,7 +1,6 @@
 package com.fapse.mampf.model;
 
 import java.time.LocalDate;
-import java.util.stream.Stream;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
 import javafx.beans.property.ReadOnlyListWrapper;
@@ -22,12 +21,10 @@ public class MampfData {
 	private MampfData() {
 		generateTestData2();
 	}
-	public Stream<Meal> getMeals(LocalDate date) {
-		Stream<Meal> allMeals = mealList.stream();
-		Stream<Meal> dayMeals = allMeals.filter(meal -> meal.getDatesSetWrapper().contains(date));
-		return dayMeals;
+	public ReadOnlyListWrapper<Meal> getMeals() {
+		return readOnlyMealList;
 	}
-	public ReadOnlyListWrapper<Meal> getReadOnlyMeals(LocalDate date) {
+	public ReadOnlyListWrapper<Meal> getMeals(LocalDate date) {
 		return new ReadOnlyListWrapper<Meal>(filterMeals(mealList, hasDate(date)));
 	}
 	private void generateTestData2() {
@@ -53,8 +50,5 @@ public class MampfData {
 		for (Meal meal : meals) {
 			mealList.add(meal);
 		}
-	}
-	public ReadOnlyListWrapper<Meal> getMealListWrapper() {
-		return readOnlyMealList;
 	}
 }

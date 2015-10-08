@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.util.DateUtil;
+
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -11,13 +12,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 
-public class MampfController {
+public class OverviewController {
 	private MampfData mampfData = MampfData.getMampfData();
-	private ReadOnlyListWrapper<Meal> readMeals = mampfData.getMealListWrapper();
+	private ReadOnlyListWrapper<Meal> readMeals = mampfData.getMeals();
 	@FXML
 	private GridPane gridPane = new GridPane();
 	
-	public MampfController() {
+	public OverviewController() {
 		readMeals.addListener(new ListChangeListener<Meal>() {
 			@Override
 			public void onChanged(ListChangeListener.Change<? extends Meal> c) {
@@ -50,11 +51,14 @@ public class MampfController {
 					TableView<Meal> mealTable = new TableView<>();
 					TableColumn<Meal, String> mealColumn = new TableColumn<>();
 					LocalDate gridDay = day.withDayOfMonth(dayOfMonthCounter++);
-					mealTable.setItems(mampfData.getReadOnlyMeals(gridDay));
+					mealTable.setItems(mampfData.getMeals(gridDay));
 					mealColumn.setCellValueFactory(cellData -> cellData.getValue().recipeNameProperty());
 					mealColumn.setText(DateUtil.format(gridDay));
 					mealTable.getColumns().add(mealColumn);
 					gridPane.add(mealTable, col, row, 1, 1);
+					mealTable.setPrefWidth(140);
+					mealTable.setPrefHeight(160);
+					mealTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 				}
 			}
 		}

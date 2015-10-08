@@ -8,7 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
 
 public class Meal {
-	private Recipe recipe;
+	private final Recipe recipe;
 	private final StringProperty recipeName = new SimpleStringProperty();
 	private final ObservableSet<LocalDate> datesSet = FXCollections.observableSet();
 	private final ReadOnlySetWrapper<LocalDate> readOnlyDatesSet = new ReadOnlySetWrapper<>(datesSet);
@@ -26,9 +26,6 @@ public class Meal {
 		} else {
 			return false;
 		}
-	}
-	public void setRecipe(Recipe recipe) {
-		this.recipe = recipe;
 	}
 	public Recipe getRecipe() {
 		return recipe;
