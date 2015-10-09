@@ -1,19 +1,17 @@
 package com.fapse.mampf;
 
-import com.fapse.mampf.model.MampfData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class MampfApp extends Application {
+public class Mampf extends Application {
 
 	private Stage stage;
 	private AnchorPane rootLayout;
-	private MampfData mampfData = MampfData.getMampfData();
 	
-	public MampfApp() {
+	public Mampf() {
 	}
 
 	public static void main(String[] args) {
@@ -25,7 +23,7 @@ public class MampfApp extends Application {
 		this.stage = stage;
 		this.stage.setTitle("Mampf");
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(MampfApp.class.getResource("view/MampfOverview.fxml"));
+		loader.setLocation(Mampf.class.getResource("view/MampfOverview.fxml"));
 		rootLayout = (AnchorPane) loader.load();
 		Scene scene = new Scene(rootLayout);
 		this.stage.setScene(scene);
