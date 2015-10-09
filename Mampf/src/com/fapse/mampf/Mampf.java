@@ -1,5 +1,7 @@
 package com.fapse.mampf;
 
+import com.fapse.mampf.view.OverviewController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,8 +27,14 @@ public class Mampf extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Mampf.class.getResource("view/MampfOverview.fxml"));
 		rootLayout = (AnchorPane) loader.load();
+		OverviewController controller = loader.getController();
+		controller.setMampf(this);
 		Scene scene = new Scene(rootLayout);
 		this.stage.setScene(scene);
 		this.stage.show();		
+	}
+	
+	public Stage getPrimaryStage() {
+		return stage;
 	}
 }
