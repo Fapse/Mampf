@@ -1,10 +1,11 @@
 package com.fapse.mampf.view;
 
 import java.time.LocalDate;
+
+import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.MealAction;
-import com.fapse.mampf.util.DateUtil;
 
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ListChangeListener;
@@ -13,13 +14,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 public class OverviewController {
+	private Mampf mampf;
 	private MampfData mampfData = MampfData.getMampfData();
 	private ReadOnlyListWrapper<MealAction> readMeals = mampfData.getMeals();
 	@FXML
@@ -46,6 +46,10 @@ public class OverviewController {
 		});
 	}
 	
+	public void setMampf(Mampf mampf) {
+		this.mampf = mampf;
+	}
+	
 	@FXML
 	private void initialize() {
 		instantiateGridCells();
@@ -63,18 +67,10 @@ public class OverviewController {
 					foundCol = true;
 				}
 				if (foundCol && (dayOfMonthCounter < day.lengthOfMonth())) {
-					TableView<Meal> mealTable = new TableView<>();
-					TableColumn<Meal, String> mealColumn = new TableColumn<>();
 					LocalDate gridDay = day.withDayOfMonth(dayOfMonthCounter++);
 					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
-					mealTable.setItems(meals);
-					mealColumn.setCellValueFactory(cellData -> cellData.getValue().recipeNameProperty());
-					mealColumn.setText(DateUtil.format(gridDay));
-					mealTable.getColumns().add(mealColumn);
-					gridPane.add(mealTable, col, row, 1, 1);
-					mealTable.setPrefWidth(140);
-					mealTable.setPrefHeight(160);
-					mealTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+					DayView dayView = new DayView(gridDay, meals);
+					gridPane.add(dayView.getDayView(), col, row, 1, 1);
 					ContextMenu cm = new ContextMenu();
 					MenuItem mi = new MenuItem("Druck mi!");
 					mi.setOnAction(new EventHandler<ActionEvent>() {
@@ -84,6 +80,7 @@ public class OverviewController {
 						}
 					});
 					cm.getItems().add(mi);
+					/*
 					mealTable.setContextMenu(cm);
 					mealColumn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent> () {
 						@Override
@@ -92,7 +89,7 @@ public class OverviewController {
 				            	cm.show(mealTable, event.getScreenX(), event.getScreenY());
 				            }
 						}
-					});
+					});*/
 				}
 			}
 		}
