@@ -25,8 +25,25 @@ public class MampfData {
 		return readOnlyMealActions;
 	}
 	public ReadOnlyListWrapper<Meal> getMeals(LocalDate date) {
-		return new ReadOnlyListWrapper<Meal>(filterMeals(mealActions, hasDate(date)));
+		ObservableList<MealAction> mealActionsList = FXCollections.observableArrayList();
+		mealActionsList = filterMeals(mealActions, hasDate(date));
+        ObservableList<Meal> obsMeals = FXCollections.observableArrayList();
+        for (MealAction mealAction : mealActionsList) {
+        	obsMeals.add(mealAction.meal);
+        }
+        return new ReadOnlyListWrapper<Meal>(obsMeals);
+    }
+	
+	public void deleteMeal(Meal meal) {
+		ObservableList<MealAction> mealActionsList = FXCollections.observableArrayList();
+		mealActionsList = MealActionPredicates.filterMeals(mealActions, isMeal(meal));
+		for(MealAction mealAction : mealActionsList) {
+			if (mealActionsList.contains(mealAction)) {
+				mealActions.remove(mealAction);
+			}
+		}
 	}
+	
 	public void addMealAction() {
 		Recipe schnitzel = new Recipe("Schnitzel", "Klopfen, braten");
 		LocalDate day1 = LocalDate.of(2015, 10, 8);
@@ -59,7 +76,7 @@ public class MampfData {
 		MealAction mealAction2 = new MealAction(meal1, day2);
 		MealAction mealAction3 = new MealAction(meal1, day3);
 		MealAction mealAction4 = new MealAction(meal2, day3);
-		MealAction mealAction5 = new MealAction(meal2, day3);
+		MealAction mealAction5 = new MealAction(meal2, day4);
 		MealAction mealAction6 = new MealAction(meal3, day4);
 		MealAction mealAction7 = new MealAction(meal4, day5);
 		MealAction mealAction8 = new MealAction(meal5, day5);

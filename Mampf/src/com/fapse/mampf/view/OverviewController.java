@@ -1,27 +1,27 @@
 package com.fapse.mampf.view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.MealAction;
+import com.fapse.mampf.util.DateUtil;
 
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 public class OverviewController {
 	private Mampf mampf;
 	private MampfData mampfData = MampfData.getMampfData();
 	private ReadOnlyListWrapper<MealAction> readMeals = mampfData.getMeals();
+	private List<DayView> dayViews = new ArrayList<>();
 	@FXML
 	private GridPane gridPane = new GridPane();
 	
@@ -35,11 +35,21 @@ public class OverviewController {
 						System.out.println("Und zwar gibt's mehr Essen!");
 						System.out.println("Anzahl der Änderungen: " + c.getAddedSize());
 						for (MealAction mealAction : c.getAddedSubList()) {
-							System.out.println(mealAction.meal.getRecipeName());
+							System.out.println(mealAction.meal.getRecipeName() + " am " + DateUtil.format(mealAction.date));
 						}
 					} else if (c.wasRemoved()) {
 						System.out.println("Und zwar gibt's weniger zu Essen!");
 						System.out.println("Anzahl der Änderungen: " + c.getRemovedSize());
+						for (MealAction mealAction : c.getRemoved()) {
+							System.out.println(mealAction.meal.getRecipeName() + " am " + DateUtil.format(mealAction.date));
+							ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(mealAction.date);
+							for (DayView dayView : dayViews) {
+								if (dayView.getDate().equals(mealAction.date)) {
+									dayView.updateMeals(meals);
+									System.out.println("dayView update!");
+								}
+							}
+						}
 					}
 				}
 			}
@@ -53,6 +63,10 @@ public class OverviewController {
 	@FXML
 	private void initialize() {
 		instantiateGridCells();
+	}
+	
+	public void deleteMeal(Meal meal) {
+		mampfData.deleteMeal(meal);
 	}
 	
 	private void instantiateGridCells() {
@@ -69,27 +83,9 @@ public class OverviewController {
 				if (foundCol && (dayOfMonthCounter < day.lengthOfMonth())) {
 					LocalDate gridDay = day.withDayOfMonth(dayOfMonthCounter++);
 					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
-					DayView dayView = new DayView(gridDay, meals);
+					DayView dayView = new DayView(gridDay, meals, this);
 					gridPane.add(dayView.getDayView(), col, row, 1, 1);
-					ContextMenu cm = new ContextMenu();
-					MenuItem mi = new MenuItem("Druck mi!");
-					mi.setOnAction(new EventHandler<ActionEvent>() {
-						@Override
-						public void handle(ActionEvent event) {
-							mampfData.addMealAction();
-						}
-					});
-					cm.getItems().add(mi);
-					/*
-					mealTable.setContextMenu(cm);
-					mealColumn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent> () {
-						@Override
-						public void handle(MouseEvent event) {
-				            if (event.getButton() == MouseButton.SECONDARY) {
-				            	cm.show(mealTable, event.getScreenX(), event.getScreenY());
-				            }
-						}
-					});*/
+					dayViews.add(dayView);
 				}
 			}
 		}
