@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class Mampf extends Application {
 
 	private Stage stage;
-	private AnchorPane rootLayout;
+	private AnchorPane rootLayoutDayOverview;
 	
 	public Mampf() {
 	}
@@ -24,14 +24,18 @@ public class Mampf extends Application {
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
 		this.stage.setTitle("Mampf");
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Mampf.class.getResource("view/MampfOverview.fxml"));
-		rootLayout = (AnchorPane) loader.load();
-		OverviewController controller = loader.getController();
-		controller.setMampf(this);
-		Scene scene = new Scene(rootLayout);
+		setupDayOverview();
+		Scene scene = new Scene(rootLayoutDayOverview);
 		this.stage.setScene(scene);
 		this.stage.show();		
+	}
+	
+	private void setupDayOverview() throws Exception {
+		FXMLLoader loaderDayOverview = new FXMLLoader();
+		loaderDayOverview.setLocation(Mampf.class.getResource("view/MampfOverview.fxml"));
+		rootLayoutDayOverview = (AnchorPane) loaderDayOverview.load();
+		OverviewController controllerDayOverview = loaderDayOverview.getController();
+		controllerDayOverview.setMampf(this);		
 	}
 	
 	public Stage getPrimaryStage() {

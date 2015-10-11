@@ -18,4 +18,12 @@ public class MealAction {
 			return false;
 		}
 	}
+	
+	public boolean isMeal(Meal meal) {
+		if (this.meal.equals(meal)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
