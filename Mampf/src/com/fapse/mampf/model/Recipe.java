@@ -2,46 +2,23 @@ package com.fapse.mampf.model;
 
 import java.io.Serializable;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class Recipe implements Serializable {
-	private static final long serialVersionUID = 9178151969796971941L;
-	private final StringProperty name;
-	private final StringProperty recipe;
+	private static final long serialVersionUID = -5448591540768775900L;
+	private final String name;
+	private final String recipe;
 	
 	public Recipe(String name) {
-		this.name = new SimpleStringProperty(name);
-		this.recipe = new SimpleStringProperty("No recipe available!");
+		this.name = name;
+		this.recipe = "No recipe available!";
 	}
 	public Recipe(String name, String recipe) {
-		this.name = new SimpleStringProperty(name);
-		this.recipe = new SimpleStringProperty(recipe);
-	}
-	@Override
-	public String toString() {
-		return name.getValue();
+		this.name = name;
+		this.recipe = recipe;
 	}
 	public String getName() {
-		return name.get();
-	}
-	public void setName(String name) {
-		this.name.set(name);
-	}
-	public String getRecipe() {
-		return recipe.get();
-	}
-	public void setRecipe(String recipe) {
-		if (recipe != null) {
-			this.recipe.set(recipe);
-		} else {
-			this.recipe.set("No recipe available!");
-		}
-	}
-	public StringProperty nameProperty() {
 		return name;
 	}
-	public StringProperty recipeProperty() {
+	public String getRecipe() {
 		return recipe;
 	}
 }
