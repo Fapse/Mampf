@@ -11,6 +11,8 @@ import static com.fapse.mampf.model.MealActionPredicates.*;
 public class MampfData {
 	private final ObservableList<MealAction> mealActions = FXCollections.observableArrayList();
 	private final ReadOnlyListWrapper<MealAction> readOnlyMealActions = new ReadOnlyListWrapper<>(mealActions);
+	private final ObservableList<Recipe> recipes = FXCollections.observableArrayList();
+	private final ReadOnlyListWrapper<Recipe> readOnlyRecipes = new ReadOnlyListWrapper<>(recipes);
 	
 	private static class MampfDataHolder{
 		public static MampfData mampfData = new MampfData();
@@ -23,6 +25,9 @@ public class MampfData {
 	}
 	public ReadOnlyListWrapper<MealAction> getMeals() {
 		return readOnlyMealActions;
+	}
+	public ReadOnlyListWrapper<Recipe> getRecipes() {
+		return readOnlyRecipes;
 	}
 	public ReadOnlyListWrapper<Meal> getMeals(LocalDate date) {
 		ObservableList<MealAction> mealActionsList = FXCollections.observableArrayList();
@@ -43,16 +48,18 @@ public class MampfData {
 			}
 		}
 	}
-	
-	public void addMealAction() {
-		Recipe schnitzel = new Recipe("Schnitzel", "Klopfen, braten");
-		LocalDate day1 = LocalDate.of(2015, 10, 8);
-		LocalDate day2 = LocalDate.of(2015, 10, 9);
-		Meal meal = new Meal(schnitzel);
-		MealAction mealAction1 = new MealAction(meal, day1);
-		MealAction mealAction2 = new MealAction(meal, day2);
-		System.out.println("Jetzt neue Mahlzeit machen");
-		mealActions.addAll(mealAction1, mealAction2);
+	public void addMealDay(Meal meal, LocalDate date) {
+		for (MealAction mealAction : mealActions) {
+			if (mealAction.isMeal(meal) && mealAction.date == date) {
+				return;
+			}
+		}
+		mealActions.add(new MealAction(meal, date));			
+	}
+	public void addNewMeal(Recipe recipe, LocalDate date) {
+		Meal meal = new Meal(recipe);
+		MealAction mealAction = new MealAction(meal, date);
+		mealActions.add(mealAction);
 		System.out.println("Neue Mahlzeit hinzugefügt");
 	}
 	private void generateTestData2() {
@@ -81,6 +88,7 @@ public class MampfData {
 		MealAction mealAction7 = new MealAction(meal4, day5);
 		MealAction mealAction8 = new MealAction(meal5, day5);
 		MealAction mealAction9 = new MealAction(meal5, day6);
+		recipes.addAll(spatzen, pommes, kuchen, salat, brotzeit);
 		mealActions.addAll(mealAction1, mealAction2, mealAction3, mealAction4, 
 				mealAction5, mealAction6, mealAction7, mealAction8, mealAction9);
 	}

@@ -6,13 +6,11 @@ import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.util.DateUtil;
 
 import javafx.beans.property.ReadOnlyListWrapper;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -25,20 +23,20 @@ public class DayView {
 	private BorderPane bp = new BorderPane();
 	private VBox vb = new VBox();
 	private final LocalDate date;
-	private OverviewController overviewController;
 	
-	public DayView (LocalDate date, ReadOnlyListWrapper<Meal> meals, OverviewController overviewController) {
-		this.overviewController = overviewController;
+	public DayView (LocalDate date, ReadOnlyListWrapper<Meal> meals) {
 		this.date = date;
 		Text dateText = new Text(DateUtil.format(date));
+		ContextMenu cm = NewMealContextMenu.getDayViewContextMenu(date);
 		dateText.setFill(Color.TOMATO);
 		bp.setTop(dateText);
 		vb.setOnMouseClicked(new EventHandler<MouseEvent> () {
 			@Override
 			public void handle(MouseEvent event) {
-	            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
-	            	System.out.println("Hallo2");
+	            if (event.getButton() == MouseButton.SECONDARY) {
+	            	cm.show(vb, event.getScreenX(), event.getScreenY());				            	
 	            }
+	            event.consume();
 			}
 		});
 		updateMeals(meals);
@@ -52,16 +50,7 @@ public class DayView {
 	public void updateMeals(ReadOnlyListWrapper<Meal> meals) {
 		vb.getChildren().clear();
 		for (Meal meal : meals) {
-			ContextMenu cm = new ContextMenu();
-			MenuItem mi = new MenuItem("Mahlzeit löschen");
-			cm.getItems().add(mi);
-			mi.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					overviewController.deleteMeal(meal);
-					System.out.println("Hallo3");
-				}
-			});
+			ContextMenu cm = MealContextMenu.getMealContextMenu(date, meal);
 			Text text = new Text(meal.getRecipeName());
 			text.setOnMouseClicked(new EventHandler<MouseEvent> () {
 						@Override

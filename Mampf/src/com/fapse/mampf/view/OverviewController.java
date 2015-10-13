@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.MealAction;
@@ -13,12 +12,9 @@ import com.fapse.mampf.util.DateUtil;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 public class OverviewController {
-	private Mampf mampf;
 	private MampfData mampfData = MampfData.getMampfData();
 	private ReadOnlyListWrapper<MealAction> readMeals = mampfData.getMeals();
 	private List<DayView> dayViews = new ArrayList<>();
@@ -36,6 +32,13 @@ public class OverviewController {
 						System.out.println("Anzahl der Änderungen: " + c.getAddedSize());
 						for (MealAction mealAction : c.getAddedSubList()) {
 							System.out.println(mealAction.meal.getRecipeName() + " am " + DateUtil.format(mealAction.date));
+							ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(mealAction.date);
+							for (DayView dayView : dayViews) {
+								if (dayView.getDate().equals(mealAction.date)) {
+									dayView.updateMeals(meals);
+									System.out.println("dayView update!");
+								}
+							}
 						}
 					} else if (c.wasRemoved()) {
 						System.out.println("Und zwar gibt's weniger zu Essen!");
@@ -56,38 +59,23 @@ public class OverviewController {
 		});
 	}
 	
-	public void setMampf(Mampf mampf) {
-		this.mampf = mampf;
-	}
-	
 	@FXML
 	private void initialize() {
-		instantiateGridCells();
+		LocalDate day = LocalDate.now();
+		LocalDate gridDay = day.minusDays(day.getDayOfWeek().getValue() +6);
+		int rowCount = 5, colCount = 7;
+		for (int row = 0; row < rowCount; row++) {
+			for (int col = 0; col < colCount; col++) {
+					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
+					DayView dayView = new DayView(gridDay, meals);
+					gridPane.add(dayView.getDayView(), col, row, 1, 1);
+					dayViews.add(dayView);
+					gridDay = gridDay.plusDays(1);
+			}
+		}
 	}
 	
 	public void deleteMeal(Meal meal) {
 		mampfData.deleteMeal(meal);
-	}
-	
-	private void instantiateGridCells() {
-		LocalDate day = LocalDate.now();
-		int firstEntryCol = day.withDayOfMonth(1).getDayOfWeek().getValue();
-		int dayOfMonthCounter = 1;
-		boolean foundCol = false;
-		int rowCount = 5, colCount = 7;
-		for (int row = 0; row < rowCount; row++) {
-			for (int col = 0; col < colCount; col++) {
-				if (foundCol == false && col == firstEntryCol - 1) {
-					foundCol = true;
-				}
-				if (foundCol && (dayOfMonthCounter < day.lengthOfMonth())) {
-					LocalDate gridDay = day.withDayOfMonth(dayOfMonthCounter++);
-					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
-					DayView dayView = new DayView(gridDay, meals, this);
-					gridPane.add(dayView.getDayView(), col, row, 1, 1);
-					dayViews.add(dayView);
-				}
-			}
-		}
 	}
 }

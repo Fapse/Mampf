@@ -1,9 +1,12 @@
 package com.fapse.mampf.model;
 
+import java.io.Serializable;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Recipe {
+public class Recipe implements Serializable {
+	private static final long serialVersionUID = 9178151969796971941L;
 	private final StringProperty name;
 	private final StringProperty recipe;
 	
@@ -14,6 +17,10 @@ public class Recipe {
 	public Recipe(String name, String recipe) {
 		this.name = new SimpleStringProperty(name);
 		this.recipe = new SimpleStringProperty(recipe);
+	}
+	@Override
+	public String toString() {
+		return name.getValue();
 	}
 	public String getName() {
 		return name.get();
