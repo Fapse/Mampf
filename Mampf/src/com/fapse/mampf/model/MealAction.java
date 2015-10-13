@@ -1,8 +1,10 @@
 package com.fapse.mampf.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class MealAction {
+public class MealAction implements Serializable {
+	private static final long serialVersionUID = -8239159739829124735L;
 	public final Meal meal;
 	public final LocalDate date;
 	
