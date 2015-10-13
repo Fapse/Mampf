@@ -1,10 +1,12 @@
 package com.fapse.mampf.model;
 
 import java.time.LocalDate;
+
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import static com.fapse.mampf.model.MealActionPredicates.*;
 
@@ -21,7 +23,23 @@ public class MampfData {
 		return MampfDataHolder.mampfData;
 	}
 	private MampfData() {
-		generateTestData2();
+		//generateTestData2();
+		//MampfStorage.saveMealActions(mealActions);				
+		//MampfStorage.saveRecipes(recipes);
+		recipes.addAll(MampfStorage.loadRecipes());
+		mealActions.addAll(MampfStorage.loadMealActions());
+		mealActions.addListener(new ListChangeListener<MealAction>() {
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends MealAction> c) {
+				MampfStorage.saveMealActions(mealActions);				
+			}
+		});
+		recipes.addListener(new ListChangeListener<Recipe>() {
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Recipe> c) {
+				MampfStorage.saveRecipes(recipes);				
+			}
+		});
 	}
 	public ReadOnlyListWrapper<MealAction> getMeals() {
 		return readOnlyMealActions;
@@ -38,6 +56,7 @@ public class MampfData {
         }
         return new ReadOnlyListWrapper<Meal>(obsMeals);
     }
+	
 	
 	public void deleteMeal(Meal meal) {
 		ObservableList<MealAction> mealActionsList = FXCollections.observableArrayList();
@@ -68,28 +87,6 @@ public class MampfData {
 		Recipe kuchen = new Recipe("Kuchen", "Rühren, backen");
 		Recipe salat = new Recipe("Chefsalat", "Schneiden, anmachen");
 		Recipe brotzeit = new Recipe("Brotzeit", "Schneiden, belegen");
-		Meal meal1 = new Meal(spatzen);
-		Meal meal2 = new Meal(pommes);
-		Meal meal3 = new Meal(kuchen);
-		Meal meal4 = new Meal(salat);
-		Meal meal5 = new Meal(brotzeit);
-		LocalDate day1 = LocalDate.of(2015, 10, 4);
-		LocalDate day2 = LocalDate.of(2015, 10, 5);
-		LocalDate day3 = LocalDate.of(2015, 10, 6);
-		LocalDate day4 = LocalDate.of(2015, 10, 7);
-		LocalDate day5 = LocalDate.of(2015, 10, 7);
-		LocalDate day6 = LocalDate.of(2015, 10, 9);
-		MealAction mealAction1 = new MealAction(meal1, day1);
-		MealAction mealAction2 = new MealAction(meal1, day2);
-		MealAction mealAction3 = new MealAction(meal1, day3);
-		MealAction mealAction4 = new MealAction(meal2, day3);
-		MealAction mealAction5 = new MealAction(meal2, day4);
-		MealAction mealAction6 = new MealAction(meal3, day4);
-		MealAction mealAction7 = new MealAction(meal4, day5);
-		MealAction mealAction8 = new MealAction(meal5, day5);
-		MealAction mealAction9 = new MealAction(meal5, day6);
 		recipes.addAll(spatzen, pommes, kuchen, salat, brotzeit);
-		mealActions.addAll(mealAction1, mealAction2, mealAction3, mealAction4, 
-				mealAction5, mealAction6, mealAction7, mealAction8, mealAction9);
 	}
 }

@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class MealAction implements Serializable {
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -8239159739829124735L;
 	public final Meal meal;
 	public final LocalDate date;
