@@ -81,7 +81,6 @@ public class OverviewController {
 	public void deleteMeal(Meal meal) {
 		mampfData.deleteMeal(meal);
 	}
-	
 	@FXML
 	private void handleAddCondiment() {
 		Condiment tempCondiment = new Condiment();
