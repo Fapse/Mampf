@@ -12,9 +12,8 @@ import static com.fapse.mampf.model.MealActionPredicates.*;
 
 public class MampfData {
 	private final ObservableList<MealAction> mealActions = FXCollections.observableArrayList();
-	private final ReadOnlyListWrapper<MealAction> readOnlyMealActions = new ReadOnlyListWrapper<>(mealActions);
 	private final ObservableList<Recipe> recipes = FXCollections.observableArrayList();
-	private final ReadOnlyListWrapper<Recipe> readOnlyRecipes = new ReadOnlyListWrapper<>(recipes);
+	private final ObservableList<Condiment> condiments = FXCollections.observableArrayList();
 	
 	private static class MampfDataHolder{
 		public static MampfData mampfData = new MampfData();
@@ -26,6 +25,7 @@ public class MampfData {
 		//generateTestData2();
 		//MampfStorage.saveMealActions(mealActions);				
 		//MampfStorage.saveRecipes(recipes);
+		condiments.addAll(MampfStorage.loadCondiments());
 		recipes.addAll(MampfStorage.loadRecipes());
 		mealActions.addAll(MampfStorage.loadMealActions());
 		mealActions.addListener(new ListChangeListener<MealAction>() {
@@ -40,12 +40,18 @@ public class MampfData {
 				MampfStorage.saveRecipes(recipes);				
 			}
 		});
+		condiments.addListener(new ListChangeListener<Condiment>() {
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Condiment> c) {
+				MampfStorage.saveCondiments(condiments);				
+			}
+		});
 	}
 	public ReadOnlyListWrapper<MealAction> getMeals() {
-		return readOnlyMealActions;
+		return new ReadOnlyListWrapper<>(mealActions);
 	}
 	public ReadOnlyListWrapper<Recipe> getRecipes() {
-		return readOnlyRecipes;
+		return new ReadOnlyListWrapper<>(recipes);
 	}
 	public ReadOnlyListWrapper<Meal> getMeals(LocalDate date) {
 		ObservableList<MealAction> mealActionsList = FXCollections.observableArrayList();
@@ -80,6 +86,18 @@ public class MampfData {
 		MealAction mealAction = new MealAction(meal, date);
 		mealActions.add(mealAction);
 		System.out.println("Neue Mahlzeit hinzugefügt");
+	}
+	public void addCondiment(Condiment condiment) {
+		if (!condiments.contains(condiment.name)) {
+			condiments.add(condiment);
+		}
+	}
+	public void deleteCondiment(Condiment condiment) {
+		for (Condiment cond : condiments) {
+			if (cond.name.equals(condiment.name)) {
+				condiments.remove(cond);
+			}
+		}
 	}
 	private void generateTestData2() {
 		Recipe spatzen = new Recipe("Käsespatzen", "Rühren, hobeln, kochen");
