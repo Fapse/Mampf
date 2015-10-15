@@ -52,9 +52,9 @@ public class AddCondimentController {
 		category = condimentCategory.getValue();
 		unit = condimentQuantityUnit.getValue();
 		if (!(name == null) && !(category == null)&& !(unit == null)) {
-			condiment.name = name;
-			condiment.category = category;
-			condiment.quantityUnit = unit;
+			condiment.setName(name);
+			condiment.setCategory(category);
+			condiment.setQuantityUnit(unit);
 			okClicked = true;
 		}
 		dialogStage.close();

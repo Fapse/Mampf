@@ -22,9 +22,6 @@ public class MampfData {
 		return MampfDataHolder.mampfData;
 	}
 	private MampfData() {
-		//generateTestData2();
-		//MampfStorage.saveMealActions(mealActions);				
-		//MampfStorage.saveRecipes(recipes);
 		condiments.addAll(MampfStorage.loadCondiments());
 		recipes.addAll(MampfStorage.loadRecipes());
 		mealActions.addAll(MampfStorage.loadMealActions());
@@ -53,6 +50,9 @@ public class MampfData {
 	public ReadOnlyListWrapper<Recipe> getRecipes() {
 		return new ReadOnlyListWrapper<>(recipes);
 	}
+	public ReadOnlyListWrapper<Condiment> getCondiments() {
+		return new ReadOnlyListWrapper<>(condiments);
+	}
 	public ReadOnlyListWrapper<Meal> getMeals(LocalDate date) {
 		ObservableList<MealAction> mealActionsList = FXCollections.observableArrayList();
 		mealActionsList = filterMeals(mealActions, hasDate(date));
@@ -62,8 +62,6 @@ public class MampfData {
         }
         return new ReadOnlyListWrapper<Meal>(obsMeals);
     }
-	
-	
 	public void deleteMeal(Meal meal) {
 		ObservableList<MealAction> mealActionsList = FXCollections.observableArrayList();
 		mealActionsList = MealActionPredicates.filterMeals(mealActions, isMeal(meal));
@@ -88,23 +86,16 @@ public class MampfData {
 		System.out.println("Neue Mahlzeit hinzugefügt");
 	}
 	public void addCondiment(Condiment condiment) {
-		if (!condiments.contains(condiment.name)) {
+		if (!condiments.contains(condiment.getName())) {
 			condiments.add(condiment);
 		}
 	}
 	public void deleteCondiment(Condiment condiment) {
 		for (Condiment cond : condiments) {
-			if (cond.name.equals(condiment.name)) {
+			if (cond.getName().equals(condiment.getName())) {
 				condiments.remove(cond);
+				return;
 			}
 		}
-	}
-	private void generateTestData2() {
-		Recipe spatzen = new Recipe("Käsespatzen", "Rühren, hobeln, kochen");
-		Recipe pommes = new Recipe("Pommes", "Schnippeln, fritieren");
-		Recipe kuchen = new Recipe("Kuchen", "Rühren, backen");
-		Recipe salat = new Recipe("Chefsalat", "Schneiden, anmachen");
-		Recipe brotzeit = new Recipe("Brotzeit", "Schneiden, belegen");
-		recipes.addAll(spatzen, pommes, kuchen, salat, brotzeit);
 	}
 }
