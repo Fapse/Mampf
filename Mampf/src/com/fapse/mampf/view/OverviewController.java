@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fapse.mampf.Mampf;
+import com.fapse.mampf.model.Condiment;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.MealAction;
@@ -15,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 
 public class OverviewController {
+	private Mampf mampf;
 	private MampfData mampfData = MampfData.getMampfData();
 	private ReadOnlyListWrapper<MealAction> readMeals = mampfData.getMeals();
 	private List<DayView> dayViews = new ArrayList<>();
@@ -77,5 +80,17 @@ public class OverviewController {
 	
 	public void deleteMeal(Meal meal) {
 		mampfData.deleteMeal(meal);
+	}
+	@FXML
+	private void handleAddCondiment() {
+		Condiment tempCondiment = new Condiment();
+		boolean okClicked = mampf.showAddCondiment(tempCondiment);
+		if (okClicked) {
+			//mampfData.addCondiment(tempCondiment);
+			System.out.println(tempCondiment.toString());
+		}
+	}
+	public void setMampf(Mampf mampf) {
+		this.mampf = mampf;
 	}
 }

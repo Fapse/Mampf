@@ -29,6 +29,17 @@
               </rowConstraints>
             </GridPane>
          </center>
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="Zutaten">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleAddCondiment" text="Zutat hinzufügen" />
+                     </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
       </BorderPane>
    </children>
 </AnchorPane>
