@@ -82,11 +82,20 @@ public class OverviewController {
 		mampfData.deleteMeal(meal);
 	}
 	@FXML
+	private void handleDeleteCondiment() {
+		Condiment tempCondiment = new Condiment();
+		boolean deleteClicked = mampf.showDeleteCondiment(tempCondiment, mampfData.getCondiments());
+		if (deleteClicked) {
+			System.out.println(tempCondiment.toString());
+			mampfData.deleteCondiment(tempCondiment);
+		}
+	}
+	@FXML
 	private void handleAddCondiment() {
 		Condiment tempCondiment = new Condiment();
 		boolean okClicked = mampf.showAddCondiment(tempCondiment);
 		if (okClicked) {
-			//mampfData.addCondiment(tempCondiment);
+			mampfData.addCondiment(tempCondiment);
 			System.out.println(tempCondiment.toString());
 		}
 	}

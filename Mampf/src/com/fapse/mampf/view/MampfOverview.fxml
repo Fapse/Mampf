@@ -35,6 +35,7 @@
                 <Menu mnemonicParsing="false" text="Zutaten">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#handleAddCondiment" text="Zutat hinzufügen" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleDeleteCondiment" text="Zutat löschen" />
                      </items>
                 </Menu>
               </menus>
