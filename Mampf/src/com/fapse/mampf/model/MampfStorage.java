@@ -39,8 +39,26 @@ public class MampfStorage {
 			OutputStream os = new FileOutputStream(path + "/MealActions.data", false);
 			ObjectOutputStream oos = new ObjectOutputStream(os);
 			) {
-			MealAction[] meals = mealActions.toArray(new MealAction[0]);
-			oos.writeObject(meals);
+			/*MealAction[] meals = mealActions.toArray(new MealAction[0]);
+			for (MealAction meal : meals) {
+				meal.meal.setRecipe(null);
+			}*/
+			MealAction[] mealsArray = new MealAction[mealActions.size()];
+			int counter = 0;
+			for (MealAction mealActionList : mealActions) {
+				Meal mealTemp = new Meal(mealActionList.meal.getRecipe(), mealActionList.meal.getRecipeUUID());
+				mealsArray[counter] =  new MealAction(mealTemp, mealActionList.getDate());
+				mealsArray[counter].meal.setRecipe(null);
+				/*System.out.println("Datum von gespeicherter MealAction: " + mealsArray[counter].getDate());
+				//System.out.println("RecipeUUID von gespeicherter MealAction: " + mealsArray[counter].meal.getRecipeUUID());
+				if (mealsArray[counter].meal.getRecipe() == null) {
+					System.out.println("recipe == null");						
+				} else {
+					System.out.println("Achtung: recipe != null");
+				}*/
+				counter++;
+			}
+			oos.writeObject(mealsArray);
 			oos.flush();
 		} catch (IOException e) {
 			System.out.println(e.toString());
@@ -92,19 +110,41 @@ public class MampfStorage {
 	}
 	public static List<MealAction> loadMealActions() {
 		List<MealAction> mealActions = new ArrayList<>();
+		List<Recipe> recipes  = loadRecipes();
+		System.out.println(recipes.size() + " Rezepte geladen");
 		if (checkFile(Paths.get(path + "/MealActions.data"))) {
 			try (
 				InputStream is = new FileInputStream(path + "/MealActions.data");
 				ObjectInputStream ois = new ObjectInputStream(is);
 				) {
 				MealAction[] meals_arr = (MealAction[]) ois.readObject();				
-				System.out.println(meals_arr.length);
+				//System.out.println(meals_arr.length);
 				mealActions = Arrays.asList(meals_arr);
 			} catch (IOException e) {
 				System.out.println(e.toString());
 			} catch (ClassNotFoundException e) {
 				System.out.println(e.toString());			
 			}
+		}
+		System.out.println(mealActions.size() + " MealActions geladen");
+		for (MealAction mealAction : mealActions) {
+			/*System.out.println("Jetzt die MealActions durchgehen");
+			if (mealAction.getMeal() != null) {
+				System.out.println("Test");
+			}
+			System.out.println("Suche Rezept für " + mealAction.getMeal().getRecipeUUID());*/
+			for (Recipe recipe : recipes) {
+				//System.out.println("Biete Rezept mit UUID " + recipe.getUUID());
+				if (recipe.getUUID().equals(mealAction.getMeal().getRecipeUUID())) {
+					//System.out.println("Rezept hinzugefügt");
+					mealAction.meal.setRecipe(recipe);
+					break;
+				}
+			}
+		}
+		System.out.println("Hallo von loadMealActions()");
+		for (MealAction mealAction : mealActions) {
+			System.out.println("Mahlzeit: " + mealAction.getMeal().getRecipeName());
 		}
 		return mealActions;
 	}	

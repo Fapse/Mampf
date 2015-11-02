@@ -24,6 +24,12 @@ public class MampfData {
 	private MampfData() {
 		condiments.addAll(MampfStorage.loadCondiments());
 		recipes.addAll(MampfStorage.loadRecipes());
+		if (recipes.isEmpty()) {
+			recipes.add(new Recipe("Käsespatzen", "Rühren, hobeln, kochen"));
+			recipes.add(new Recipe("Brotzeit", "Schneiden, belegen"));
+			recipes.add(new Recipe("Pommes", "Schnippeln, fritieren"));
+			MampfStorage.saveRecipes(recipes);
+		}
 		mealActions.addAll(MampfStorage.loadMealActions());
 		mealActions.addListener(new ListChangeListener<MealAction>() {
 			@Override

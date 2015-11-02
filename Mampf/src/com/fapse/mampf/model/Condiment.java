@@ -1,18 +1,21 @@
 package com.fapse.mampf.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class Condiment implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2050686340269246787L;
+	private static final long serialVersionUID = 2997880288355151564L;
 	private String name;
+	private UUID uuid;
 	private CondimentCategory category;
 	private QuantityUnit quantityUnit;
 	public Condiment() {
 	}
 	public Condiment(String name, CondimentCategory category, QuantityUnit quantityUnit) {
+		this.uuid = UUID.randomUUID();
 		this.name = name;
 		this.category = category;
 		this.quantityUnit = quantityUnit;
@@ -22,6 +25,9 @@ public class Condiment implements Serializable {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public UUID getUUID() {
+		return uuid;
 	}
 	public CondimentCategory getCategory() {
 		return category;

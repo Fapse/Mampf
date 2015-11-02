@@ -25,6 +25,14 @@ public class MealAction implements Serializable {
 		}
 	}
 	
+	public Meal getMeal() {
+		return meal;
+	}
+	
+	public LocalDate getDate() {
+		return date;
+	}
+	
 	public boolean isMeal(Meal meal) {
 		if (this.meal.equals(meal)) {
 			return true;
