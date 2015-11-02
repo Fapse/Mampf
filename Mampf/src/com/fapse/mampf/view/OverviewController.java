@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fapse.mampf.Mampf;
-import com.fapse.mampf.model.Condiment;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.MealAction;
@@ -80,24 +79,6 @@ public class OverviewController {
 	
 	public void deleteMeal(Meal meal) {
 		mampfData.deleteMeal(meal);
-	}
-	@FXML
-	private void handleDeleteCondiment() {
-		Condiment tempCondiment = new Condiment();
-		boolean deleteClicked = mampf.showDeleteCondiment(tempCondiment, mampfData.getCondiments());
-		if (deleteClicked) {
-			System.out.println(tempCondiment.toString());
-			mampfData.deleteCondiment(tempCondiment);
-		}
-	}
-	@FXML
-	private void handleAddCondiment() {
-		Condiment tempCondiment = new Condiment();
-		boolean okClicked = mampf.showAddCondiment(tempCondiment);
-		if (okClicked) {
-			mampfData.addCondiment(tempCondiment);
-			System.out.println(tempCondiment.toString());
-		}
 	}
 	public void setMampf(Mampf mampf) {
 		this.mampf = mampf;
