@@ -33,58 +33,21 @@ public class MampfStorage {
 			return false;
 		}
 	}
-	public static void saveMealActions(List<MealAction> mealActions) {
+	public static void saveMeals(List<Meal> meals) {
 		checkPath();
 		try (
-			OutputStream os = new FileOutputStream(path + "/MealActions.data", false);
+			OutputStream os = new FileOutputStream(path + "/Meals.data", false);
 			ObjectOutputStream oos = new ObjectOutputStream(os);
 			) {
-			/*MealAction[] meals = mealActions.toArray(new MealAction[0]);
-			for (MealAction meal : meals) {
-				meal.meal.setRecipe(null);
-			}*/
-			MealAction[] mealsArray = new MealAction[mealActions.size()];
+			Meal[] mealsArray = new Meal[meals.size()];
 			int counter = 0;
-			for (MealAction mealActionList : mealActions) {
-				Meal mealTemp = new Meal(mealActionList.meal.getRecipe(), mealActionList.meal.getRecipeUUID());
-				mealsArray[counter] =  new MealAction(mealTemp, mealActionList.getDate());
-				mealsArray[counter].meal.setRecipe(null);
-				/*System.out.println("Datum von gespeicherter MealAction: " + mealsArray[counter].getDate());
-				//System.out.println("RecipeUUID von gespeicherter MealAction: " + mealsArray[counter].meal.getRecipeUUID());
-				if (mealsArray[counter].meal.getRecipe() == null) {
-					System.out.println("recipe == null");						
-				} else {
-					System.out.println("Achtung: recipe != null");
-				}*/
+			for (Meal mealList : meals) {
+				Meal mealTemp = new Meal(mealList.getRecipe(), mealList.getRecipeUUID());
+				mealsArray[counter] =  new Meal(mealTemp, mealList.getDate());
+				mealsArray[counter].setRecipe(null);
 				counter++;
 			}
 			oos.writeObject(mealsArray);
-			oos.flush();
-		} catch (IOException e) {
-			System.out.println(e.toString());
-		}
-	}
-	public static void saveRecipes(List<Recipe> recipes) {
-		checkPath();
-		try (
-			OutputStream os = new FileOutputStream(path + "/Recipes.data", false);
-			ObjectOutputStream oos = new ObjectOutputStream(os);
-			) {
-			Recipe[] recipes_arr = recipes.toArray(new Recipe[0]);
-			oos.writeObject(recipes_arr);
-			oos.flush();
-		} catch (IOException e) {
-			System.out.println(e.toString());
-		}
-	}
-	public static void saveCondiments(List<Condiment> condiments) {
-		checkPath();
-		try (
-			OutputStream os = new FileOutputStream(path + "/Condiments.data", false);
-			ObjectOutputStream oos = new ObjectOutputStream(os);
-			) {
-			Condiment[] condiments_arr = condiments.toArray(new Condiment[0]);
-			oos.writeObject(condiments_arr);
 			oos.flush();
 		} catch (IOException e) {
 			System.out.println(e.toString());
@@ -108,62 +71,30 @@ public class MampfStorage {
 		}
 		return recipes;
 	}
-	public static List<MealAction> loadMealActions() {
-		List<MealAction> mealActions = new ArrayList<>();
+	public static List<Meal> loadMeals() {
+		List<Meal> meals = new ArrayList<>();
 		List<Recipe> recipes  = loadRecipes();
-		System.out.println(recipes.size() + " Rezepte geladen");
-		if (checkFile(Paths.get(path + "/MealActions.data"))) {
+		if (checkFile(Paths.get(path + "/Meals.data"))) {
 			try (
-				InputStream is = new FileInputStream(path + "/MealActions.data");
+				InputStream is = new FileInputStream(path + "/Meals.data");
 				ObjectInputStream ois = new ObjectInputStream(is);
 				) {
-				MealAction[] meals_arr = (MealAction[]) ois.readObject();				
-				//System.out.println(meals_arr.length);
-				mealActions = Arrays.asList(meals_arr);
+				Meal[] meals_arr = (Meal[]) ois.readObject();				
+				meals = Arrays.asList(meals_arr);
 			} catch (IOException e) {
 				System.out.println(e.toString());
 			} catch (ClassNotFoundException e) {
 				System.out.println(e.toString());			
 			}
 		}
-		System.out.println(mealActions.size() + " MealActions geladen");
-		for (MealAction mealAction : mealActions) {
-			/*System.out.println("Jetzt die MealActions durchgehen");
-			if (mealAction.getMeal() != null) {
-				System.out.println("Test");
-			}
-			System.out.println("Suche Rezept für " + mealAction.getMeal().getRecipeUUID());*/
+		for (Meal meal : meals) {
 			for (Recipe recipe : recipes) {
-				//System.out.println("Biete Rezept mit UUID " + recipe.getUUID());
-				if (recipe.getUUID().equals(mealAction.getMeal().getRecipeUUID())) {
-					//System.out.println("Rezept hinzugefügt");
-					mealAction.meal.setRecipe(recipe);
+				if (recipe.getUUID().equals(meal.getRecipeUUID())) {
+					meal.setRecipe(recipe);
 					break;
 				}
 			}
 		}
-		System.out.println("Hallo von loadMealActions()");
-		for (MealAction mealAction : mealActions) {
-			System.out.println("Mahlzeit: " + mealAction.getMeal().getRecipeName());
-		}
-		return mealActions;
-	}	
-	public static List<Condiment> loadCondiments() {
-		List<Condiment> condiments = new ArrayList<>();
-		if (checkFile(Paths.get(path + "/Condiments.data"))) {
-			try (
-				InputStream is = new FileInputStream(path + "/Condiments.data");
-				ObjectInputStream ois = new ObjectInputStream(is);
-				) {
-				Condiment[] condiments_arr = (Condiment[]) ois.readObject();				
-				System.out.println(condiments_arr.length);
-				condiments = Arrays.asList(condiments_arr);
-			} catch (IOException e) {
-				System.out.println(e.toString());
-			} catch (ClassNotFoundException e) {
-				System.out.println(e.toString());			
-			}
-		}
-		return condiments;
-	}	
+		return meals;
+	}		
 }

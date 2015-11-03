@@ -7,7 +7,6 @@ import java.util.List;
 import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
-import com.fapse.mampf.model.MealAction;
 import com.fapse.mampf.util.DateUtil;
 
 import javafx.beans.property.ReadOnlyListWrapper;
