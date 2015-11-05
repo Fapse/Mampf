@@ -2,9 +2,10 @@ package com.fapse.mampf.model;
 
 import java.time.LocalDate;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 public class Meal implements Serializable {
 	/**
@@ -12,28 +13,35 @@ public class Meal implements Serializable {
 	 */
 	private static final long serialVersionUID = 4385200737096306723L;
 	private Recipe recipe;
-	private final UUID recipeUUID;
+	private String recipeUID;
 	private Set<LocalDate> dates;
 
 	public Meal(Recipe recipe) {
 		this.recipe = recipe;
-		this.recipeUUID = recipe.getUUID();
+		this.recipeUID = recipe.getUID();
 	}
-	public Meal(Recipe recipe, UUID uuid) {
+	public Meal(Recipe recipe, String uid) {
 		this.recipe = recipe;
-		this.recipeUUID = uuid;
+		this.recipeUID = uid;
 	}
-	public UUID getRecipeUUID() {
-		return recipeUUID;
+	public String getRecipeUID() {
+		return recipeUID;
 	}
 	public void addDate(LocalDate date) {
 		dates.add(date);
 	}
+	public void setDates(List<LocalDate> dates) {
+		if (dates != null) {
+			this.dates = new HashSet<LocalDate>(dates);
+		}
+	}
 	public void removeDate(LocalDate date) {
 		dates.remove(date);
 	}
-	public Set<LocalDate> getDate() {
-		return dates;
+	public List<LocalDate> getDates() {
+		List<LocalDate> tmpDates = new ArrayList<>();
+		tmpDates.addAll(dates);
+		return tmpDates;
 	}
 	public void setRecipe(Recipe recipe) {
 		this.recipe = recipe;

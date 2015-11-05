@@ -42,8 +42,9 @@ public class MampfStorage {
 			Meal[] mealsArray = new Meal[meals.size()];
 			int counter = 0;
 			for (Meal mealList : meals) {
-				Meal mealTemp = new Meal(mealList.getRecipe(), mealList.getRecipeUUID());
-				mealsArray[counter] =  new Meal(mealTemp, mealList.getDate());
+				Meal mealTemp = new Meal(mealList.getRecipe(), mealList.getRecipeUID());
+				mealsArray[counter] =  mealTemp;
+				mealsArray[counter].setDates(mealTemp.getDates());
 				mealsArray[counter].setRecipe(null);
 				counter++;
 			}
@@ -55,18 +56,20 @@ public class MampfStorage {
 	}
 	public static List<Recipe> loadRecipes() {
 		List<Recipe> recipes  = new ArrayList<>();
-		if (checkFile(Paths.get(path + "/Recipes.data"))) {
-			try (
-				InputStream is = new FileInputStream(path + "/Recipes.data");
-				ObjectInputStream ois = new ObjectInputStream(is);
-				) {
-				Recipe[] recipes_arr = (Recipe[]) ois.readObject();
-				System.out.println(recipes_arr.length);
-				recipes = Arrays.asList(recipes_arr);	
+		if (checkFile(Paths.get(path + "/Recipes.csv"))) {
+			try {
+				
+				List<String> rows = Files.readAllLines(Paths.get(path + "/Recipes.csv"));
+				for (String row : rows) {
+					List<String> values = new ArrayList<>();
+					values = Arrays.asList(row.split(","));
+					//TODO: alle leeren Strings löschen
+					//values.removeAll(new ArrayList<String>().add(""));
+					Recipe tmpRecipe = new Recipe((String[]) values.toArray());
+					recipes.add(tmpRecipe);
+				}
 			} catch (IOException e) {
 				System.out.println(e.toString());
-			} catch (ClassNotFoundException e) {
-				System.out.println(e.toString());			
 			}
 		}
 		return recipes;
@@ -89,7 +92,7 @@ public class MampfStorage {
 		}
 		for (Meal meal : meals) {
 			for (Recipe recipe : recipes) {
-				if (recipe.getUUID().equals(meal.getRecipeUUID())) {
+				if (recipe.getUID().equals(meal.getRecipeUID())) {
 					meal.setRecipe(recipe);
 					break;
 				}
