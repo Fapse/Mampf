@@ -49,7 +49,9 @@ public class DayView {
 	}
 	public void updateMeals(ReadOnlyListWrapper<Meal> meals) {
 		vb.getChildren().clear();
+		//System.out.println("Jetzt DayView " + date + " updaten...");
 		for (Meal meal : meals) {
+			//System.out.println("    ... mit Mahlzeit " + meal.getRecipeName());
 			ContextMenu cm = MealContextMenu.getMealContextMenu(date, meal);
 			Text text = new Text(meal.getRecipeName());
 			text.setOnMouseClicked(new EventHandler<MouseEvent> () {
@@ -57,7 +59,6 @@ public class DayView {
 						public void handle(MouseEvent event) {
 				            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
 				            	text.setFill(Color.ORANGERED);
-				            	System.out.println("Hallo");
 				            	showMealInfo(meal);
 				            } else if (event.getButton() == MouseButton.SECONDARY) {
 				            	cm.show(text, event.getScreenX(), event.getScreenY());				            	
@@ -73,7 +74,6 @@ public class DayView {
 	}
 	private void showMealInfo(Meal meal) {
 		Alert alert = new Alert(AlertType.INFORMATION);
-        //alert.initOwner(mampf.getPrimaryStage());
         alert.setTitle("Mahlzeitinformation");
         alert.setHeaderText(meal.getRecipeName());
         alert.setContentText(meal.getRecipe().getRecipe());
