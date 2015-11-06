@@ -21,8 +21,7 @@ public class MealContextMenu {
 		mi_delete.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				System.out.println("Mahlzeit löschen");
-				mampfData.deleteMeal(meal);
+				mampfData.deleteMealDay(meal, date);
 			}
 		});
 		Menu mi_dates = new Menu("Speisetag hinzufügen");
@@ -34,7 +33,6 @@ public class MealContextMenu {
 			mi_day.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					System.out.println("Speisetag hinzufügen: " + DateUtil.format(day));
 					mampfData.addMealDay(meal, day);
 				}
 			});

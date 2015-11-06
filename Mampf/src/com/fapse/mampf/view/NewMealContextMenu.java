@@ -26,7 +26,6 @@ public class NewMealContextMenu {
 			mi_recipe.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					System.out.println("Mahlzeit hinzufügen: " + recipe.getName());
 					mampfData.addNewMeal(recipe, date);
 				}
 			});

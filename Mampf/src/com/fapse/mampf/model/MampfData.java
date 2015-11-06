@@ -8,12 +8,13 @@ import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import static com.fapse.mampf.model.MealActionPredicates.*;
+
+import static com.fapse.mampf.model.MealPredicates.*;
 
 public class MampfData {
 	private final ObservableList<Meal> meals = FXCollections.observableArrayList();
 	private final ObservableList<Recipe> recipes = FXCollections.observableArrayList();
-	
+	private final ObservableList<LocalDate> changedDates = FXCollections.observableArrayList();
 	private static class MampfDataHolder{
 		public static MampfData mampfData = new MampfData();
 	}
@@ -22,25 +23,16 @@ public class MampfData {
 	}
 	private MampfData() {
 		recipes.addAll(MampfStorage.loadRecipes());
-		if (recipes.isEmpty()) {
-			recipes.add(new Recipe("Käsespatzen", "Rühren, hobeln, kochen"));
-			recipes.add(new Recipe("Brotzeit", "Schneiden, belegen"));
-			recipes.add(new Recipe("Pommes", "Schnippeln, fritieren"));
-			MampfStorage.saveRecipes(recipes);
-		}
 		meals.addAll(MampfStorage.loadMeals());
-		meals.addListener(new ListChangeListener<MealAction>() {
+		meals.addListener(new ListChangeListener<Meal>() {
 			@Override
-			public void onChanged(javafx.collections.ListChangeListener.Change<? extends MealAction> c) {
-				MampfStorage.saveMealActions(meals);				
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Meal> c) {
+				MampfStorage.saveMeals(meals);				
 			}
 		});
-		recipes.addListener(new ListChangeListener<Recipe>() {
-			@Override
-			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Recipe> c) {
-				MampfStorage.saveRecipes(recipes);				
-			}
-		});
+	}
+	public ReadOnlyListWrapper<LocalDate> getChangedDates() {
+		return new ReadOnlyListWrapper<>(changedDates);
 	}
 	public ReadOnlyListWrapper<Meal> getMeals() {
 		return new ReadOnlyListWrapper<>(meals);
@@ -49,35 +41,47 @@ public class MampfData {
 		return new ReadOnlyListWrapper<>(recipes);
 	}
 	public ReadOnlyListWrapper<Meal> getMeals(LocalDate date) {
-		ObservableList<MealAction> mealActionsList = FXCollections.observableArrayList();
-		mealActionsList = filterMeals(meals, hasDate(date));
+		ObservableList<Meal> mealsList = FXCollections.observableArrayList();
+		mealsList = filterMeals(meals, hasDate(date));
         ObservableList<Meal> obsMeals = FXCollections.observableArrayList();
-        for (MealAction mealAction : mealActionsList) {
-        	obsMeals.add(mealAction.meal);
+        for (Meal meal : mealsList) {
+        	obsMeals.add(meal);
         }
         return new ReadOnlyListWrapper<Meal>(obsMeals);
     }
-	public void deleteMeal(Meal meal) {
-		ObservableList<MealAction> mealActionsList = FXCollections.observableArrayList();
-		mealActionsList = MealActionPredicates.filterMeals(meals, isMeal(meal));
-		for(MealAction mealAction : mealActionsList) {
-			if (mealActionsList.contains(mealAction)) {
-				meals.remove(mealAction);
+	public void deleteMealDay(Meal meal, LocalDate date) {
+		for (Meal tmpMeal : meals) {
+			if (tmpMeal.isMeal(meal)) {
+				tmpMeal.removeDate(date);
+				//System.out.println("Tag bei Mahlzeit gelöscht");
+				if(tmpMeal.getDateCount() == 0) {
+					meals.remove(tmpMeal);
+					//System.out.println("Mahlzeit gelöscht");
+				} else {
+					MampfStorage.saveMeals(meals);
+				}
+				changedDates.add(changedDates.size(), date);
+				break;
 			}
 		}
 	}
 	public void addMealDay(Meal meal, LocalDate date) {
 		for (Meal tmpMeal : meals) {
-			if (tmpMeal.isMeal(meal) && tmpMeal.date == date) {
-				return;
+			if (tmpMeal.isMeal(meal)) {
+				tmpMeal.addDate(date);
+				MampfStorage.saveMeals(meals);
+				changedDates.add(changedDates.size(), date);
+				//System.out.println("Neuer Tag bei Mahlzeit eingefügt");
+				break;
 			}
 		}
-		meals.add(new MealAction(meal, date));			
+		return;
 	}
 	public void addNewMeal(Recipe recipe, LocalDate date) {
 		Meal meal = new Meal(recipe);
-		MealAction mealAction = new MealAction(meal, date);
-		meals.add(mealAction);
-		System.out.println("Neue Mahlzeit hinzugefügt");
+		meal.addDate(date);
+		meals.add(meal);
+		changedDates.add(changedDates.size(), date);
+		//System.out.println("Neue Mahlzeit hinzugefügt");
 	}
 }

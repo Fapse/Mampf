@@ -1,7 +1,5 @@
 package com.fapse.mampf;
 
-import com.fapse.mampf.view.OverviewController;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -35,8 +33,8 @@ public class Mampf extends Application {
 		FXMLLoader loaderDayOverview = new FXMLLoader();
 		loaderDayOverview.setLocation(Mampf.class.getResource("view/MampfOverview.fxml"));
 		rootLayoutDayOverview = (AnchorPane) loaderDayOverview.load();
-		OverviewController controller = loaderDayOverview.getController();
-		controller.setMampf(this);		
+		//OverviewController controller = loaderDayOverview.getController();
+		//controller.setMampf(this);		
 	}
 
 	public Stage getPrimaryStage() {

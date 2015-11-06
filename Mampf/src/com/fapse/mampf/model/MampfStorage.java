@@ -10,9 +10,11 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+//import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MampfStorage {
 	private final static Path path = Paths.get(System.getProperty("user.home") + "/Desktop/Mampf");
@@ -43,11 +45,18 @@ public class MampfStorage {
 			int counter = 0;
 			for (Meal mealList : meals) {
 				Meal mealTemp = new Meal(mealList.getRecipe(), mealList.getRecipeUID());
+				mealTemp.setDates(mealList.getDates());
 				mealsArray[counter] =  mealTemp;
 				mealsArray[counter].setDates(mealTemp.getDates());
 				mealsArray[counter].setRecipe(null);
 				counter++;
 			}
+			/*for (Meal meal : mealsArray) {
+				System.out.println("Mahlzeit " + meal.getUUID().toString() + " speichern");
+				for (LocalDate date : meal.getDates()) {
+					System.out.println("Mahlzeit " + meal.getUUID().toString() + " mit Datum " + date);
+				}
+			}*/
 			oos.writeObject(mealsArray);
 			oos.flush();
 		} catch (IOException e) {
@@ -58,15 +67,20 @@ public class MampfStorage {
 		List<Recipe> recipes  = new ArrayList<>();
 		if (checkFile(Paths.get(path + "/Recipes.csv"))) {
 			try {
-				
+				int counter = 0;
 				List<String> rows = Files.readAllLines(Paths.get(path + "/Recipes.csv"));
 				for (String row : rows) {
 					List<String> values = new ArrayList<>();
-					values = Arrays.asList(row.split(","));
-					//TODO: alle leeren Strings löschen
-					//values.removeAll(new ArrayList<String>().add(""));
-					Recipe tmpRecipe = new Recipe((String[]) values.toArray());
-					recipes.add(tmpRecipe);
+					values = Arrays.asList(row.split(";"));
+					values = values.stream().filter(s -> s != "").collect(Collectors.toList());
+					String[] test = new String[values.size()];
+					for (int n = 0; n < values.size(); n++) {
+						test[n] = values.get(n);
+					}
+					if (counter++ != 0) {
+						Recipe tmpRecipe = new Recipe(test);
+						recipes.add(tmpRecipe);
+					}
 				}
 			} catch (IOException e) {
 				System.out.println(e.toString());
@@ -84,6 +98,7 @@ public class MampfStorage {
 				) {
 				Meal[] meals_arr = (Meal[]) ois.readObject();				
 				meals = Arrays.asList(meals_arr);
+				//System.out.println("Anzahl Mahlzeiten: " + meals.size());
 			} catch (IOException e) {
 				System.out.println(e.toString());
 			} catch (ClassNotFoundException e) {
@@ -94,9 +109,16 @@ public class MampfStorage {
 			for (Recipe recipe : recipes) {
 				if (recipe.getUID().equals(meal.getRecipeUID())) {
 					meal.setRecipe(recipe);
+					//System.out.println("Mahlzeit mit Rezept versorgt!");
 					break;
 				}
 			}
+			/*if (meal.getDates().size() == 0) {
+				System.out.println("Keine Tage für Mahlzeit " + meal.getRecipeName());
+			}
+			for (LocalDate dates : meal.getDates()) {
+				System.out.println("Mahlzeit " + meal.getRecipeName() + " mit Datum " + dates);
+			}*/
 		}
 		return meals;
 	}		
