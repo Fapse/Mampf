@@ -2,6 +2,7 @@ package com.fapse.mampf.view;
 
 import java.time.LocalDate;
 
+import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.util.DateUtil;
 
@@ -9,9 +10,7 @@ import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class DayView {
+	private Mampf mampf;
 	private BorderPane bp = new BorderPane();
 	private VBox vb = new VBox();
 	private final LocalDate date;
@@ -49,17 +49,14 @@ public class DayView {
 	}
 	public void updateMeals(ReadOnlyListWrapper<Meal> meals) {
 		vb.getChildren().clear();
-		//System.out.println("Jetzt DayView " + date + " updaten...");
 		for (Meal meal : meals) {
-			//System.out.println("    ... mit Mahlzeit " + meal.getRecipeName());
 			ContextMenu cm = MealContextMenu.getMealContextMenu(date, meal);
 			Text text = new Text(meal.getRecipeName());
 			text.setOnMouseClicked(new EventHandler<MouseEvent> () {
 						@Override
 						public void handle(MouseEvent event) {
 				            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
-				            	text.setFill(Color.ORANGERED);
-				            	showMealInfo(meal);
+				            	mampf.showRecipeBrowser(meal.getRecipe());
 				            } else if (event.getButton() == MouseButton.SECONDARY) {
 				            	cm.show(text, event.getScreenX(), event.getScreenY());				            	
 				            }
@@ -72,14 +69,10 @@ public class DayView {
 	public BorderPane getDayView() {
 		return bp;
 	}
-	private void showMealInfo(Meal meal) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Mahlzeitinformation");
-        alert.setHeaderText(meal.getRecipeName());
-        alert.setContentText(meal.getRecipe().getRecipe());
-        alert.showAndWait();		
-	}
 	public LocalDate getDate() {
 		return date;
+	}
+	public void setMampf(Mampf mampf) {
+		this.mampf = mampf;
 	}
 }

@@ -53,10 +53,8 @@ public class MampfData {
 		for (Meal tmpMeal : meals) {
 			if (tmpMeal.isMeal(meal)) {
 				tmpMeal.removeDate(date);
-				//System.out.println("Tag bei Mahlzeit gelöscht");
 				if(tmpMeal.getDateCount() == 0) {
 					meals.remove(tmpMeal);
-					//System.out.println("Mahlzeit gelöscht");
 				} else {
 					MampfStorage.saveMeals(meals);
 				}
@@ -71,7 +69,6 @@ public class MampfData {
 				tmpMeal.addDate(date);
 				MampfStorage.saveMeals(meals);
 				changedDates.add(changedDates.size(), date);
-				//System.out.println("Neuer Tag bei Mahlzeit eingefügt");
 				break;
 			}
 		}
@@ -82,6 +79,5 @@ public class MampfData {
 		meal.addDate(date);
 		meals.add(meal);
 		changedDates.add(changedDates.size(), date);
-		//System.out.println("Neue Mahlzeit hinzugefügt");
 	}
 }

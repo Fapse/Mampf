@@ -20,7 +20,6 @@ public class Recipe implements Serializable {
 			while (counter < args.length) {
 				condiments.add(new Condiment(args[counter++], args[counter++], args[counter++]));
 			}
-			
 		}
 	}
 	@Override
@@ -36,7 +35,7 @@ public class Recipe implements Serializable {
 	public String getRecipe() {
 		return recipe;
 	}
-	List<Condiment> getCondiments() {
+	public List<Condiment> getCondiments() {
 		return condiments;
 	}
 }

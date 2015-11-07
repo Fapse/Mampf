@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
+import com.fapse.mampf.model.Recipe;
 
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ListChangeListener;
@@ -13,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 
 public class OverviewController {
+	private Mampf mampf;
 	private MampfData mampfData = MampfData.getMampfData();
 	private ReadOnlyListWrapper<LocalDate> changedDates = mampfData.getChangedDates();
 	private List<DayView> dayViews = new ArrayList<>();
@@ -51,10 +54,20 @@ public class OverviewController {
 					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
 					//System.out.println("Für Tag " + gridDay + " Mahlzeiten: " + meals.size());
 					DayView dayView = new DayView(gridDay, meals);
+					//dayView.setMampf(mampf);
 					gridPane.add(dayView.getDayView(), col, row, 1, 1);
 					dayViews.add(dayView);
 					gridDay = gridDay.plusDays(1);
 			}
 		}
+	}
+	public void setMampf(Mampf mampf) {
+		this.mampf = mampf;
+		for (DayView dayView : dayViews) {
+			dayView.setMampf(mampf);
+		}
+	}
+	public void showRecipeBrowser(Recipe recipe) {
+		mampf.showRecipeBrowser(recipe);
 	}
 }
