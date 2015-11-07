@@ -21,6 +21,6 @@ public class Condiment{
 	}
 	@Override
 	public String toString() {
-		return name;
+		return amount + " " + unit + " " + name;
 	}
 }
