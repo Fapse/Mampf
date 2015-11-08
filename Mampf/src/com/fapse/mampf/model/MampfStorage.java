@@ -98,7 +98,6 @@ public class MampfStorage {
 				) {
 				Meal[] meals_arr = (Meal[]) ois.readObject();				
 				meals = Arrays.asList(meals_arr);
-				//System.out.println("Anzahl Mahlzeiten: " + meals.size());
 			} catch (IOException e) {
 				System.out.println(e.toString());
 			} catch (ClassNotFoundException e) {
@@ -109,16 +108,9 @@ public class MampfStorage {
 			for (Recipe recipe : recipes) {
 				if (recipe.getUID().equals(meal.getRecipeUID())) {
 					meal.setRecipe(recipe);
-					//System.out.println("Mahlzeit mit Rezept versorgt!");
 					break;
 				}
 			}
-			/*if (meal.getDates().size() == 0) {
-				System.out.println("Keine Tage für Mahlzeit " + meal.getRecipeName());
-			}
-			for (LocalDate dates : meal.getDates()) {
-				System.out.println("Mahlzeit " + meal.getRecipeName() + " mit Datum " + dates);
-			}*/
 		}
 		return meals;
 	}		

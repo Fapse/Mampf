@@ -14,11 +14,12 @@ public class Meal implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8995103666441202658L;
+	private static final long serialVersionUID = -8133898215487523746L;
 	private final UUID uuid;
 	private Recipe recipe;
 	private String recipeUID;
 	private Set<LocalDate> dates = FXCollections.observableSet();
+	private int serving = 1;
 
 	public Meal(Recipe recipe) {
 		this.uuid = UUID.randomUUID();
@@ -29,6 +30,10 @@ public class Meal implements Serializable {
 		this.uuid = UUID.randomUUID();
 		this.recipe = recipe;
 		this.recipeUID = uid;
+	}
+	@Override
+	public String toString() {
+		return recipe.getName() + " (" + serving + ")";
 	}
 	public String getRecipeUID() {
 		return recipeUID;
@@ -66,6 +71,12 @@ public class Meal implements Serializable {
 	}
 	public String getRecipeName() {
 		return recipe.getName();
+	}
+	public int getServing() {
+		return serving;
+	}
+	public void setServing(int serving) {
+		this.serving = serving;
 	}
 	public boolean isMeal(Meal tmpMeal) {
 		return this.uuid.equals(tmpMeal.getUUID());

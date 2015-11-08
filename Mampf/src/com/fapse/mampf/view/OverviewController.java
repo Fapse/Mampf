@@ -27,14 +27,12 @@ public class OverviewController {
 			@Override
 			public void onChanged(ListChangeListener.Change<? extends LocalDate> c) {
 				while (c.next()) {
-					//System.out.println("Da hat sich was geändert!");
 					if (c.wasAdded()) {
 						for (LocalDate changedDate : c.getAddedSubList()) {
 							ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(changedDate);
 							for (DayView dayView : dayViews) {
 								if (dayView.getDate().equals(changedDate)) {
 									dayView.updateMeals(meals);
-									//System.out.println("dayView update!");
 								}
 							}
 						}
@@ -52,9 +50,7 @@ public class OverviewController {
 		for (int row = 0; row < rowCount; row++) {
 			for (int col = 0; col < colCount; col++) {
 					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
-					//System.out.println("Für Tag " + gridDay + " Mahlzeiten: " + meals.size());
 					DayView dayView = new DayView(gridDay, meals);
-					//dayView.setMampf(mampf);
 					gridPane.add(dayView.getDayView(), col, row, 1, 1);
 					dayViews.add(dayView);
 					gridDay = gridDay.plusDays(1);

@@ -44,14 +44,14 @@ public class DayView {
 		BorderPane.setAlignment(dateText, Pos.TOP_RIGHT);
 		BorderPane.setMargin(dateText, new Insets(2,4,2,2));
 		BorderPane.setMargin(vb, new Insets(2,2,2,4));
-		bp.setMinHeight(70);
-		bp.setMinWidth(100);
+		bp.setMinHeight(90);
+		bp.setMinWidth(120);
 	}
 	public void updateMeals(ReadOnlyListWrapper<Meal> meals) {
 		vb.getChildren().clear();
 		for (Meal meal : meals) {
 			ContextMenu cm = MealContextMenu.getMealContextMenu(date, meal);
-			Text text = new Text(meal.getRecipeName());
+			Text text = new Text(meal.toString());
 			text.setOnMouseClicked(new EventHandler<MouseEvent> () {
 						@Override
 						public void handle(MouseEvent event) {
