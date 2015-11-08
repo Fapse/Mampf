@@ -40,6 +40,35 @@ public class MampfData {
 	public ReadOnlyListWrapper<Recipe> getRecipes() {
 		return new ReadOnlyListWrapper<>(recipes);
 	}
+	public Recipe getNextRecipe(Recipe recipe, int next) {
+		int position = 0;
+		int size = recipes.size();
+		for (Recipe tmpRecipe : recipes) {
+			System.out.println("Rezept: " + tmpRecipe.getName());
+			if (recipe.equals(tmpRecipe)) {
+				System.out.println("Gefunden");
+				position = recipes.indexOf(recipe);
+				break;
+			}
+		}
+		if (size == 0) {
+			return null;
+		}
+		System.out.println("Element gefunden bei " + position);
+		position += next;
+		System.out.println("Die gesuchte Position: " + position);
+		System.out.println("Die Größe von recipes: " + size);
+		if (position >= size) {
+			System.out.println("Überlauf: gebe erstes Element zurück");
+			return recipes.get(0);
+		} else if (position < 0) {
+			System.out.println("Unterlauf: gebe letztes Element zurück");
+			return recipes.get(size - 1);
+		} else {
+			System.out.println("Gebe Element in der Mitte zurück");
+			return recipes.get(position);
+		}
+	}
 	public ReadOnlyListWrapper<Meal> getMeals(LocalDate date) {
 		ObservableList<Meal> mealsList = FXCollections.observableArrayList();
 		mealsList = filterMeals(meals, hasDate(date));

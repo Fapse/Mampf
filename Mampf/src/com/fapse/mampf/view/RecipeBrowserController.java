@@ -1,6 +1,7 @@
 package com.fapse.mampf.view;
 
 import com.fapse.mampf.model.Condiment;
+import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Recipe;
 
 import javafx.fxml.FXML;
@@ -19,6 +20,8 @@ public class RecipeBrowserController {
 	private Button okButton;
 	
 	private Stage dialogStage;
+	private MampfData mampfData;
+	private Recipe recipe = null;
 		
 	@FXML
 	public void initialize() {
@@ -27,6 +30,7 @@ public class RecipeBrowserController {
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 		recipeTextLabel.setWrapText(true);
+		mampfData = MampfData.getMampfData();
 	}
 	
 	public void setRecipe(Recipe recipe) {
@@ -37,10 +41,29 @@ public class RecipeBrowserController {
 		}
 		condimentsLabel.setText(condiments.toString());
 		recipeTextLabel.setText(recipe.getRecipe());
+		this.recipe = recipe;
 	}
 	
 	@FXML
 	private void handleOK() {
 		dialogStage.close();
+	}
+	@FXML
+	private void handleLastRecipe() {
+		System.out.println("Das alte Rezept: " + recipe.getName());
+		this.recipe = mampfData.getNextRecipe(this.recipe, -1);
+		if (this.recipe != null) {
+			setRecipe(this.recipe);
+		}
+		System.out.println("Das neue Rezept: " + recipe.getName());
+	}
+	@FXML
+	private void handleNextRecipe() {
+		System.out.println("Das alte Rezept: " + recipe.getName());
+		this.recipe = mampfData.getNextRecipe(this.recipe, +1);		
+		if (this.recipe != null) {
+			setRecipe(this.recipe);
+		}
+		System.out.println("Das neue Rezept: " + recipe.getName());
 	}
 }

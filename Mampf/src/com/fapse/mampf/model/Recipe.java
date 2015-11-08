@@ -22,9 +22,8 @@ public class Recipe implements Serializable {
 			}
 		}
 	}
-	@Override
-	public boolean equals(Object o) {
-		return this.uid.equals(o);
+	public boolean equals(Recipe recipe) {
+		return this.uid.equals(recipe.getUID());
 	}
 	public String getUID() {
 		return uid;

@@ -2,9 +2,7 @@ package com.fapse.mampf;
 
 import java.io.IOException;
 
-//import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Recipe;
-//import com.fapse.mampf.model.MampfData.MampfDataHolder;
 import com.fapse.mampf.view.OverviewController;
 import com.fapse.mampf.view.RecipeBrowserController;
 
