@@ -37,6 +37,19 @@ public class MealContextMenu {
 				}
 			});
 		}
+		Menu mi_serving = new Menu("Anzahl Portionen");
+		cm.getItems().add(mi_serving);
+		for (int n = 1; n <= 5; n++) {
+			final int m = n;
+			MenuItem mi_servingAmount = new MenuItem(String.valueOf(n));
+			mi_serving.getItems().add(mi_servingAmount);
+			mi_servingAmount.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					mampfData.setMealServing(meal, m);
+				}
+			});
+		}
 		return cm;
 	}
 }
