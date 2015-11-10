@@ -1,10 +1,16 @@
 package com.fapse.mampf;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fapse.mampf.model.Recipe;
+import com.fapse.mampf.model.Condiment;
+import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.view.OverviewController;
 import com.fapse.mampf.view.RecipeBrowserController;
+import com.fapse.mampf.view.ShoppingListController;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -61,6 +67,29 @@ public class Mampf extends Application {
 			e.printStackTrace();
 			return;
 		}
+	}
+	
+	public void showShoppingList(LocalDate date, int day) {
+		try {
+			MampfData mampfData = MampfData.getMampfData();
+			List<Condiment> shoppingList = new ArrayList<>();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Mampf.class.getResource("view/ShoppingList.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(stage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+			ShoppingListController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			shoppingList = mampfData.getShoppingList(date, day);
+			controller.setShoppingList(shoppingList);
+			dialogStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}		
 	}
 
 	public Stage getPrimaryStage() {

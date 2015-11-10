@@ -24,10 +24,11 @@ public class DayView {
 	private VBox vb = new VBox();
 	private final LocalDate date;
 	
-	public DayView (LocalDate date, ReadOnlyListWrapper<Meal> meals) {
+	public DayView (LocalDate date, ReadOnlyListWrapper<Meal> meals, Mampf mampf) {
+		this.mampf = mampf;
 		this.date = date;
 		Text dateText = new Text(DateUtil.format(date));
-		ContextMenu cm = NewMealContextMenu.getDayViewContextMenu(date);
+		ContextMenu cm = NewMealContextMenu.getMealContextMenu(date, mampf);
 		dateText.setFill(Color.TOMATO);
 		bp.setTop(dateText);
 		vb.setOnMouseClicked(new EventHandler<MouseEvent> () {
@@ -71,8 +72,5 @@ public class DayView {
 	}
 	public LocalDate getDate() {
 		return date;
-	}
-	public void setMampf(Mampf mampf) {
-		this.mampf = mampf;
 	}
 }

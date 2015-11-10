@@ -44,23 +44,32 @@ public class OverviewController {
 	
 	@FXML
 	private void initialize() {
+		/*LocalDate day = LocalDate.now();
+		LocalDate gridDay = day.minusDays(day.getDayOfWeek().getValue() +6);
+		int rowCount = 5, colCount = 7;
+		for (int row = 0; row < rowCount; row++) {
+			for (int col = 0; col < colCount; col++) {
+					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
+					DayView dayView = new DayView(gridDay, meals, mampf);
+					gridPane.add(dayView.getDayView(), col, row, 1, 1);
+					dayViews.add(dayView);
+					gridDay = gridDay.plusDays(1);
+			}
+		}*/
+	}
+	public void setMampf(Mampf mampf) {
+		this.mampf = mampf;
 		LocalDate day = LocalDate.now();
 		LocalDate gridDay = day.minusDays(day.getDayOfWeek().getValue() +6);
 		int rowCount = 5, colCount = 7;
 		for (int row = 0; row < rowCount; row++) {
 			for (int col = 0; col < colCount; col++) {
 					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
-					DayView dayView = new DayView(gridDay, meals);
+					DayView dayView = new DayView(gridDay, meals, mampf);
 					gridPane.add(dayView.getDayView(), col, row, 1, 1);
 					dayViews.add(dayView);
 					gridDay = gridDay.plusDays(1);
 			}
-		}
-	}
-	public void setMampf(Mampf mampf) {
-		this.mampf = mampf;
-		for (DayView dayView : dayViews) {
-			dayView.setMampf(mampf);
 		}
 	}
 	public void showRecipeBrowser(Recipe recipe) {
