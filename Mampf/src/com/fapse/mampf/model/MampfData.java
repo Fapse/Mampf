@@ -1,6 +1,8 @@
 package com.fapse.mampf.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
@@ -114,5 +116,12 @@ public class MampfData {
 			}
 		}
 		return;
+	}
+	public List<Condiment> getShoppingList(LocalDate date, int day) {
+		List<Condiment> shoppingList = new ArrayList<>();
+		for (Meal meal : meals) {
+			
+		}
+		return shoppingList;
 	}
 }

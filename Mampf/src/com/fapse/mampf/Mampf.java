@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.fapse.mampf.model.Recipe;
 import com.fapse.mampf.model.Condiment;
+import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.view.OverviewController;
 import com.fapse.mampf.view.RecipeBrowserController;
 import com.fapse.mampf.view.ShoppingListController;
@@ -70,6 +71,7 @@ public class Mampf extends Application {
 	
 	public void showShoppingList(LocalDate date, int day) {
 		try {
+			MampfData mampfData = MampfData.getMampfData();
 			List<Condiment> shoppingList = new ArrayList<>();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Mampf.class.getResource("view/ShoppingList.fxml"));
@@ -81,6 +83,7 @@ public class Mampf extends Application {
 			dialogStage.setScene(scene);
 			ShoppingListController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
+			shoppingList = mampfData.getShoppingList(date, day);
 			controller.setShoppingList(shoppingList);
 			dialogStage.show();
 		} catch (IOException e) {
