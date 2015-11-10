@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="com.fapse.mampf.view.ShoppingListController">
+   <children>
+      <VBox layoutX="-41.0" layoutY="-174.0" prefHeight="26.0" prefWidth="59.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TextFlow fx:id="listArea" minHeight="400.0" minWidth="300.0" prefHeight="400.0" prefWidth="300.0" />
+            <HBox alignment="CENTER" minHeight="50.0" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button fx:id="send" minWidth="80.0" mnemonicParsing="false" text="Senden" />
+                  <Button fx:id="cancel" minWidth="80.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbruch" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
