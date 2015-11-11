@@ -3,9 +3,9 @@ package com.fapse.mampf.model;
 import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -83,11 +83,10 @@ public class Meal implements Serializable {
 		return this.uuid.equals(tmpMeal.getUUID());
 	}
 	public boolean isCookDay(LocalDate date) {
-		for (LocalDate tmpDate : dates) {
-			//TODO: find first day in list, maybe by sorting?
-		}
-		//Optional<LocalDate> minDate = dates.stream().reduce((date1, date2) -> );
-		//System.out.println(localDate);
-		return true; //minDate.equals(date);
+		List<LocalDate> tmpList = new ArrayList<>();
+		tmpList.addAll(dates);
+		Collections.sort(tmpList);
+		System.out.println("Vergleiche " + date + " mit " + tmpList.get(0));
+		return date.equals(tmpList.get(0));
 	}
 }

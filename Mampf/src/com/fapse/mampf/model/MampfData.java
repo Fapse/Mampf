@@ -119,8 +119,14 @@ public class MampfData {
 	}
 	public List<Condiment> getShoppingList(LocalDate date, int day) {
 		List<Condiment> shoppingList = new ArrayList<>();
-		for (Meal meal : meals) {
-			
+		for (int n = 0; n < day; n++) {
+			for (Meal meal : meals) {
+				if(meal.isCookDay(date.plusDays(n))) {
+					System.out.println("Koch-Mahlzeit gefunden: " + meal.getRecipeName() + " am " + date.plusDays(n));
+					System.out.println(date);
+					shoppingList.addAll(meal.getRecipe().getCondiments());
+				}
+			}
 		}
 		return shoppingList;
 	}

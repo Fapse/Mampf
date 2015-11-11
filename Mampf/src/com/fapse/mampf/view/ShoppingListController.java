@@ -35,7 +35,7 @@ public class ShoppingListController {
 	private void handleCancel() {
 		dialogStage.close();
 	}
-	public void setShoppingList(List list) {
-		this.shoppingList = shoppingList;
+	public void setShoppingList(List<Condiment> list) {
+		this.shoppingList = list;
 	}
 }
