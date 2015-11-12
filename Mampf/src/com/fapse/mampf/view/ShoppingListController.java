@@ -7,6 +7,8 @@ import com.fapse.mampf.model.MampfData;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
@@ -20,7 +22,7 @@ public class ShoppingListController {
 	@FXML
 	Button cancel = new Button();
 	@FXML
-	TextFlow listArea = new TextFlow();
+	VBox listArea = new VBox();
 	public ShoppingListController() {
 		
 	}
@@ -35,7 +37,11 @@ public class ShoppingListController {
 	private void handleCancel() {
 		dialogStage.close();
 	}
-	public void setShoppingList(List list) {
-		this.shoppingList = shoppingList;
+	public void setShoppingList(List<Condiment> list) {
+		this.shoppingList = list;
+		for (Condiment cond : shoppingList) {
+			Label text = new Label(cond.toString());
+			listArea.getChildren().add(text);
+		}
 	}
 }
