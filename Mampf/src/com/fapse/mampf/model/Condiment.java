@@ -13,10 +13,10 @@ public class Condiment{
 	public String getName() {
 		return name;
 	}
-	String getAmount() {
+	public String getAmount() {
 		return amount;
 	}
-	String getUnit() {
+	public String getUnit() {
 		return unit;
 	}
 	@Override
