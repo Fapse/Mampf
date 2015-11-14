@@ -20,6 +20,14 @@ public class Condiment{
 		return unit;
 	}
 	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Condiment) {
+			return this.name.equals(((Condiment) o).getName());
+		} else {
+			return false;
+		}
+	}
+	@Override
 	public String toString() {
 		return amount + " " + unit + " " + name;
 	}

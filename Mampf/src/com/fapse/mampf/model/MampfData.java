@@ -124,7 +124,21 @@ public class MampfData {
 				if(meal.isCookDay(date.plusDays(n))) {
 					System.out.println("Koch-Mahlzeit gefunden: " + meal.getRecipeName() + " am " + date.plusDays(n));
 					System.out.println(date);
-					shoppingList.addAll(meal.getRecipe().getCondiments());
+					//shoppingList.addAll(meal.getRecipe().getCondiments());
+					for (Condiment foundCond : meal.getRecipe().getCondiments()) {
+						if (shoppingList.contains(foundCond)) {
+							int pos = shoppingList.indexOf(foundCond);
+							Condiment oldListCond = shoppingList.get(pos);
+							shoppingList.remove(pos);
+							int amount;
+							amount = Integer.parseInt(oldListCond.getAmount());
+							amount += Integer.parseInt(foundCond.getAmount());
+							Condiment newListCond = new Condiment(oldListCond.getName(), String.valueOf(amount), oldListCond.getUnit());
+							shoppingList.add(newListCond);
+						} else {
+							shoppingList.add(foundCond);
+						}
+					}
 				}
 			}
 		}
