@@ -12,9 +12,6 @@ import java.util.UUID;
 import javafx.collections.FXCollections;
 
 public class Meal implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8133898215487523746L;
 	private final UUID uuid;
 	private Recipe recipe;
@@ -86,7 +83,6 @@ public class Meal implements Serializable {
 		List<LocalDate> tmpList = new ArrayList<>();
 		tmpList.addAll(dates);
 		Collections.sort(tmpList);
-		System.out.println("Vergleiche " + date + " mit " + tmpList.get(0));
 		return date.equals(tmpList.get(0));
 	}
 }

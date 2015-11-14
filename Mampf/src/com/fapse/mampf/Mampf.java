@@ -81,6 +81,7 @@ public class Mampf extends Application {
 			dialogStage.initOwner(stage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
+			dialogStage.setTitle("Einkaufszettel");
 			ShoppingListController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			shoppingList = mampfData.getShoppingList(date, day);

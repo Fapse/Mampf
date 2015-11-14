@@ -9,14 +9,14 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.ShoppingListController">
    <children>
-      <VBox layoutX="-41.0" layoutY="-174.0" prefHeight="26.0" prefWidth="59.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="-41.0" layoutY="-174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox fx:id="listArea" minHeight="200.0" minWidth="100.0" prefHeight="200.0" prefWidth="100.0">
+            <VBox fx:id="listArea" minHeight="300.0" minWidth="250.0" prefHeight="300.0" prefWidth="250.0">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </VBox>
-            <HBox alignment="CENTER" minHeight="50.0" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+            <HBox alignment="CENTER" minHeight="50.0" prefHeight="50.0" spacing="10.0">
                <children>
                   <Button fx:id="send" minWidth="80.0" mnemonicParsing="false" text="Senden" />
                   <Button fx:id="cancel" minWidth="80.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbruch" />

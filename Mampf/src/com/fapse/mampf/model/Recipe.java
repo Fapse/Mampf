@@ -1,5 +1,7 @@
 package com.fapse.mampf.model;
 
+import com.fapse.mampf.model.CondimentCategory;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,7 @@ public class Recipe implements Serializable {
 	private List<Condiment> condiments = new ArrayList<>();
 	
 	public Recipe(String... args) {
-		if (((args.length - 7) % 3) == 0) {
+		if (((args.length - 7) % 4) == 0) {
 			int counter = 0;
 			uid = args[counter++];
 			name = args[counter++];
@@ -30,7 +32,7 @@ public class Recipe implements Serializable {
 			bestBefore = args[counter++];
 			image = args[counter++];
 			while (counter < args.length) {
-				condiments.add(new Condiment(args[counter++], args[counter++], args[counter++]));
+				condiments.add(new Condiment(args[counter++], args[counter++], args[counter++], CondimentCategory.valueOf(args[counter++])));
 			}
 		}
 	}

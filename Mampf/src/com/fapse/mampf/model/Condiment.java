@@ -4,11 +4,13 @@ public class Condiment{
 	private final String name;
 	private final String amount;
 	private final String unit;
+	private final CondimentCategory category;
 
-	public Condiment(String name, String amount, String unit) {
+	public Condiment(String name, String amount, String unit, CondimentCategory category) {
 		this.name = name;
 		this.amount = amount;
 		this.unit = unit;
+		this.category = category;
 	}
 	public String getName() {
 		return name;
@@ -18,6 +20,9 @@ public class Condiment{
 	}
 	public String getUnit() {
 		return unit;
+	}
+	CondimentCategory getCategory() {
+		return category;
 	}
 	@Override
 	public boolean equals(Object o) {
