@@ -2,6 +2,7 @@ package com.fapse.mampf.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.fapse.mampf.model.Meal;
@@ -142,6 +143,6 @@ public class MampfData {
 				}
 			}
 		}
-		return shoppingList;
+		return Collections.unmodifiableList(shoppingList);
 	}
 }
