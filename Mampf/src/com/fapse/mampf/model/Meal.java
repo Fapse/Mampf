@@ -53,7 +53,7 @@ public class Meal implements Serializable {
 	public List<LocalDate> getDates() {
 		List<LocalDate> tmpDates = new ArrayList<>();
 		tmpDates.addAll(dates);
-		return tmpDates;
+		return Collections.unmodifiableList(tmpDates);
 	}
 	public int getDateCount() {
 		return dates.size();

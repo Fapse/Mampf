@@ -21,7 +21,7 @@ public class Condiment{
 	public String getUnit() {
 		return unit;
 	}
-	CondimentCategory getCategory() {
+	public CondimentCategory getCategory() {
 		return category;
 	}
 	@Override

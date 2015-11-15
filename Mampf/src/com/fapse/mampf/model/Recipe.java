@@ -4,6 +4,7 @@ import com.fapse.mampf.model.CondimentCategory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Recipe implements Serializable {
@@ -36,6 +37,18 @@ public class Recipe implements Serializable {
 			}
 		}
 	}
+	String getRating() {
+		return rating;
+	}
+	String getEffort() {
+		return effort;
+	}
+	String getBestBefore() {
+		return bestBefore;
+	}
+	String getImage() {
+		return image;
+	}
 	public boolean equals(Recipe recipe) {
 		return this.uid.equals(recipe.getUID());
 	}
@@ -49,6 +62,6 @@ public class Recipe implements Serializable {
 		return recipe;
 	}
 	public List<Condiment> getCondiments() {
-		return condiments;
+		return Collections.unmodifiableList(condiments);
 	}
 }
