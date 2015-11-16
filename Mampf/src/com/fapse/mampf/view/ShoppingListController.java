@@ -1,6 +1,6 @@
 package com.fapse.mampf.view;
 
-import java.awt.Font;
+//import java.awt.Font;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,11 +9,9 @@ import com.fapse.mampf.model.CondimentCategory;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 public class ShoppingListController {
@@ -45,11 +43,13 @@ public class ShoppingListController {
 			List<Condiment> tmpConds = shoppingList.stream().filter(c -> c.getCategory().equals(cat)).collect(Collectors.toList());
 			if (!tmpConds.isEmpty()) {
 				Text text = new Text(cat.getCategoryName());
+				text.setFont(Font.font("Arial", FontWeight.BOLD, 10));
 				text.setFill(Color.CORAL);
 				listArea.getChildren().add(text);
 			}
 			for (Condiment tmpCond : tmpConds) {
 				Text text = new Text(tmpCond.toString());
+				text.setFont(Font.font("Arial", FontWeight.BOLD, 10));
 				listArea.getChildren().add(text);
 			}			
 		}
