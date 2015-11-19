@@ -77,12 +77,15 @@ public class MampfData {
 		for (Meal tmpMeal : meals) {
 			if (tmpMeal.isMeal(meal)) {
 				tmpMeal.removeDate(date);
+				changedDates.add(changedDates.size(), date);
 				if(tmpMeal.getDateCount() == 0) {
 					meals.remove(tmpMeal);
 				} else {
 					MampfStorage.saveMeals(meals);
+					for (LocalDate tmpDate : tmpMeal.getDates()) {
+						changedDates.add(changedDates.size(), tmpDate);
+					}
 				}
-				changedDates.add(changedDates.size(), date);
 				break;
 			}
 		}

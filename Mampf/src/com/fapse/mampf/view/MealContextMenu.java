@@ -1,6 +1,7 @@
 package com.fapse.mampf.view;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
@@ -26,7 +27,21 @@ public class MealContextMenu {
 		});
 		Menu mi_dates = new Menu("Speisetag hinzufügen");
 		cm.getItems().add(mi_dates);
-		for (int n = 1; n <= 5; n++) {
+		List<LocalDate> tmpDates = meal.getRemainingMealDays(date);
+		if (tmpDates.size() == 0) {
+			mi_dates.setDisable(true);
+		} else {
+			for (LocalDate tmpDate : tmpDates) {
+				MenuItem mi_day = new MenuItem(DateUtil.format(tmpDate));
+				mi_dates.getItems().add(mi_day);
+				mi_day.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						mampfData.addMealDay(meal, tmpDate);
+					}
+			});
+		}
+		/*for (int n = 1; n <= 5; n++) {
 			LocalDate day = date.plusDays(n);
 			MenuItem mi_day = new MenuItem(DateUtil.format(day));
 			mi_dates.getItems().add(mi_day);
@@ -35,7 +50,7 @@ public class MealContextMenu {
 				public void handle(ActionEvent event) {
 					mampfData.addMealDay(meal, day);
 				}
-			});
+			});*/
 		}
 		Menu mi_serving = new Menu("Anzahl Portionen");
 		cm.getItems().add(mi_serving);

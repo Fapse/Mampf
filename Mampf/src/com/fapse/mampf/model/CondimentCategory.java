@@ -1,11 +1,13 @@
 package com.fapse.mampf.model;
 
 public enum CondimentCategory {
+	BEVERAGE ("Getränke"),
 	PRODUCE ("Obst & Gemüse"),
+	PASTRIES ("Backwaren"),
 	DAIRYPRODUCT ("Milchprodukte"),
 	MEATSAUSAGE ("Fleich & Wurst"),
 	SPICE ("Gewürze"),
-	BEVERAGE ("Getränke");
+	DEEPFROZEN ("Tiefkühlartikel");
 	
 	private final String categoryName;
 	

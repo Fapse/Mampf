@@ -51,12 +51,6 @@ public class MampfStorage {
 				mealsArray[counter].setRecipe(null);
 				counter++;
 			}
-			/*for (Meal meal : mealsArray) {
-				System.out.println("Mahlzeit " + meal.getUUID().toString() + " speichern");
-				for (LocalDate date : meal.getDates()) {
-					System.out.println("Mahlzeit " + meal.getUUID().toString() + " mit Datum " + date);
-				}
-			}*/
 			oos.writeObject(mealsArray);
 			oos.flush();
 		} catch (IOException e) {
