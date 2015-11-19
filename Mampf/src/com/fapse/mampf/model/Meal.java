@@ -85,4 +85,20 @@ public class Meal implements Serializable {
 		Collections.sort(tmpList);
 		return date.equals(tmpList.get(0));
 	}
+	public List<LocalDate> getRemainingMealDays(LocalDate date) {
+		LocalDate cookDate = getCookDate();
+		List<LocalDate> remainingMealDays = new ArrayList<>();
+		int bestBefore = Integer.parseInt(recipe.getBestBefore());
+		for (int n = 1; !cookDate.plusDays(bestBefore).isBefore(date.plusDays(n)); n++) {
+			remainingMealDays.add(date.plusDays(n));
+		}
+		Collections.sort(remainingMealDays);
+		return  Collections.unmodifiableList(remainingMealDays);
+	}
+	public LocalDate getCookDate() {
+		List<LocalDate> tmpList = new ArrayList<>();
+		tmpList.addAll(dates);
+		Collections.sort(tmpList);		
+		return tmpList.get(0);
+	}
 }

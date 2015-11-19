@@ -1,6 +1,5 @@
 package com.fapse.mampf.view;
 
-//import java.awt.Font;
 import java.util.List;
 import java.util.stream.Collectors;
 
