@@ -35,18 +35,14 @@ public class Mampf extends Application {
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
 		this.stage.setTitle("Mampf");
-		setupDayOverview();
-		Scene scene = new Scene(rootLayoutDayOverview);
-		this.stage.setScene(scene);
-		this.stage.show();	
-	}
-	
-	private void setupDayOverview() throws Exception {
 		FXMLLoader loaderDayOverview = new FXMLLoader();
 		loaderDayOverview.setLocation(Mampf.class.getResource("view/MampfOverview.fxml"));
 		rootLayoutDayOverview = (AnchorPane) loaderDayOverview.load();
 		OverviewController controller = loaderDayOverview.getController();
 		controller.setMampf(this);		
+		Scene scene = new Scene(rootLayoutDayOverview);
+		this.stage.setScene(scene);
+		this.stage.show();	
 	}
 	
 	public void showRecipeBrowser(Recipe recipe) {

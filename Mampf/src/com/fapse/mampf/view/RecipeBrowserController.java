@@ -5,7 +5,6 @@ import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Recipe;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -16,8 +15,6 @@ public class RecipeBrowserController {
 	private Label condimentsLabel;
 	@FXML
 	private Label recipeTextLabel;
-	@FXML
-	private Button okButton;
 	
 	private Stage dialogStage;
 	private MampfData mampfData;
@@ -50,20 +47,16 @@ public class RecipeBrowserController {
 	}
 	@FXML
 	private void handleLastRecipe() {
-		System.out.println("Das alte Rezept: " + recipe.getName());
 		this.recipe = mampfData.getNextRecipe(this.recipe, -1);
 		if (this.recipe != null) {
 			setRecipe(this.recipe);
 		}
-		System.out.println("Das neue Rezept: " + recipe.getName());
 	}
 	@FXML
 	private void handleNextRecipe() {
-		System.out.println("Das alte Rezept: " + recipe.getName());
 		this.recipe = mampfData.getNextRecipe(this.recipe, +1);		
 		if (this.recipe != null) {
 			setRecipe(this.recipe);
 		}
-		System.out.println("Das neue Rezept: " + recipe.getName());
 	}
 }

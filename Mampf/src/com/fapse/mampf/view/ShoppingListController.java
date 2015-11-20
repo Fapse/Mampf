@@ -8,7 +8,6 @@ import com.fapse.mampf.model.CondimentCategory;
 import com.fapse.mampf.model.MampfData;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
@@ -19,10 +18,6 @@ public class ShoppingListController {
 	private List<Condiment> shoppingList;
 	private StringBuilder shoppingListText = new StringBuilder();
 	
-/*	@FXML
-	Button print = new Button();
-	@FXML
-	Button cancel = new Button();*/
 	@FXML
 	VBox listArea = new VBox();
 	public ShoppingListController() {
