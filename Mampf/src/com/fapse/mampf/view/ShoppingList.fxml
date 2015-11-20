@@ -18,8 +18,8 @@
             </VBox>
             <HBox alignment="CENTER" minHeight="50.0" prefHeight="50.0" spacing="10.0">
                <children>
-                  <Button fx:id="send" minWidth="80.0" mnemonicParsing="false" text="Senden" />
-                  <Button fx:id="cancel" minWidth="80.0" mnemonicParsing="false" onAction="#handleCancel" text="Abbruch" />
+                  <Button minWidth="80.0" mnemonicParsing="false" onAction="#handlePrint" text="Drucken" />
+                  <Button minWidth="80.0" mnemonicParsing="false" onAction="#handleCancel" text="Schließen" />
                </children>
                <VBox.margin>
                   <Insets />
