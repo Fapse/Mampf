@@ -108,6 +108,9 @@ public class MampfData {
 		changedDates.add(changedDates.size(), date);
 		
 	}
+	public void printShoppingList(String text) {
+		Printer.printText(text);
+	}
 	public void setMealServing(Meal meal, int serving) {
 		for (Meal tmpMeal : meals) {
 			if (tmpMeal.isMeal(meal)) {
