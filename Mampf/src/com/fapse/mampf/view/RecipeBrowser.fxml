@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -7,38 +8,42 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.RecipeBrowserController">
+
+<VBox stylesheets="@RecipeBrowserTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.RecipeBrowserController">
    <children>
-      <VBox styleClass="vboxPopup">
+      <HBox styleClass="hboxPopup">
          <children>
-            <Label fx:id="recipeNameLabel" text="Label">
-               <styleClass>
-                  <String fx:value="labelPopup" />
-                  <String fx:value="centered" />
-               </styleClass>
-            </Label>
-            <ScrollPane styleClass="scrollpanePopup">
-               <content>
-                  <VBox styleClass="vboxPopup">
+            <Label fx:id="recipeNameLabel" text="Label" />
+         </children>
+      </HBox>
+      <VBox styleClass="scrollpanePopupVBox">
+         <children>
+            <Group>
+               <children>
+                  <TextFlow>
                      <children>
                         <Label fx:id="condimentsLabel" styleClass="labelScrollPane" text="Label" />
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutY="21.0">
+                     <children>
                         <Label fx:id="recipeTextLabel" styleClass="labelScrollPane" text="Label" />
                      </children>
-                  </VBox>
-               </content>
-            </ScrollPane>
-            <HBox>
-               <children>
-                  <Button mnemonicParsing="false" onAction="#handleLastRecipe" text="&lt;&lt;" />
-                  <Button mnemonicParsing="false" onAction="#handleOK" text="OK" />
-                  <Button mnemonicParsing="false" onAction="#handleNextRecipe" text="&gt;&gt;" />
+                  </TextFlow>
                </children>
-               <styleClass>
-                  <String fx:value="hboxPopup" />
-                  <String fx:value="centered" />
-               </styleClass>
-            </HBox>
+            </Group>
          </children>
       </VBox>
+      <HBox styleClass="hboxPopup">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleLastRecipe" text="&lt;&lt;" />
+            <Button mnemonicParsing="false" onAction="#handleOK" text="OK" />
+            <Button mnemonicParsing="false" onAction="#handleNextRecipe" text="&gt;&gt;" />
+         </children>
+      </HBox>
    </children>
-</AnchorPane>
+   <styleClass>
+      <String fx:value="vboxPopup" />
+      <String fx:value="root" />
+   </styleClass>
+</VBox>
