@@ -16,6 +16,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -49,7 +50,7 @@ public class Mampf extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Mampf.class.getResource("view/RecipeBrowser.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
+			VBox page = (VBox) loader.load();
 			Stage dialogStage = new Stage();
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.initOwner(stage);
