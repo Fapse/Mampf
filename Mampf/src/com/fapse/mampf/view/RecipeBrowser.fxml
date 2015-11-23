@@ -9,41 +9,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<VBox stylesheets="@RecipeBrowserTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.RecipeBrowserController">
-   <children>
-      <HBox styleClass="hboxPopup">
+<BorderPane styleClass="borderpane" stylesheets="@RecipeBrowserTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.RecipeBrowserController">
+   <top>
+      <HBox styleClass="hboxPopup" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="recipeNameLabel" text="Label" />
          </children>
       </HBox>
-      <VBox styleClass="scrollpanePopupVBox">
-         <children>
-            <Group>
-               <children>
-                  <TextFlow>
-                     <children>
-                        <Label fx:id="condimentsLabel" styleClass="labelScrollPane" text="Label" />
-                     </children>
-                  </TextFlow>
-                  <TextFlow layoutY="21.0">
-                     <children>
-                        <Label fx:id="recipeTextLabel" styleClass="labelScrollPane" text="Label" />
-                     </children>
-                  </TextFlow>
-               </children>
-            </Group>
-         </children>
-      </VBox>
-      <HBox styleClass="hboxPopup">
+   </top>
+   <bottom>
+      <HBox styleClass="hboxPopup" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#handleLastRecipe" text="&lt;&lt;" />
             <Button mnemonicParsing="false" onAction="#handleOK" text="OK" />
             <Button mnemonicParsing="false" onAction="#handleNextRecipe" text="&gt;&gt;" />
          </children>
       </HBox>
-   </children>
-   <styleClass>
-      <String fx:value="vboxPopup" />
-      <String fx:value="root" />
-   </styleClass>
-</VBox>
+   </bottom>
+   <center>
+      <ScrollPane BorderPane.alignment="CENTER">
+         <content>
+            <Label fx:id="recipeTextArea" text="Label" />
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

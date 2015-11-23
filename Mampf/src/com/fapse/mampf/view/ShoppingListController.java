@@ -20,6 +20,7 @@ public class ShoppingListController {
 	
 	@FXML
 	VBox listArea = new VBox();
+	
 	public ShoppingListController() {
 		
 	}

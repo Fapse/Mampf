@@ -6,25 +6,29 @@
 .hboxPopup {
 	-fx-alignment: CENTER;
 	-fx-spacing: 10;
+	-fx-padding: 10 0 10 0
 }
-.vboxPopup {
+.borderpane {
 	-fx-pref-width: 360;
 	-fx-pref-height: 400;
-	-fx-padding: 10;
+	-fx-max-width: 360;
 	-fx-spacing: 10;
+	-fx-padding: 0 10 0 10;
 }
-.scrollpanePopup {
-	-fx-hbar-policy: never;
-}
-.scrollpanePopupVBox {
-	-fx-pref-width: 330;
-}
-.labelScrollPane {
+.textArea {
 	-fx-wrap-text: true;
+}
+.label {
+	-fx-wrap-text: true;
+	-fx-padding: 6;
+}
+.scroll-pane {
+	-fx-hbar-policy: never;
+	/*-fx-vbar-policy: always;*/
+	-fx-fit-to-width: true;
 }
 .button{
     -fx-text-fill: rgb(49, 89, 23);
     -fx-border-color: rgb(49, 89, 23);
     -fx-border-radius: 5;
-    -fx-padding: 3 6 6 6;
 }
