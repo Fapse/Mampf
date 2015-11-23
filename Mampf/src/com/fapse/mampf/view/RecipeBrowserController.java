@@ -6,15 +6,14 @@ import com.fapse.mampf.model.Recipe;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 public class RecipeBrowserController {
 	@FXML
 	private Label recipeNameLabel;
 	@FXML
-	private Label condimentsLabel;
-	@FXML
-	private Label recipeTextLabel;
+	private Label recipeTextArea;
 	
 	private Stage dialogStage;
 	private MampfData mampfData;
@@ -26,18 +25,18 @@ public class RecipeBrowserController {
 	
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
-		recipeTextLabel.setWrapText(true);
 		mampfData = MampfData.getMampfData();
 	}
 	
 	public void setRecipe(Recipe recipe) {
-		StringBuilder condiments = new StringBuilder();
+		StringBuilder recipeText = new StringBuilder();
 		recipeNameLabel.setText(recipe.getName());
 		for (Condiment condiment : recipe.getCondiments()) {
-			condiments.append(condiment.toString() + System.lineSeparator());
+			recipeText.append(condiment.toString() + System.lineSeparator());
 		}
-		condimentsLabel.setText(condiments.toString());
-		recipeTextLabel.setText(recipe.getRecipe());
+		recipeText.append(System.lineSeparator());
+		recipeText.append(recipe.getRecipe());
+		recipeTextArea.setText(recipeText.toString());
 		this.recipe = recipe;
 	}
 	
