@@ -8,9 +8,7 @@ import com.fapse.mampf.model.CondimentCategory;
 import com.fapse.mampf.model.MampfData;
 
 import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.*;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class ShoppingListController {
@@ -19,7 +17,7 @@ public class ShoppingListController {
 	private StringBuilder shoppingListText = new StringBuilder();
 	
 	@FXML
-	VBox listArea = new VBox();
+	Label listText = new Label();
 	
 	public ShoppingListController() {
 		
@@ -44,18 +42,12 @@ public class ShoppingListController {
 		for (CondimentCategory cat : CondimentCategory.values()) {
 			List<Condiment> tmpConds = shoppingList.stream().filter(c -> c.getCategory().equals(cat)).collect(Collectors.toList());
 			if (!tmpConds.isEmpty()) {
-				Text text = new Text(cat.getCategoryName());
-				text.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-				text.setFill(Color.CORAL);
-				listArea.getChildren().add(text);
-				shoppingListText.append(System.lineSeparator() + cat.getCategoryName() + System.lineSeparator());
+				shoppingListText.append(cat.getCategoryName() + System.lineSeparator());
 			}
 			for (Condiment tmpCond : tmpConds) {
-				Text text = new Text(tmpCond.toString());
-				text.setFont(Font.font("Arial", FontWeight.NORMAL, 15));
-				listArea.getChildren().add(text);
 				shoppingListText.append(tmpCond.toString() + System.lineSeparator());
 			}			
 		}
+		listText.setText(shoppingListText.toString());
 	}
 }

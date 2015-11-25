@@ -15,16 +15,14 @@ import com.fapse.mampf.view.ShoppingListController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Mampf extends Application {
 
 	private Stage stage;
-	private AnchorPane rootLayoutDayOverview;
+	private BorderPane rootLayoutDayOverview;
 
 	public Mampf() {
 	}
@@ -39,7 +37,7 @@ public class Mampf extends Application {
 		this.stage.setTitle("Mampf");
 		FXMLLoader loaderDayOverview = new FXMLLoader();
 		loaderDayOverview.setLocation(Mampf.class.getResource("view/MampfOverview.fxml"));
-		rootLayoutDayOverview = (AnchorPane) loaderDayOverview.load();
+		rootLayoutDayOverview = (BorderPane) loaderDayOverview.load();
 		OverviewController controller = loaderDayOverview.getController();
 		controller.setMampf(this);		
 		Scene scene = new Scene(rootLayoutDayOverview);
@@ -73,7 +71,7 @@ public class Mampf extends Application {
 			List<Condiment> shoppingList = new ArrayList<>();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Mampf.class.getResource("view/ShoppingList.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
+			BorderPane page = (BorderPane) loader.load();
 			Stage dialogStage = new Stage();
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.initOwner(stage);
