@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<BorderPane styleClass="borderpane" stylesheets="@RecipeBrowserTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.RecipeBrowserController">
+<BorderPane styleClass="borderpane" stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.RecipeBrowserController">
    <top>
       <HBox styleClass="hboxPopup" BorderPane.alignment="CENTER">
          <children>

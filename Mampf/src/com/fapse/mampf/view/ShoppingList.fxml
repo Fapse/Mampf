@@ -7,28 +7,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.ShoppingListController">
-   <children>
-      <VBox layoutX="-41.0" layoutY="-174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+<BorderPane styleClass="borderpane" stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.ShoppingListController">
+   <bottom>
+      <HBox alignment="CENTER" minHeight="50.0" prefHeight="50.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="listArea" minHeight="300.0" minWidth="250.0" prefHeight="300.0" prefWidth="250.0">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </VBox>
-            <HBox alignment="CENTER" minHeight="50.0" prefHeight="50.0" spacing="10.0">
-               <children>
-                  <Button minWidth="80.0" mnemonicParsing="false" onAction="#handlePrint" text="Drucken" />
-                  <Button minWidth="80.0" mnemonicParsing="false" onAction="#handleCancel" text="Schließen" />
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
+            <Button minWidth="80.0" mnemonicParsing="false" onAction="#handlePrint" text="Drucken" />
+            <Button minWidth="80.0" mnemonicParsing="false" onAction="#handleCancel" text="Schließen" />
          </children>
-      </VBox>
-   </children>
-</AnchorPane>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <center>
+      <ScrollPane BorderPane.alignment="CENTER">
+         <content>
+            <Label fx:id="listText" text="Label" />
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>
