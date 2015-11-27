@@ -31,7 +31,10 @@ public class Meal implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return recipe.getName() + " (" + serving + ")";
+		return recipe.getName();
+	}
+	public String getCookDayString() {
+		return recipe.getName() + " (" + serving + ")";		
 	}
 	public String getRecipeUID() {
 		return recipeUID;

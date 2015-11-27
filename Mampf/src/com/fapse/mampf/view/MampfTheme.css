@@ -1,12 +1,13 @@
 .root {
 	-fx-font-family: "Sans-Serif";
 	-fx-font-size: 13pt;
-	-fx-base: rgb(132, 145, 47);
-    -fx-background: rgb(225, 228, 203);}
+	-fx-base: rgb(140, 140, 140);
+    -fx-background: rgb(90, 90, 90);
+ }
 .hboxPopup {
 	-fx-alignment: CENTER;
 	-fx-spacing: 10;
-	-fx-padding: 10 0 10 0
+	-fx-padding: 10 0 10 0;
 }
 .gridpane {
 	-fx-grid-lines-visible: true;
@@ -19,11 +20,28 @@
 	-fx-spacing: 10;
 	-fx-padding: 5 10 0 10;
 }
+.dayviewborderpane {
+	-fx-min-width: 170;
+	-fx-min-height: 120;
+	-fx-padding: 5;
+}
+.dayviewdatetext {
+    -fx-text-fill: plum;
+	-fx-padding: 0 0 5 0;
+}
+.dayviewhbox {
+	-fx-alignment: CENTER_RIGHT;
+	-fx-text-fill: red;
+}
+.dayviewcooklabel {
+	/*-fx-font-weight: bold;*/
+}
 .textArea {
 	-fx-wrap-text: true;
 }
 .label {
 	-fx-wrap-text: true;
+    -fx-text-fill: orange;
 }
 .scroll-pane {
 	-fx-hbar-policy: never;
@@ -31,9 +49,17 @@
 	-fx-padding: 5;
 }
 .button{
-    -fx-text-fill: rgb(49, 89, 23);
-    -fx-border-color: rgb(49, 89, 23);
+    -fx-text-fill: rgb(10, 10, 10);
+    -fx-border-color: rgb(10, 10, 10);
     -fx-border-radius: 5;
+}
+.menu-bar {
+    -fx-background: gray;	
+	-fx-base: lightgray;	
+}
+.menu-item {
+    -fx-background: gray;	
+	-fx-base: lightgray;
 }
 .vboxPopup {
 	-fx-spacing: 0;
