@@ -39,18 +39,8 @@ public class MealContextMenu {
 					public void handle(ActionEvent event) {
 						mampfData.addMealDay(meal, tmpDate);
 					}
-			});
-		}
-		/*for (int n = 1; n <= 5; n++) {
-			LocalDate day = date.plusDays(n);
-			MenuItem mi_day = new MenuItem(DateUtil.format(day));
-			mi_dates.getItems().add(mi_day);
-			mi_day.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					mampfData.addMealDay(meal, day);
-				}
-			});*/
+				});
+			}
 		}
 		Menu mi_serving = new Menu("Anzahl Portionen");
 		cm.getItems().add(mi_serving);
