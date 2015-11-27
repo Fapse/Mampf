@@ -9,6 +9,7 @@ import com.fapse.mampf.model.MampfData;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ShoppingListController {
@@ -17,7 +18,7 @@ public class ShoppingListController {
 	private StringBuilder shoppingListText = new StringBuilder();
 	
 	@FXML
-	Label listText = new Label();
+	VBox listBox = new VBox();
 	
 	public ShoppingListController() {
 		
@@ -39,15 +40,23 @@ public class ShoppingListController {
 	public void setShoppingList(List<Condiment> list) {
 		this.shoppingList = list;
 		shoppingListText.append("Einkaufszettel" + System.lineSeparator());
+		Label labelHeading = new Label("Einkaufszettel");
+		labelHeading.getStyleClass().add("shoppingListHeading");
+		listBox.getChildren().add(labelHeading);
 		for (CondimentCategory cat : CondimentCategory.values()) {
 			List<Condiment> tmpConds = shoppingList.stream().filter(c -> c.getCategory().equals(cat)).collect(Collectors.toList());
 			if (!tmpConds.isEmpty()) {
 				shoppingListText.append(cat.getCategoryName() + System.lineSeparator());
+				Label labelCat = new Label(cat.getCategoryName());
+				labelCat.getStyleClass().add("shoppingListCategory");
+				listBox.getChildren().add(labelCat);
 			}
 			for (Condiment tmpCond : tmpConds) {
 				shoppingListText.append(tmpCond.toString() + System.lineSeparator());
+				Label labelItem = new Label(tmpCond.toString());
+				labelItem.getStyleClass().add("shoppingListItem");
+				listBox.getChildren().add(labelItem);
 			}			
 		}
-		listText.setText(shoppingListText.toString());
 	}
 }
