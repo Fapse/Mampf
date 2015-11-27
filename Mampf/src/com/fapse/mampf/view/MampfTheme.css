@@ -17,14 +17,13 @@
 	-fx-pref-height: 400;
 	-fx-max-width: 360;
 	-fx-spacing: 10;
-	-fx-padding: 0 10 0 10;
+	-fx-padding: 5 10 0 10;
 }
 .textArea {
 	-fx-wrap-text: true;
 }
 .label {
 	-fx-wrap-text: true;
-	-fx-padding: 6;
 }
 .scroll-pane {
 	-fx-hbar-policy: never;
@@ -35,4 +34,22 @@
     -fx-text-fill: rgb(49, 89, 23);
     -fx-border-color: rgb(49, 89, 23);
     -fx-border-radius: 5;
+}
+.vboxPopup {
+	-fx-spacing: 0;
+	-fx-padding: 3;
+}
+.shoppingListHeading {
+	-fx-text-fill: red;
+	-fx-spacing: 0;
+	-fx-padding: 3 3 0 0;
+}
+.shoppingListCategory {
+	-fx-text-fill: blue;
+	-fx-spacing: 0;
+	-fx-padding: 3 3 3 6;
+}
+.shoppingListItem {
+	-fx-spacing: 0;
+	-fx-padding: 0 3 0 9;
 }
