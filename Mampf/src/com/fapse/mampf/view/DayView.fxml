@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 
 
-<BorderPane styleClass="dayviewborderpane" stylesheets="@MampfTheme.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
+<BorderPane styleClass="dayviewpane" stylesheets="@MampfTheme.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
    <center>
       <VBox fx:id="vb" />
    </center>

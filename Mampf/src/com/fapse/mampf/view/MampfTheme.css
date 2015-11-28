@@ -4,6 +4,32 @@
 	-fx-base: rgb(140, 140, 140);
     -fx-background: rgb(90, 90, 90);
  }
+.popuppane {
+	-fx-min-width: 300;
+	-fx-max-width: 300;
+ 	-fx-padding: 5 0 5 0;
+ 	-fx-spacing: 5;
+}
+.popuplabel {
+	-fx-text-wrap: true;
+}
+.grid {
+	-fx-grid-lines-visible: true;
+}
+.dayviewpane {
+	-fx-pref-width: 170;
+	-fx-pref-height: 140;
+	-fx-padding: 6;
+}
+.dayviewhbox {
+	-fx-alignment: CENTER_RIGHT;
+	-fx-padding: 0 0 6 0;
+}
+.dayviewdatelabel {
+	-fx-text-fill: orange;
+}
+
+ /*
 .hboxPopup {
 	-fx-alignment: CENTER;
 	-fx-spacing: 10;
@@ -32,9 +58,6 @@
 .dayviewhbox {
 	-fx-alignment: CENTER_RIGHT;
 	-fx-text-fill: red;
-}
-.dayviewcooklabel {
-	/*-fx-font-weight: bold;*/
 }
 .textArea {
 	-fx-wrap-text: true;
@@ -78,4 +101,4 @@
 .shoppingListItem {
 	-fx-spacing: 0;
 	-fx-padding: 0 3 0 9;
-}
+}*/

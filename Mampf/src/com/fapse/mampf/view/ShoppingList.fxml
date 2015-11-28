@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane styleClass="borderpane" stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.ShoppingListController">
+<BorderPane stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.ShoppingListController">
    <bottom>
       <HBox alignment="CENTER" styleClass="hboxPopup" BorderPane.alignment="CENTER">
          <children>
