@@ -8,11 +8,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane styleClass="borderpane" stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.RecipeBrowserController">
+<BorderPane styleClass="popuppane" stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.RecipeBrowserController">
    <top>
       <HBox styleClass="hboxPopup" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="recipeNameLabel" text="Label" />
+            <Label fx:id="recipeNameLabel" text="Label">
+               <styleClass>
+                  <String fx:value="popuppane" />
+                  <String fx:value="popuplabel" />
+               </styleClass></Label>
          </children>
       </HBox>
    </top>
@@ -26,9 +30,13 @@
       </HBox>
    </bottom>
    <center>
-      <ScrollPane BorderPane.alignment="CENTER">
+      <ScrollPane styleClass="popuppane" BorderPane.alignment="CENTER">
          <content>
-            <Label fx:id="recipeTextArea" text="Label" />
+            <Label fx:id="recipeTextArea" text="Label">
+               <styleClass>
+                  <String fx:value="popuppane" />
+                  <String fx:value="popuplabel" />
+               </styleClass></Label>
          </content>
       </ScrollPane>
    </center>

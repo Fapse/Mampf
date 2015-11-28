@@ -54,7 +54,7 @@ public class DayView {
 		});
 		updateMeals(meals);
 		bp.setCenter(vb);
-		dateText.getStyleClass().add("dayviewdatetext");
+		dateText.getStyleClass().add("dayviewdatelabel");
 		hb.getStyleClass().add("dayviewhbox");
 	}
 	public void updateMeals(ReadOnlyListWrapper<Meal> meals) {
