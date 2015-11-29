@@ -40,9 +40,6 @@ public class ShoppingListController {
 	public void setShoppingList(List<Condiment> list) {
 		this.shoppingList = list;
 		shoppingListText.append("Einkaufszettel" + System.lineSeparator());
-		Label labelHeading = new Label("Einkaufszettel");
-		labelHeading.getStyleClass().add("shoppingListHeading");
-		listBox.getChildren().add(labelHeading);
 		for (CondimentCategory cat : CondimentCategory.values()) {
 			List<Condiment> tmpConds = shoppingList.stream().filter(c -> c.getCategory().equals(cat)).collect(Collectors.toList());
 			if (!tmpConds.isEmpty()) {

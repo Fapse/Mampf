@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.ShoppingListController">
+<BorderPane styleClass="popuppane" stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.ShoppingListController">
    <bottom>
-      <HBox alignment="CENTER" styleClass="hboxPopup" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" styleClass="popuphbox" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#handlePrint" text="Drucken" />
             <Button mnemonicParsing="false" onAction="#handleCancel" text="Schließen" />
@@ -17,9 +17,9 @@
       </HBox>
    </bottom>
    <center>
-      <ScrollPane BorderPane.alignment="CENTER">
+      <ScrollPane styleClass="popupscrollpane" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="listBox" styleClass="vboxPopup" />
+            <VBox fx:id="listBox" />
          </content>
       </ScrollPane>
    </center>

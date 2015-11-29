@@ -10,18 +10,14 @@
 
 <BorderPane styleClass="popuppane" stylesheets="@MampfTheme.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fapse.mampf.view.RecipeBrowserController">
    <top>
-      <HBox styleClass="hboxPopup" BorderPane.alignment="CENTER">
+      <HBox styleClass="popuphbox" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="recipeNameLabel" text="Label">
-               <styleClass>
-                  <String fx:value="popuppane" />
-                  <String fx:value="popuplabel" />
-               </styleClass></Label>
+            <Label fx:id="recipeNameLabel" text="Label" />
          </children>
       </HBox>
    </top>
    <bottom>
-      <HBox styleClass="hboxPopup" BorderPane.alignment="CENTER">
+      <HBox styleClass="popuphbox" stylesheets="@MampfTheme.css" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#handleLastRecipe" text="&lt;&lt;" />
             <Button mnemonicParsing="false" onAction="#handleOK" text="OK" />
@@ -30,13 +26,9 @@
       </HBox>
    </bottom>
    <center>
-      <ScrollPane styleClass="popuppane" BorderPane.alignment="CENTER">
+      <ScrollPane styleClass="popupscrollpane" BorderPane.alignment="CENTER">
          <content>
-            <Label fx:id="recipeTextArea" text="Label">
-               <styleClass>
-                  <String fx:value="popuppane" />
-                  <String fx:value="popuplabel" />
-               </styleClass></Label>
+            <Label fx:id="recipeTextArea" styleClass="popuplabel" text="Label" />
          </content>
       </ScrollPane>
    </center>
