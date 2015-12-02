@@ -13,11 +13,22 @@ public class DateUtil {
 
     /** The date pattern that is used for conversion. Change as you wish. */
     private static final String DATE_PATTERN = "dd.MM.yyyy";
+    private static final String DATE_PATTERN_DOW = "EE., dd. LLL";
+    private static final String DATE_PATTERN_DAY = "d";
+    private static final String DATE_PATTERN_DAY_MONTH = "d. LLL.";
 
     /** The date formatter. */
     private static final DateTimeFormatter DATE_FORMATTER = 
             DateTimeFormatter.ofPattern(DATE_PATTERN);
+    
+    private static final DateTimeFormatter DATE_FORMATTER_DOW = 
+    		DateTimeFormatter.ofPattern(DATE_PATTERN_DOW);
 
+    private static final DateTimeFormatter DATE_FORMATTER_DAY = 
+    		DateTimeFormatter.ofPattern(DATE_PATTERN_DAY);
+
+    private static final DateTimeFormatter DATE_FORMATTER_DAY_MONTH = 
+    		DateTimeFormatter.ofPattern(DATE_PATTERN_DAY_MONTH);
     /**
      * Returns the given date as a well formatted String. The above defined 
      * {@link DateUtil#DATE_PATTERN} is used.
@@ -30,6 +41,24 @@ public class DateUtil {
             return null;
         }
         return DATE_FORMATTER.format(date);
+    }
+    public static String format_dow(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return DATE_FORMATTER_DOW.format(date);
+    }
+    public static String format_day(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return DATE_FORMATTER_DAY.format(date);
+    }
+    public static String format_day_month(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return DATE_FORMATTER_DAY_MONTH.format(date);
     }
 
     /**
