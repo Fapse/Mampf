@@ -12,7 +12,9 @@ import com.fapse.mampf.model.Recipe;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 public class OverviewController {
 	private Mampf mampf;
@@ -49,8 +51,23 @@ public class OverviewController {
 		this.mampf = mampf;
 		LocalDate day = LocalDate.now();
 		LocalDate gridDay = day.minusDays(day.getDayOfWeek().getValue() +6);
-		int rowCount = 5, colCount = 7;
-		for (int row = 0; row < rowCount; row++) {
+		int rowCount = 6, colCount = 7;
+		Label[] dayLabel = new Label[7];
+		dayLabel[0] = new Label("Montag");
+		dayLabel[1] = new Label("Dienstag");
+		dayLabel[2] = new Label("Mittwoch");
+		dayLabel[3] = new Label("Donnerstag");
+		dayLabel[4] = new Label("Freitag");
+		dayLabel[5] = new Label("Samstag");
+		dayLabel[6] = new Label("Sonntag");
+		for (int n = 0; n < 7; n++) {
+			HBox pane = new HBox();
+			dayLabel[n].getStyleClass().add("dayviewdatelabel");
+			pane.getChildren().add(dayLabel[n]);
+			pane.getStyleClass().add("dayviewweekdaypane");
+			gridPane.add(pane, n, 0);
+		}
+		for (int row = 1; row < rowCount; row++) {
 			for (int col = 0; col < colCount; col++) {
 					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
 					DayView dayView = new DayView(gridDay, meals, mampf);

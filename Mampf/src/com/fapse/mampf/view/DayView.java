@@ -1,6 +1,7 @@
 package com.fapse.mampf.view;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 import com.fapse.mampf.Mampf;
@@ -39,7 +40,27 @@ public class DayView {
 			System.out.println("Couldn't load DayView borderPane");
 			System.exit(1);
 		}
-		Label dateText = new Label(DateUtil.format(date));
+		if (date.getMonthValue() % 2 != 0) {
+			if ((date.getDayOfWeek() == DayOfWeek.SATURDAY) ||
+					(date.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+				bp.getStyleClass().add("dayviewunevenmonthweekend");
+			} else {
+				bp.getStyleClass().add("dayviewunevenmonth");				
+			}
+		} else {
+			if ((date.getDayOfWeek() == DayOfWeek.SATURDAY) ||
+					(date.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+				bp.getStyleClass().add("dayviewevenmonthweekend");
+			} else {
+				bp.getStyleClass().add("dayviewevenmonth");
+			}
+		}
+		Label dateText;
+		if (date.getDayOfMonth() == 1) {
+			dateText = new Label(DateUtil.format_day_month(date));			
+		} else {
+			dateText = new Label(DateUtil.format_day(date));						
+		}
 		ContextMenu cm = NewMealContextMenu.getMealContextMenu(date, mampf);
 		hb.getChildren().add(dateText);
 		bp.setTop(hb);
@@ -54,7 +75,11 @@ public class DayView {
 		});
 		updateMeals(meals);
 		bp.setCenter(vb);
-		dateText.getStyleClass().add("dayviewdatelabel");
+		if (LocalDate.now().equals(date)) {
+			dateText.setId("dayviewdatelabeltoday");
+		} else {
+			dateText.getStyleClass().add("dayviewdatelabel");
+		}
 		hb.getStyleClass().add("dayviewhbox");
 	}
 	public void updateMeals(ReadOnlyListWrapper<Meal> meals) {
