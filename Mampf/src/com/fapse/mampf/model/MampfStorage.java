@@ -23,7 +23,6 @@ public class MampfStorage {
 			if (!Files.exists(path)) {
 				Files.createDirectory(path);				
 			}
-
 		} catch (IOException e) {
 			System.out.println("Fehler: Pfad nicht gefunden / nicht anlegbar");
 		}		
@@ -46,9 +45,11 @@ public class MampfStorage {
 			for (Meal mealList : meals) {
 				Meal mealTemp = new Meal(mealList.getRecipe(), mealList.getRecipeUID());
 				mealTemp.setDates(mealList.getDates());
+				mealTemp.setServing(mealList.getServing());
 				mealsArray[counter] =  mealTemp;
 				mealsArray[counter].setDates(mealTemp.getDates());
 				mealsArray[counter].setRecipe(null);
+				mealsArray[counter].setServing(mealTemp.getServing());
 				counter++;
 			}
 			oos.writeObject(mealsArray);
@@ -58,6 +59,7 @@ public class MampfStorage {
 		}
 	}
 	public static List<Recipe> loadRecipes() {
+		List<Condiment> condiments = loadCondiments();
 		List<Recipe> recipes  = new ArrayList<>();
 		if (checkFile(Paths.get(path + "/Recipes.csv"))) {
 			try {
@@ -72,7 +74,7 @@ public class MampfStorage {
 						test[n] = values.get(n);
 					}
 					if (counter++ != 0) {
-						Recipe tmpRecipe = new Recipe(test);
+						Recipe tmpRecipe = new Recipe(condiments, test);
 						recipes.add(tmpRecipe);
 					}
 				}
@@ -82,6 +84,31 @@ public class MampfStorage {
 		}
 		return recipes;
 	}
+	private static List<Condiment> loadCondiments() {
+		List<Condiment> condiments  = new ArrayList<>();
+		if (checkFile(Paths.get(path + "/Condiments.csv"))) {
+			try {
+				int counter = 0;
+				List<String> rows = Files.readAllLines(Paths.get(path + "/Condiments.csv"));
+				for (String row : rows) {
+					List<String> values = new ArrayList<>();
+					values = Arrays.asList(row.split(";"));
+					values = values.stream().filter(s -> s != "").collect(Collectors.toList());
+					String[] test = new String[values.size()];
+					for (int n = 0; n < values.size(); n++) {
+						test[n] = values.get(n);
+					}
+					if (counter++ != 0) {
+						Condiment tmpCondiment = new Condiment(test);
+						condiments.add(tmpCondiment);
+					}
+				}
+			} catch (IOException e) {
+				System.out.println(e.toString());
+			}
+		}
+		return condiments;
+	}	
 	public static List<Meal> loadMeals() {
 		List<Meal> meals = new ArrayList<>();
 		List<Recipe> recipes  = loadRecipes();

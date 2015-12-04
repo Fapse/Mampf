@@ -3,7 +3,6 @@
 	-fx-font-size: 13pt;
 	-s-fx-base: 100, 100, 100;
 	-fx-base: rgb(140, 140, 140);
-    /*-fx-background: rgb(100, 100, 100);*/
     -fx-background-color: rgb(100, 100, 100);
  }
  GridPane {

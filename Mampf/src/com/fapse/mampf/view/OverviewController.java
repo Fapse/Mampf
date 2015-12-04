@@ -8,6 +8,7 @@ import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
+import com.fapse.mampf.util.Weekdays;
 
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ListChangeListener;
@@ -52,18 +53,11 @@ public class OverviewController {
 		LocalDate day = LocalDate.now();
 		LocalDate gridDay = day.minusDays(day.getDayOfWeek().getValue() +6);
 		int rowCount = 6, colCount = 7;
-		Label[] dayLabel = new Label[7];
-		dayLabel[0] = new Label("Montag");
-		dayLabel[1] = new Label("Dienstag");
-		dayLabel[2] = new Label("Mittwoch");
-		dayLabel[3] = new Label("Donnerstag");
-		dayLabel[4] = new Label("Freitag");
-		dayLabel[5] = new Label("Samstag");
-		dayLabel[6] = new Label("Sonntag");
 		for (int n = 0; n < 7; n++) {
+			Label label = new Label(Weekdays.get(n));
 			HBox pane = new HBox();
-			dayLabel[n].getStyleClass().add("dayviewdatelabel");
-			pane.getChildren().add(dayLabel[n]);
+			label.getStyleClass().add("dayviewdatelabel");
+			pane.getChildren().add(label);
 			pane.getStyleClass().add("dayviewweekdaypane");
 			gridPane.add(pane, n, 0);
 		}
