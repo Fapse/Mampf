@@ -12,7 +12,10 @@ import java.util.UUID;
 import javafx.collections.FXCollections;
 
 public class Meal implements Serializable {
-	private static final long serialVersionUID = -8133898215487523746L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6046956256366089350L;
 	private final UUID uuid;
 	private Recipe recipe;
 	private String recipeUID;

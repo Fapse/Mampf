@@ -136,14 +136,14 @@ public class MampfData {
 							shoppingList.remove(pos);
 							int amount;
 							amount = Integer.parseInt(oldListCond.getAmount());
-							amount += Integer.parseInt(foundCond.getAmount());
-							Condiment newListCond = new Condiment(oldListCond.getName(),
-									String.valueOf(amount),
-									oldListCond.getUnit(),
-									oldListCond.getCategory());
+							amount += (Integer.parseInt(foundCond.getAmount())) * meal.getServing();
+							Condiment newListCond = new Condiment(oldListCond);
+							newListCond.setAmount(String.valueOf(amount));
 							shoppingList.add(newListCond);
 						} else {
-							shoppingList.add(foundCond);
+							Condiment tmpCondiment = new Condiment(foundCond);
+							tmpCondiment.setAmount(String.valueOf(Integer.parseInt(foundCond.getAmount()) * meal.getServing()));
+							shoppingList.add(tmpCondiment);
 						}
 					}
 				}

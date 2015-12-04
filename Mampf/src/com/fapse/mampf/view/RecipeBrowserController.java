@@ -30,6 +30,7 @@ public class RecipeBrowserController {
 	public void setRecipe(Recipe recipe) {
 		StringBuilder recipeText = new StringBuilder();
 		recipeNameLabel.setText(recipe.getName());
+		recipeText.append("Für eine Portion:" + System.lineSeparator());
 		for (Condiment condiment : recipe.getCondiments()) {
 			recipeText.append(condiment.toString() + System.lineSeparator());
 		}
