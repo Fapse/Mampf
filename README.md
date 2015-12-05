@@ -1,5 +1,5 @@
 # Mampf
-food planner
+food planning program, with recipes and shopping list
 
 TODO:
   + enable scrolling for food calendar
@@ -7,4 +7,4 @@ TODO:
   + implement error logging
   + try out java doc
   + establish food categories, for use in context menu
-  + non-cooking alternatives, like restaurant, visit friends etc.
+  + integrate non-cooking alternatives, like restaurant, visit friends etc.
