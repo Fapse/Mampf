@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -22,6 +23,7 @@ import javafx.scene.layout.VBox;
 
 public class DayView {
 	private Mampf mampf;
+	private OverviewController overview;
 	private BorderPane bp;
 	@FXML
 	private VBox vb = new VBox();
@@ -29,8 +31,9 @@ public class DayView {
 	private HBox hb = new HBox();
 	private final LocalDate date;
 	
-	public DayView (LocalDate date, ReadOnlyListWrapper<Meal> meals, Mampf mampf) {
+	public DayView (LocalDate date, ReadOnlyListWrapper<Meal> meals, Mampf mampf, OverviewController overview) {
 		this.mampf = mampf;
+		this.overview = overview;
 		this.date = date;
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Mampf.class.getResource("view/DayView.fxml"));
@@ -40,21 +43,7 @@ public class DayView {
 			System.out.println("Couldn't load DayView borderPane");
 			System.exit(1);
 		}
-		if (date.getMonthValue() % 2 != 0) {
-			if ((date.getDayOfWeek() == DayOfWeek.SATURDAY) ||
-					(date.getDayOfWeek() == DayOfWeek.SUNDAY)) {
-				bp.getStyleClass().add("dayviewunevenmonthweekend");
-			} else {
-				bp.getStyleClass().add("dayviewunevenmonth");				
-			}
-		} else {
-			if ((date.getDayOfWeek() == DayOfWeek.SATURDAY) ||
-					(date.getDayOfWeek() == DayOfWeek.SUNDAY)) {
-				bp.getStyleClass().add("dayviewevenmonthweekend");
-			} else {
-				bp.getStyleClass().add("dayviewevenmonth");
-			}
-		}
+		resetStyle();
 		Label dateText;
 		if (date.getDayOfMonth() == 1) {
 			dateText = new Label(DateUtil.format_day_month(date));			
@@ -64,23 +53,70 @@ public class DayView {
 		ContextMenu cm = NewMealContextMenu.getMealContextMenu(date, mampf);
 		hb.getChildren().add(dateText);
 		bp.setTop(hb);
-		vb.setOnMouseClicked(new EventHandler<MouseEvent> () {
+		bp.setOnMouseClicked(new EventHandler<MouseEvent> () {
 			@Override
 			public void handle(MouseEvent event) {
 	            if (event.getButton() == MouseButton.SECONDARY) {
 	            	cm.show(vb, event.getScreenX(), event.getScreenY());				            	
 	            }
+	            requestDayViewFocus();
+	            bp.requestFocus();
 	            event.consume();
 			}
 		});
+		
+		
+		bp.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent> () {
+			@Override
+			public void handle(final KeyEvent keyEvent) {
+				System.out.println("DayView (" + date + ") : Taste gedrückt");
+			}
+		});
+
+		
+		
 		updateMeals(meals);
 		bp.setCenter(vb);
 		if (LocalDate.now().equals(date)) {
 			dateText.setId("dayviewdatelabeltoday");
+			bp.requestFocus();
 		} else {
 			dateText.getStyleClass().add("dayviewdatelabel");
 		}
 		hb.getStyleClass().add("dayviewhbox");
+	}
+	public void requestDayViewFocus() {
+		overview.requestDayViewFocus(this);
+	}
+	public void setFocus() {
+		bp.getStyleClass().clear();
+		bp.getStyleClass().add("dayviewpane");
+		bp.getStyleClass().add("dayviewfocus");		
+	}
+	public void resetStyle() {
+		if (date.getMonthValue() % 2 != 0) {
+			if ((date.getDayOfWeek() == DayOfWeek.SATURDAY) ||
+					(date.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+				bp.getStyleClass().clear();
+				bp.getStyleClass().add("dayviewpane");
+				bp.getStyleClass().add("dayviewunevenmonthweekend");
+			} else {
+				bp.getStyleClass().clear();
+				bp.getStyleClass().add("dayviewpane");
+				bp.getStyleClass().add("dayviewunevenmonth");				
+			}
+		} else {
+			if ((date.getDayOfWeek() == DayOfWeek.SATURDAY) ||
+					(date.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+				bp.getStyleClass().clear();
+				bp.getStyleClass().add("dayviewpane");
+				bp.getStyleClass().add("dayviewevenmonthweekend");
+			} else {
+				bp.getStyleClass().clear();
+				bp.getStyleClass().add("dayviewpane");
+				bp.getStyleClass().add("dayviewevenmonth");
+			}
+		}		
 	}
 	public void updateMeals(ReadOnlyListWrapper<Meal> meals) {
 		vb.getChildren().clear();
@@ -101,6 +137,7 @@ public class DayView {
 				            } else if (event.getButton() == MouseButton.SECONDARY) {
 				            	cm.show(text, event.getScreenX(), event.getScreenY());				            	
 				            }
+				            requestDayViewFocus();
 				            event.consume();
 						}
 					});
