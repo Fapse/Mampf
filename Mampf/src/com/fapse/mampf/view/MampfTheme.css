@@ -50,6 +50,9 @@
 .dayviewunevenmonthweekend {
    -fx-background-color: derive(-fx-base,-22%);
 }
+.dayviewfocus {
+	-fx-background-color: derive(-fx-base,70%);
+}
 .dayviewhbox {
 	-fx-alignment: CENTER_RIGHT;
 	-fx-padding: 0 0 6 0;

@@ -14,6 +14,7 @@ import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -22,6 +23,9 @@ public class OverviewController {
 	private MampfData mampfData = MampfData.getMampfData();
 	private ReadOnlyListWrapper<LocalDate> changedDates = mampfData.getChangedDates();
 	private List<DayView> dayViews = new ArrayList<>();
+	private DayView focusDayView;
+	@FXML
+	private BorderPane borderPane = new BorderPane();
 	@FXML
 	private GridPane gridPane = new GridPane();
 	
@@ -64,12 +68,21 @@ public class OverviewController {
 		for (int row = 1; row < rowCount; row++) {
 			for (int col = 0; col < colCount; col++) {
 					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
-					DayView dayView = new DayView(gridDay, meals, mampf);
+					DayView dayView = new DayView(gridDay, meals, mampf, this);
+					if (gridDay.equals(day)) {
+						dayView.setFocus();
+						focusDayView = dayView;
+					}
 					gridPane.add(dayView.getDayView(), col, row, 1, 1);
 					dayViews.add(dayView);
 					gridDay = gridDay.plusDays(1);
 			}
 		}
+	}
+	public void requestDayViewFocus(DayView dayView) {
+		focusDayView.resetStyle();
+		dayView.setFocus();
+		focusDayView = dayView;
 	}
 	public void showRecipeBrowser(Recipe recipe) {
 		mampf.showRecipeBrowser(recipe);

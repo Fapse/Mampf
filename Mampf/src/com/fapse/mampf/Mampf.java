@@ -13,8 +13,10 @@ import com.fapse.mampf.view.RecipeBrowserController;
 import com.fapse.mampf.view.ShoppingListController;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -42,7 +44,24 @@ public class Mampf extends Application {
 		controller.setMampf(this);		
 		Scene scene = new Scene(rootLayoutDayOverview);
 		this.stage.setScene(scene);
-		this.stage.show();	
+		this.stage.show();
+		scene.setOnKeyPressed(new EventHandler<KeyEvent> () {
+			public void handle(final KeyEvent keyEvent) {
+				System.out.println("setOnKeyPressed: Taste gedrückt");
+			}
+		});
+		scene.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent> () {
+			@Override
+			public void handle(final KeyEvent keyEvent) {
+				System.out.println("EventHandler: Taste gedrückt");
+			}
+		});
+		scene.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent> () {
+			@Override
+			public void handle(final KeyEvent keyEvent) {
+				System.out.println("EventFilter: Taste gedrückt");
+			}
+		});
 	}
 	
 	public void showRecipeBrowser(Recipe recipe) {
@@ -86,7 +105,7 @@ public class Mampf extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
-		}		
+		}
 	}
 
 	public Stage getPrimaryStage() {
