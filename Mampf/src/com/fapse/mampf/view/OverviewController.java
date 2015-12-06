@@ -3,6 +3,8 @@ package com.fapse.mampf.view;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.MampfData;
@@ -56,7 +58,6 @@ public class OverviewController {
 		this.mampf = mampf;
 		LocalDate day = LocalDate.now();
 		LocalDate gridDay = day.minusDays(day.getDayOfWeek().getValue() +6);
-		int rowCount = 6, colCount = 7;
 		for (int n = 0; n < 7; n++) {
 			Label label = new Label(Weekdays.get(n));
 			HBox pane = new HBox();
@@ -65,11 +66,17 @@ public class OverviewController {
 			pane.getStyleClass().add("dayviewweekdaypane");
 			gridPane.add(pane, n, 0);
 		}
+		fillGridPane(gridDay);
+	}
+	private void fillGridPane(LocalDate gridDay) {
+		assert gridDay.getDayOfWeek().getValue() == 1;
+		dayViews.clear();
+		int rowCount = 6, colCount = 7;
 		for (int row = 1; row < rowCount; row++) {
 			for (int col = 0; col < colCount; col++) {
 					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
 					DayView dayView = new DayView(gridDay, meals, mampf, this);
-					if (gridDay.equals(day)) {
+					if (gridDay.equals(LocalDate.now())) {
 						dayView.setFocus();
 						focusDayView = dayView;
 					}
@@ -77,12 +84,30 @@ public class OverviewController {
 					dayViews.add(dayView);
 					gridDay = gridDay.plusDays(1);
 			}
-		}
+		}		
 	}
+	/*private Optional<DayView> getGridDateView(LocalDate date) {
+		Stream<DayView> allDayViews = dayViews.stream();
+		Stream<DayView> someDayViews = allDayViews.filter(dayView -> dayView.getDate().equals(date));
+		return someDayViews.findFirst();
+	}
+	public void requestDayFocus(LocalDate newDay) {
+		DayView maybeDayView = getGridDateView(newDay).orElse(null);
+		if(maybeDayView != null) {
+			requestDayViewFocus(maybeDayView);
+		} else if (newDay.isBefore(dayViews.stream().min((o1, o2) -> o1.compare(o1, o2)).get().getDate())){
+			fillGridPane(newDay.minusDays(newDay.getDayOfWeek().getValue()));
+			//requestDayViewFocus(dayViews.stream().findFirst())
+		} else {
+
+		}
+	}*/
 	public void requestDayViewFocus(DayView dayView) {
-		focusDayView.resetStyle();
-		dayView.setFocus();
-		focusDayView = dayView;
+		if (dayViews.contains(dayView)) {
+			focusDayView.resetStyle();
+			dayView.setFocus();
+			focusDayView = dayView;
+		}
 	}
 	public void showRecipeBrowser(Recipe recipe) {
 		mampf.showRecipeBrowser(recipe);
