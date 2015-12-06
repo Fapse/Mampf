@@ -3,6 +3,7 @@ package com.fapse.mampf.view;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Comparator;
 
 import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.Meal;
@@ -21,7 +22,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class DayView {
+public class DayView implements Comparator<DayView> {
 	private Mampf mampf;
 	private OverviewController overview;
 	private BorderPane bp;
@@ -149,5 +150,19 @@ public class DayView {
 	}
 	public LocalDate getDate() {
 		return date;
+	}
+	@Override
+	public boolean equals(Object o) {
+		if ((o instanceof DayView) && 
+				(((DayView) o).getDate()).equals(date)) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	@Override
+	public int compare(DayView o1, DayView o2) {
+		return Integer.valueOf(o1.getDate().compareTo(o2.getDate()));
 	}
 }
