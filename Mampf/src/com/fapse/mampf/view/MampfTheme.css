@@ -6,7 +6,7 @@
     -fx-background-color: rgb(100, 100, 100);
  }
  GridPane {
-	-fx-grid-lines-visible: true;
+	/*-fx-grid-lines-visible: true;*/
 }
 .popuppane {
 	-fx-min-width: 330;
@@ -32,11 +32,15 @@
 	-fx-pref-height: 30;
 	-fx-padding: 6;	
 	-fx-alignment: CENTER;
+	-fx-border-width: .5;
+	-fx-border-color: black;
 }
 .dayviewpane {
 	-fx-pref-width: 170;
 	-fx-pref-height: 140;
 	-fx-padding: 6;
+	-fx-border-width: .5;
+	-fx-border-color: black;
 }
 .dayviewevenmonth {
    -fx-background-color: derive(-fx-base,12%);

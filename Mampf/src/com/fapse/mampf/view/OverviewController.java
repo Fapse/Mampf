@@ -84,25 +84,33 @@ public class OverviewController {
 					dayViews.add(dayView);
 					gridDay = gridDay.plusDays(1);
 			}
-		}		
+		}
 	}
-	/*private Optional<DayView> getGridDateView(LocalDate date) {
+	private Optional<DayView> getGridDateView(LocalDate date) {
 		Stream<DayView> allDayViews = dayViews.stream();
 		Stream<DayView> someDayViews = allDayViews.filter(dayView -> dayView.getDate().equals(date));
 		return someDayViews.findFirst();
 	}
-	public void requestDayFocus(LocalDate newDay) {
+	public void requestDayViewFocus(int dayDifference) {
+		LocalDate newDay = focusDayView.getDate().plusDays(dayDifference);
 		DayView maybeDayView = getGridDateView(newDay).orElse(null);
 		if(maybeDayView != null) {
-			requestDayViewFocus(maybeDayView);
+			setDayViewFocus(maybeDayView);
 		} else if (newDay.isBefore(dayViews.stream().min((o1, o2) -> o1.compare(o1, o2)).get().getDate())){
-			fillGridPane(newDay.minusDays(newDay.getDayOfWeek().getValue()));
-			//requestDayViewFocus(dayViews.stream().findFirst())
+			fillGridPane(newDay.minusDays(newDay.getDayOfWeek().getValue()-1));
+			maybeDayView = getGridDateView(newDay).orElse(null);
+			if (maybeDayView != null) {
+				setDayViewFocus(maybeDayView);
+			}
 		} else {
-
+			fillGridPane(newDay.minusDays(newDay.getDayOfWeek().getValue()-1).minusWeeks(4));
+			maybeDayView = getGridDateView(newDay).orElse(null);
+			if (maybeDayView != null) {
+				setDayViewFocus(maybeDayView);
+			}
 		}
-	}*/
-	public void requestDayViewFocus(DayView dayView) {
+	}
+	public void setDayViewFocus(DayView dayView) {
 		if (dayViews.contains(dayView)) {
 			focusDayView.resetStyle();
 			dayView.setFocus();

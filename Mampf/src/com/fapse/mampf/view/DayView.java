@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -65,17 +64,6 @@ public class DayView implements Comparator<DayView> {
 	            event.consume();
 			}
 		});
-		
-		
-		bp.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent> () {
-			@Override
-			public void handle(final KeyEvent keyEvent) {
-				System.out.println("DayView (" + date + ") : Taste gedrückt");
-			}
-		});
-
-		
-		
 		updateMeals(meals);
 		bp.setCenter(vb);
 		if (LocalDate.now().equals(date)) {
@@ -87,7 +75,7 @@ public class DayView implements Comparator<DayView> {
 		hb.getStyleClass().add("dayviewhbox");
 	}
 	public void requestDayViewFocus() {
-		overview.requestDayViewFocus(this);
+		overview.setDayViewFocus(this);
 	}
 	public void setFocus() {
 		bp.getStyleClass().clear();
