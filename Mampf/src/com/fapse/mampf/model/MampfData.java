@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
@@ -42,6 +45,18 @@ public class MampfData {
 	}
 	public ReadOnlyListWrapper<Recipe> getRecipes() {
 		return new ReadOnlyListWrapper<>(recipes);
+	}
+	public Set<Recipe> getRecipesPerCategory(String category) {
+		Set<Recipe> categoryRecipes = new TreeSet<>();
+		categoryRecipes = recipes.stream().filter(p -> p.getCategory().equals(category)).collect(Collectors.<Recipe>toSet());
+		return Collections.unmodifiableSet(categoryRecipes);
+	}
+	public Set<String> getRecipeCategories() {
+		Set<String> recipeCategories = new TreeSet<>();
+		for (Recipe recipe : recipes) {
+			recipeCategories.add(recipe.getCategory());
+		}
+		return Collections.unmodifiableSet(recipeCategories);
 	}
 	public Recipe getNextRecipe(Recipe recipe, int next) {
 		int position = 0;
