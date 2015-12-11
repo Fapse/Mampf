@@ -1,8 +1,7 @@
 package com.fapse.mampf.view;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.MampfData;
@@ -18,22 +17,23 @@ public class NewMealContextMenu {
 	public static ContextMenu getMealContextMenu(LocalDate date, Mampf mampf) {
 		MampfData mampfData = MampfData.getMampfData();
 		ContextMenu cm = new ContextMenu();
-		Menu mi_meal = new Menu("Mahlzeit hinzfügen");
-		Menu mi_list = new Menu("Einkaufszettel zeigen");
-		List<Recipe> mi_recipes = new ArrayList<>();
-		mi_recipes.addAll(mampfData.getRecipes());
-		cm.getItems().add(mi_meal);
-		cm.getItems().add(mi_list);
-		for (Recipe recipe : mi_recipes) {
-			MenuItem mi_recipe = new MenuItem(recipe.getName());
-			mi_recipe.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					mampfData.addNewMeal(recipe, date);
-				}
-			});
-			mi_meal.getItems().add(mi_recipe);
+		Set<String> recipeCategories = mampfData.getRecipeCategories();
+		for (String recipeCategory : recipeCategories) {
+			Menu recipeCategoryMenu = new Menu(recipeCategory);
+			for (Recipe recipe : mampfData.getRecipesPerCategory(recipeCategory)) {
+				MenuItem mi_recipe = new MenuItem(recipe.getName());
+				mi_recipe.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						mampfData.addNewMeal(recipe, date);
+					}
+				});
+				recipeCategoryMenu.getItems().add(mi_recipe);
+			}
+			cm.getItems().add(recipeCategoryMenu);
 		}
+		Menu mi_list = new Menu("Einkaufszettel zeigen");
+		cm.getItems().add(mi_list);
 		for (int n = 1; n < 5; n++) {
 			MenuItem mi_day = new MenuItem(String.valueOf(n) + " Tag(e)");
 			final int m = n;

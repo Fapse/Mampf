@@ -9,10 +9,11 @@ public class Recipe implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1476949188820906150L;
+	private static final long serialVersionUID = -7277511326729507838L;
 	private String uid;
 	private String name;
 	private String recipe;
+	private String category;
 	private String rating;
 	private String effort;
 	private String bestBefore;
@@ -21,11 +22,12 @@ public class Recipe implements Serializable {
 	private List<Condiment> condiments = new ArrayList<>();
 	
 	public Recipe(List<Condiment> tmpCondiments, String... args) {
-		if (((args.length - 7) % 2) == 0) {
+		if (((args.length - 8) % 2) == 0) {
 			int counter = 0;
 			uid = args[counter++];
 			name = args[counter++];
 			recipe = args[counter++];
+			category = args[counter++];
 			rating =  args[counter++];
 			effort = args[counter++];
 			bestBefore = args[counter++];
@@ -43,6 +45,12 @@ public class Recipe implements Serializable {
 				}
 			}
 		}
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	String getRating() {
 		return rating;
