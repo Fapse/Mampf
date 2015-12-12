@@ -39,21 +39,25 @@ public class ShoppingListController {
 	}
 	public void setShoppingList(List<Condiment> list) {
 		this.shoppingList = list;
-		shoppingListText.append("Einkaufszettel" + System.lineSeparator());
-		for (CondimentCategory cat : CondimentCategory.values()) {
-			List<Condiment> tmpConds = shoppingList.stream().filter(c -> c.getCategory().equals(cat)).collect(Collectors.toList());
-			if (!tmpConds.isEmpty()) {
-				shoppingListText.append(cat.getCategoryName() + System.lineSeparator());
-				Label labelCat = new Label(cat.getCategoryName());
-				labelCat.getStyleClass().add("shoppingListCategory");
-				listBox.getChildren().add(labelCat);
+		if (shoppingList.size() > 0) {
+			shoppingListText.append("Einkaufszettel" + System.lineSeparator());
+			for (CondimentCategory cat : CondimentCategory.values()) {
+				List<Condiment> tmpConds = shoppingList.stream().filter(c -> c.getCategory().equals(cat)).collect(Collectors.toList());
+				if (!tmpConds.isEmpty()) {
+					shoppingListText.append(cat.getCategoryName() + System.lineSeparator());
+					Label labelCat = new Label(cat.getCategoryName());
+					labelCat.getStyleClass().add("shoppingListCategory");
+					listBox.getChildren().add(labelCat);
+				}
+				for (Condiment tmpCond : tmpConds) {
+					shoppingListText.append(tmpCond.toString() + System.lineSeparator());
+					Label labelItem = new Label(tmpCond.toString());
+					labelItem.getStyleClass().add("shoppingListItem");
+					listBox.getChildren().add(labelItem);
+				}			
 			}
-			for (Condiment tmpCond : tmpConds) {
-				shoppingListText.append(tmpCond.toString() + System.lineSeparator());
-				Label labelItem = new Label(tmpCond.toString());
-				labelItem.getStyleClass().add("shoppingListItem");
-				listBox.getChildren().add(labelItem);
-			}			
+		} else {
+			listBox.getChildren().add(new Label("Keine Einkäufe erforderlich"));
 		}
 	}
 }
