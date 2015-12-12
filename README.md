@@ -7,4 +7,4 @@ TODO:
   + implement error logging
   + try out java doc
   + establish food categories, for use in context menu - Done
-  + integrate non-cooking alternatives, like restaurant, visit friends etc.
+  + integrate non-cooking alternatives, like restaurant, visit friends etc. - Done
