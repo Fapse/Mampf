@@ -23,17 +23,23 @@ import java.util.stream.Collectors;
 
 import com.fapse.mampf.Mampf;
 
-public class MampfStorage {
+class MampfStorage {
+	/**
+	 * Persistent data storage for recipes, condiments and meals
+	 * 
+	 * @author Fapse
+	 * 
+	 */
 	private final static Path path = Paths.get("." + File.separator + "resources/data");
 	private final static Logger logger = Logger.getLogger(Mampf.class.getName(), null);;
 	private Handler logHandler;
 	
-	public MampfStorage() {
+	MampfStorage() {
 		try {
 			logHandler = new FileHandler("." + File.separator + "resources"
 					+ File.separator + "logs" + File.separator + "error.txt");
 		} catch (IOException e) {
-			System.out.println("Fehler!");
+			System.out.println("Could not set up logging!");
 		}
 		logHandler.setFormatter(new SimpleFormatter());
 		logger.addHandler(logHandler);
@@ -56,7 +62,12 @@ public class MampfStorage {
 			return false;
 		}
 	}
-	public static void saveMeals(List<Meal> meals) {
+	/**
+	 * Save <code>Meal</code>
+	 * 
+	 * @param meals <code>List</code> with <code>Meal</code> to sove 
+	 */
+	static void saveMeals(List<Meal> meals) {
 		checkPath();
 		try (
 			OutputStream os = new FileOutputStream(path + "/Meals.data", false);
@@ -77,11 +88,11 @@ public class MampfStorage {
 			oos.writeObject(mealsArray);
 			oos.flush();
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "IOException: Could not write: " + path.toString());
+			logger.log(Level.SEVERE, "IOException: Could not write in directory: " + path.toString());
 			System.exit(1);
 		}
 	}
-	public static List<Recipe> loadRecipes() {
+	static List<Recipe> loadRecipes() {
 		List<Condiment> condiments = loadCondiments();
 		List<Recipe> recipes  = new ArrayList<>();
 		if (checkFile(Paths.get(path + "/Recipes.csv"))) {
@@ -102,7 +113,7 @@ public class MampfStorage {
 					}
 				}
 			} catch (IOException e) {
-				logger.log(Level.SEVERE, "IOException: Could not read: " + path.toString());
+				logger.log(Level.SEVERE, "IOException: Could not read in directory: " + path.toString());
 				System.exit(1);
 			}
 		}
@@ -128,13 +139,13 @@ public class MampfStorage {
 					}
 				}
 			} catch (IOException e) {
-				logger.log(Level.SEVERE, "IOException: Could not read: " + path.toString());
+				logger.log(Level.SEVERE, "IOException: Could not read in directory: " + path.toString());
 				System.exit(1);
 			}
 		}
 		return condiments;
 	}	
-	public static List<Meal> loadMeals() {
+	static List<Meal> loadMeals() {
 		List<Meal> meals = new ArrayList<>();
 		List<Recipe> recipes  = loadRecipes();
 		if (checkFile(Paths.get(path + "/Meals.data"))) {
@@ -145,7 +156,7 @@ public class MampfStorage {
 				Meal[] meals_arr = (Meal[]) ois.readObject();				
 				meals = Arrays.asList(meals_arr);
 			} catch (IOException e) {
-				logger.log(Level.SEVERE, "IOException: Could not read: " + path.toString());
+				logger.log(Level.SEVERE, "IOException: Could not read in directory: " + path.toString());
 				System.exit(1);
 			} catch (ClassNotFoundException e) {
 				logger.log(Level.SEVERE, "IOException: Could not find class");
