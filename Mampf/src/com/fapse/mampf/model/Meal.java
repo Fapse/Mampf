@@ -37,7 +37,12 @@ public class Meal implements Serializable {
 		return recipe.getName();
 	}
 	public String getCookDayString() {
-		return recipe.getName() + " (" + serving + ")";		
+		// no condiments means no cooking, so servings make no sense
+		if (!recipe.getCondiments().isEmpty()) {
+			return recipe.getName() + " (" + serving + ")";					
+		} else {
+			return recipe.getName();		
+		}
 	}
 	public String getRecipeUID() {
 		return recipeUID;

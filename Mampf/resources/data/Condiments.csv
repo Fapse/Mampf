@@ -1,0 +1,13 @@
+CondimentID;Cond1;Amount1;Unit1;Cat1
+1;Mehl;0;Gramm;PRODUCE
+2;Brot;0;Gramm;PASTRIES
+3;Kartoffeln;0;Gramm;PRODUCE
+4;Tiefkühl-Lachsfilet;0;Gramm;MEATSAUSAGE
+5;Kartoffeln;0;Gramm;PRODUCE
+6;Wasser;0;Milliliter;BEVERAGE
+7;Wurst;0;Gramm;MEATSAUSAGE
+8;Weißwein;0;Milliliter;BEVERAGE
+9;Schinken;0;Gramm;MEATSAUSAGE
+10;Zwiebeln;0;Gramm;PRODUCE
+11;Eier;0;Stück;DAIRYPRODUCT
+12;Rindfleisch;0;Gramm;MEATSAUSAGE

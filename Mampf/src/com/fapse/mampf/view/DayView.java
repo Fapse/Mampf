@@ -3,13 +3,12 @@ package com.fapse.mampf.view;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Comparator;
+import java.util.List;
 
 import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.util.DateUtil;
 
-import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class DayView implements Comparator<DayView> {
+public class DayView implements Comparable<DayView> {
 	private Mampf mampf;
 	private OverviewController overview;
 	private BorderPane bp;
@@ -31,7 +30,7 @@ public class DayView implements Comparator<DayView> {
 	private HBox hb = new HBox();
 	private final LocalDate date;
 	
-	public DayView (LocalDate date, ReadOnlyListWrapper<Meal> meals, Mampf mampf, OverviewController overview) {
+	public DayView (LocalDate date, List<Meal> meals, Mampf mampf, OverviewController overview) {
 		this.mampf = mampf;
 		this.overview = overview;
 		this.date = date;
@@ -107,7 +106,7 @@ public class DayView implements Comparator<DayView> {
 			}
 		}		
 	}
-	public void updateMeals(ReadOnlyListWrapper<Meal> meals) {
+	public void updateMeals(List<Meal> meals) {
 		vb.getChildren().clear();
 		for (Meal meal : meals) {
 			ContextMenu cm = MealContextMenu.getMealContextMenu(date, meal);
@@ -150,7 +149,7 @@ public class DayView implements Comparator<DayView> {
 		
 	}
 	@Override
-	public int compare(DayView o1, DayView o2) {
-		return Integer.valueOf(o1.getDate().compareTo(o2.getDate()));
+	public int compareTo(DayView o2) {
+		return Integer.valueOf(this.getDate().compareTo(o2.getDate()));
 	}
 }

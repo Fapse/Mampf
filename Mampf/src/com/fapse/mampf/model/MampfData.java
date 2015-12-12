@@ -79,14 +79,9 @@ public class MampfData {
 			return recipes.get(position);
 		}
 	}
-	public ReadOnlyListWrapper<Meal> getMeals(LocalDate date) {
-		ObservableList<Meal> mealsList = FXCollections.observableArrayList();
-		mealsList = filterMeals(meals, hasDate(date));
-        ObservableList<Meal> obsMeals = FXCollections.observableArrayList();
-        for (Meal meal : mealsList) {
-        	obsMeals.add(meal);
-        }
-        return new ReadOnlyListWrapper<Meal>(obsMeals);
+	public List<Meal> getMeals(LocalDate date) {
+		List<Meal> mealsList = filterMeals(meals, hasDate(date));
+        return Collections.unmodifiableList(mealsList);
     }
 	public void deleteMealDay(Meal meal, LocalDate date) {
 		for (Meal tmpMeal : meals) {

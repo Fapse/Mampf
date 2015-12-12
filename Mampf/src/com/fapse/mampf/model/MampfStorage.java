@@ -1,5 +1,6 @@
 package com.fapse.mampf.model;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,7 +18,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MampfStorage {
-	private final static Path path = Paths.get(System.getProperty("user.home") + "/Desktop/Mampf");
+	private final static Path path = Paths.get("." + File.separator + "resources/data");
+	
+	public MampfStorage() {
+		System.out.println(path);		
+	}
+	
 	private static void checkPath() {
 		try {
 			if (!Files.exists(path)) {
