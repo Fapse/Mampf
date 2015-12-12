@@ -1,9 +1,14 @@
 package com.fapse.mampf;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import com.fapse.mampf.model.Recipe;
 import com.fapse.mampf.model.Condiment;
@@ -26,8 +31,19 @@ public class Mampf extends Application {
 
 	private Stage stage;
 	private BorderPane rootLayoutDayOverview;
+	private Logger logger;
+	private Handler logHandler;
 
 	public Mampf() {
+		logger = Logger.getLogger(Mampf.class.getName(), null);
+		try {
+			logHandler = new FileHandler("." + File.separator + "resources"
+					+ File.separator + "logs" + File.separator + "error.txt");
+		} catch (IOException e) {
+			System.out.println("Fehler!");
+		}
+		logHandler.setFormatter(new SimpleFormatter());
+		logger.addHandler(logHandler);
 	}
 
 	public static void main(String[] args) {
