@@ -38,7 +38,7 @@ public class OverviewController {
 				while (c.next()) {
 					if (c.wasAdded()) {
 						for (LocalDate changedDate : c.getAddedSubList()) {
-							ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(changedDate);
+							List<Meal> meals = mampfData.getMeals(changedDate);
 							for (DayView dayView : dayViews) {
 								if (dayView.getDate().equals(changedDate)) {
 									dayView.updateMeals(meals);
@@ -74,7 +74,7 @@ public class OverviewController {
 		int rowCount = 6, colCount = 7;
 		for (int row = 1; row < rowCount; row++) {
 			for (int col = 0; col < colCount; col++) {
-					ReadOnlyListWrapper<Meal> meals = mampfData.getMeals(gridDay);
+					List<Meal> meals = mampfData.getMeals(gridDay);
 					DayView dayView = new DayView(gridDay, meals, mampf, this);
 					if (gridDay.equals(LocalDate.now())) {
 						dayView.setFocus();
@@ -96,7 +96,7 @@ public class OverviewController {
 		DayView maybeDayView = getGridDateView(newDay).orElse(null);
 		if(maybeDayView != null) {
 			setDayViewFocus(maybeDayView);
-		} else if (newDay.isBefore(dayViews.stream().min((o1, o2) -> o1.compare(o1, o2)).get().getDate())){
+		} else if (newDay.isBefore(dayViews.stream().min((o1, o2) -> o1.compareTo(o2)).get().getDate())){
 			fillGridPane(newDay.minusDays(newDay.getDayOfWeek().getValue()-1));
 			maybeDayView = getGridDateView(newDay).orElse(null);
 			if (maybeDayView != null) {

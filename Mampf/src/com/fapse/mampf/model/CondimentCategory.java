@@ -7,7 +7,9 @@ public enum CondimentCategory {
 	DAIRYPRODUCT ("Milchprodukte"),
 	MEATSAUSAGE ("Fleich & Wurst"),
 	SPICE ("Gewürze"),
-	DEEPFROZEN ("Tiefkühlartikel");
+	DEEPFROZEN ("Tiefkühlartikel"),
+	CONFECTIONARY ("Süßwaren"),
+	TINNEDFOOD ("Konserven");
 	
 	private final String categoryName;
 	

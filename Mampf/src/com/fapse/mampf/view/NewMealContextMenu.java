@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 
 public class NewMealContextMenu {	
 	public static ContextMenu getMealContextMenu(LocalDate date, Mampf mampf) {
@@ -32,6 +33,7 @@ public class NewMealContextMenu {
 			}
 			cm.getItems().add(recipeCategoryMenu);
 		}
+		cm.getItems().add(new SeparatorMenuItem());
 		Menu mi_list = new Menu("Einkaufszettel zeigen");
 		cm.getItems().add(mi_list);
 		for (int n = 1; n < 5; n++) {
