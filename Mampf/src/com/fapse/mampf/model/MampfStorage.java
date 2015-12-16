@@ -49,7 +49,9 @@ class MampfStorage {
 		}
 		return condiments;
 	}	
-	static List<Meal> loadMeals() throws IOException, ClassNotFoundException {
+	static List<Meal> loadMeals() throws IOException, 
+			ClassNotFoundException, RecipeNotFoundException {
+		boolean recipeFound = false;
 		List<Meal> meals = new ArrayList<>();
 		List<Recipe> recipes  = loadRecipes();
 		InputStream is = new FileInputStream(path + "/Meals.data");
@@ -58,13 +60,17 @@ class MampfStorage {
 		ois.close();
 		meals = Arrays.asList(meals_arr);
 		for (Meal meal : meals) {
+			recipeFound = false;
 			for (Recipe recipe : recipes) {
 				if (recipe.getUID().equals(meal.getRecipeUID())) {
 					meal.setRecipe(recipe);
+					recipeFound = true;
 					break;
 				}
 			}
-			//TODO: Throw error if no recipe fits!
+			if (!recipeFound) {
+				throw new RecipeNotFoundException(meal);
+			}
 		}
 		return meals;
 	}		
