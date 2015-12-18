@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
+
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -56,6 +57,10 @@ public class MampfData {
 		}
 		try {
 			meals.addAll(MampfStorage.loadMeals());
+		} catch (RecipeNotFoundException e) {
+			logger.log(Level.SEVERE, "IOException: Could not find recipe " +
+					e.getRecipeName() + " with UID " + e.getRecipeUID());
+			System.exit(1);			
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "IOException: Could not read or write");
 			System.exit(1);
