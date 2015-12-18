@@ -74,7 +74,6 @@ public class Meal implements Serializable {
 	}
 	public void setRecipe(Recipe recipe) {
 		this.recipe = recipe;
-		this.recipeUID = recipe.getUID();
 	}
 	public Recipe getRecipe() {
 		return recipe;
