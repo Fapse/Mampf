@@ -42,7 +42,7 @@ public class MampfData {
 	private MampfData() {
 		try {
 			logHandler = new FileHandler("." + File.separator + "resources"
-					+ File.separator + "logs" + File.separator + "error.txt");
+					+ File.separator + "logs" + File.separator + "error.txt", true);
 		} catch (IOException e) {
 			System.out.println("Could not set up logging!");
 		}
@@ -52,7 +52,7 @@ public class MampfData {
 		try {
 			recipes.addAll(MampfStorage.loadRecipes());
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "IOException: Could not read or write");
+			logger.log(Level.SEVERE, "IOException: Could not read recipes");
 			System.exit(1);
 		}
 		try {
@@ -62,7 +62,7 @@ public class MampfData {
 					e.getRecipeName() + " with UID " + e.getRecipeUID());
 			System.exit(1);			
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "IOException: Could not read or write");
+			logger.log(Level.SEVERE, "IOException: Could not read meals");
 			System.exit(1);
 		} catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "ClassNotFoundException");
@@ -74,7 +74,7 @@ public class MampfData {
 				try {
 					MampfStorage.saveMeals(meals);
 				} catch (IOException e) {
-					logger.log(Level.SEVERE, "IOException: Could not read or write");
+					logger.log(Level.SEVERE, "IOException: Could not save meals");
 					System.exit(1);
 				}				
 			}
@@ -155,7 +155,7 @@ public class MampfData {
 				try {
 					MampfStorage.saveMeals(meals);
 				} catch (IOException e) {
-					logger.log(Level.SEVERE, "IOException: Could not read or write");
+					logger.log(Level.SEVERE, "IOException: Could not write meals");
 					System.exit(1);
 				}
 				changedDates.add(changedDates.size(), date);
@@ -181,7 +181,7 @@ public class MampfData {
 				try {
 					MampfStorage.saveMeals(meals);
 				} catch (IOException e) {
-					logger.log(Level.SEVERE, "IOException: Could not read or write");
+					logger.log(Level.SEVERE, "IOException: Could not write meals");
 					System.exit(1);
 				}
 				for (LocalDate date : tmpMeal.getDates()) {
