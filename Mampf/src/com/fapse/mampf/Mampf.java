@@ -2,8 +2,6 @@ package com.fapse.mampf;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,6 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
@@ -41,7 +38,7 @@ public class Mampf extends Application {
 		logger = Logger.getLogger(Mampf.class.getName(), null);
 		try {
 			logHandler = new FileHandler("." + File.separator + "resources"
-					+ File.separator + "logs" + File.separator + "error.txt");
+					+ File.separator + "logs" + File.separator + "error.txt", true);
 		} catch (IOException e) {
 			System.out.println("Fehler!");
 		}
