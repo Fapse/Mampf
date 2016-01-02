@@ -16,8 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 class MampfStorage {
-	private final static Path path = Paths.get("." + File.separator 
-			+ "resources" + File.separator + "data");
+	private final static Path path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
+			+ File.separator + "data");
 	
 	private static List<String> loadCSVFile(File file) throws IOException {
 		List<String> rows = Files.readAllLines(Paths.get(path 
@@ -28,6 +28,7 @@ class MampfStorage {
 	static List<Recipe> loadRecipes() throws IOException {
 		List<String> rows = loadCSVFile(new File("Recipes.csv"));
 		List<Condiment> condiments = loadCondiments();
+		System.out.println("Anzahl Zutaten: " + condiments.size());
 		List<Recipe> recipes  = new ArrayList<>();
 		for (String row : rows) {
 			List<String> values = new ArrayList<>();
@@ -36,6 +37,7 @@ class MampfStorage {
 			Recipe tmpRecipe = new Recipe(condiments, (String[]) values.toArray());
 			recipes.add(tmpRecipe);
 		}
+		System.out.println("Anzahl Rezepte: " + recipes.size());
 		return recipes;
 	}
 	private static List<Condiment> loadCondiments() throws IOException {

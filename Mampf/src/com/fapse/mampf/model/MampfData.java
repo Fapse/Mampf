@@ -2,6 +2,9 @@ package com.fapse.mampf.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +33,7 @@ public class MampfData {
 	private final ObservableList<Meal> meals = FXCollections.observableArrayList();
 	private final ObservableList<Recipe> recipes = FXCollections.observableArrayList();
 	private final ObservableList<LocalDate> changedDates = FXCollections.observableArrayList();
-	private final static Logger logger = Logger.getLogger(Mampf.class.getName(), null);;
+	private Logger logger = Logger.getLogger(Mampf.class.getName(), null);;
 	private Handler logHandler;
 
 	private static class MampfDataHolder{
@@ -40,19 +43,41 @@ public class MampfData {
 		return MampfDataHolder.mampfData;
 	}
 	private MampfData() {
-		try {
+		/*try {
 			logHandler = new FileHandler("." + File.separator + "resources"
-					+ File.separator + "logs" + File.separator + "error.txt", true);
+					+ File.separator + "logs" + File.separator + "errorMampfData.txt", true);
 		} catch (IOException e) {
 			System.out.println("Could not set up logging!");
 		}
 		logHandler.setFormatter(new SimpleFormatter());
+		logger.addHandler(logHandler);*/
+
+		logger = Logger.getLogger(MampfData.class.getName(), null);
+		try {
+			Path path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
+					+ File.separator + "logs");
+			path = Files.createDirectories(path);
+			path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
+					+ File.separator + "logs" + File.separator + "errorMampfData.txt");
+			if (Files.notExists(path)) {
+				Files.createFile(path);				
+			}
+			logHandler = new FileHandler(path.toString());
+		} catch (IOException e) {
+			System.out.println("Could not set up logging!");
+			System.out.println(e.toString());
+			System.exit(1);
+		}
+		logHandler.setFormatter(new SimpleFormatter());
 		logger.addHandler(logHandler);
+			
+		
 		
 		try {
 			recipes.addAll(MampfStorage.loadRecipes());
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "IOException: Could not read recipes");
+			logger.log(Level.SEVERE, e.toString());
 			System.exit(1);
 		}
 		try {
@@ -63,6 +88,7 @@ public class MampfData {
 			System.exit(1);			
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "IOException: Could not read meals");
+			logger.log(Level.SEVERE, e.toString());
 			System.exit(1);
 		} catch (ClassNotFoundException e) {
 			logger.log(Level.SEVERE, "ClassNotFoundException");
@@ -75,6 +101,7 @@ public class MampfData {
 					MampfStorage.saveMeals(meals);
 				} catch (IOException e) {
 					logger.log(Level.SEVERE, "IOException: Could not save meals");
+					logger.log(Level.SEVERE, e.toString());
 					System.exit(1);
 				}				
 			}
@@ -156,6 +183,7 @@ public class MampfData {
 					MampfStorage.saveMeals(meals);
 				} catch (IOException e) {
 					logger.log(Level.SEVERE, "IOException: Could not write meals");
+					logger.log(Level.SEVERE, e.toString());
 					System.exit(1);
 				}
 				changedDates.add(changedDates.size(), date);
@@ -182,6 +210,7 @@ public class MampfData {
 					MampfStorage.saveMeals(meals);
 				} catch (IOException e) {
 					logger.log(Level.SEVERE, "IOException: Could not write meals");
+					logger.log(Level.SEVERE, e.toString());
 					System.exit(1);
 				}
 				for (LocalDate date : tmpMeal.getDates()) {
