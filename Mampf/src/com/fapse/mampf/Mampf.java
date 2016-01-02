@@ -2,6 +2,10 @@ package com.fapse.mampf;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +38,22 @@ public class Mampf extends Application {
 	private Logger logger;
 	private Handler logHandler;
 
-	public Mampf() {
+	public Mampf() throws URISyntaxException {
 		logger = Logger.getLogger(Mampf.class.getName(), null);
 		try {
-			logHandler = new FileHandler("." + File.separator + "resources"
-					+ File.separator + "logs" + File.separator + "error.txt", true);
+			Path path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
+					+ File.separator + "logs");
+			path = Files.createDirectories(path);
+			path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
+					+ File.separator + "logs" + File.separator + "errorMampf.txt");
+			if (Files.notExists(path)) {
+				Files.createFile(path);				
+			}
+			logHandler = new FileHandler(path.toString());
 		} catch (IOException e) {
-			System.out.println("Fehler!");
+			System.out.println("Could not set up logging!");
+			System.out.println(e.toString());
+			System.exit(1);
 		}
 		logHandler.setFormatter(new SimpleFormatter());
 		logger.addHandler(logHandler);
