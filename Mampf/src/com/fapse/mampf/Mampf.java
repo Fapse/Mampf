@@ -1,20 +1,18 @@
 package com.fapse.mampf;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import com.fapse.mampf.model.Recipe;
+import com.fapse.mampf.util.EnrichableException;
 import com.fapse.mampf.model.Condiment;
 import com.fapse.mampf.model.MampfData;
 import com.fapse.mampf.view.OverviewController;
@@ -25,6 +23,8 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
@@ -35,21 +35,12 @@ public class Mampf extends Application {
 
 	private Stage stage;
 	private BorderPane rootLayoutDayOverview;
-	private Logger logger;
-	private Handler logHandler;
+	private static final Logger logger = Logger.getLogger(Mampf.class.getName(), null);
+	private static Handler logHandler;
 
 	public Mampf() throws URISyntaxException {
-		logger = Logger.getLogger(Mampf.class.getName(), null);
 		try {
-			Path path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
-					+ File.separator + "logs");
-			path = Files.createDirectories(path);
-			path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
-					+ File.separator + "logs" + File.separator + "errorMampf.txt");
-			if (Files.notExists(path)) {
-				Files.createFile(path);				
-			}
-			logHandler = new FileHandler(path.toString());
+			logHandler = new FileHandler("%h/Mampf/logs/errorMampf.txt", false);
 		} catch (IOException e) {
 			System.out.println("Could not set up logging!");
 			System.out.println(e.toString());
@@ -60,7 +51,16 @@ public class Mampf extends Application {
 	}
 
 	public static void main(String[] args) {
+		try {
 		launch(args);
+		} catch (EnrichableException e) {
+			logger.log(Level.SEVERE, e.getCode());
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Fehler");
+			alert.setHeaderText("Fehlermeldung");
+			alert.setContentText(e.getCode());
+			alert.showAndWait();
+		}
 	}
 
 	@Override

@@ -2,11 +2,11 @@ package com.fapse.mampf.model;
 
 import com.fapse.mampf.model.Meal;
 
-public class RecipeNotFoundException extends Exception {
+public class RecipeNotFoundException extends RuntimeException {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8214606644454690572L;
+	private static final long serialVersionUID = -6155682572664129319L;
 	private String recipeName;
 	private String recipeUID;
 

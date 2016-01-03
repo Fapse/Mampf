@@ -1,10 +1,12 @@
 package com.fapse.mampf.model;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -14,16 +16,23 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class MampfStorage {
 	private final static Path path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
 			+ File.separator + "data");
-	
-	private static List<String> loadCSVFile(File file) throws IOException {
+	/* former version, used to access csv Files in home directories
+	private static List<String> loadCSVFile2(File file) throws IOException {
 		List<String> rows = Files.readAllLines(Paths.get(path 
 				+ File.separator + file.getName()));
 		rows.remove(0);
 		return rows;
+	}*/
+	private static List<String> loadCSVFile(File file) throws IOException {
+		BufferedReader bf = new BufferedReader(new InputStreamReader(MampfStorage.class.getResourceAsStream("/resources/" + file.getName())));
+		List<String> rows = bf.lines().collect(Collectors.toList());
+		rows.remove(0);
+		return rows;		
 	}
 	static List<Recipe> loadRecipes() throws IOException {
 		List<String> rows = loadCSVFile(new File("Recipes.csv"));
@@ -50,7 +59,7 @@ class MampfStorage {
 		return condiments;
 	}	
 	static List<Meal> loadMeals() throws IOException, 
-			ClassNotFoundException, RecipeNotFoundException {
+			ClassNotFoundException {
 		boolean recipeFound;
 		List<Meal> meals = new ArrayList<>();
 		List<Recipe> recipes  = loadRecipes();
