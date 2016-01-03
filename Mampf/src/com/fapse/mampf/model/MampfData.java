@@ -1,26 +1,18 @@
 package com.fapse.mampf.model;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 
-import com.fapse.mampf.Mampf;
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
+import com.fapse.mampf.util.EnrichableException;
+import com.fapse.mampf.util.ExceptionHandler;
 
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
@@ -33,9 +25,27 @@ public class MampfData {
 	private final ObservableList<Meal> meals = FXCollections.observableArrayList();
 	private final ObservableList<Recipe> recipes = FXCollections.observableArrayList();
 	private final ObservableList<LocalDate> changedDates = FXCollections.observableArrayList();
-	private Logger logger = Logger.getLogger(Mampf.class.getName(), null);;
-	private Handler logHandler;
 
+    protected ExceptionHandler exceptionHandler = new ExceptionHandler(){
+        public void handle(String errorContext, String errorCode,
+                           String errorText, Throwable t){
+
+            if(! (t instanceof EnrichableException)){
+                throw new EnrichableException(
+                    errorContext, errorCode, errorText, t);
+            } else {
+                ((EnrichableException) t).addInfo(
+                    errorContext, errorCode, errorText);
+            }
+        }
+
+        public void raise(String errorContext, String errorCode,
+                          String errorText){
+            throw new EnrichableException(
+                errorContext, errorCode, errorText);
+        }
+    };
+	
 	private static class MampfDataHolder{
 		public static MampfData mampfData = new MampfData();
 	}
@@ -43,55 +53,21 @@ public class MampfData {
 		return MampfDataHolder.mampfData;
 	}
 	private MampfData() {
-		/*try {
-			logHandler = new FileHandler("." + File.separator + "resources"
-					+ File.separator + "logs" + File.separator + "errorMampfData.txt", true);
-		} catch (IOException e) {
-			System.out.println("Could not set up logging!");
-		}
-		logHandler.setFormatter(new SimpleFormatter());
-		logger.addHandler(logHandler);*/
-
-		logger = Logger.getLogger(MampfData.class.getName(), null);
-		try {
-			Path path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
-					+ File.separator + "logs");
-			path = Files.createDirectories(path);
-			path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
-					+ File.separator + "logs" + File.separator + "errorMampfData.txt");
-			if (Files.notExists(path)) {
-				Files.createFile(path);				
-			}
-			logHandler = new FileHandler(path.toString());
-		} catch (IOException e) {
-			System.out.println("Could not set up logging!");
-			System.out.println(e.toString());
-			System.exit(1);
-		}
-		logHandler.setFormatter(new SimpleFormatter());
-		logger.addHandler(logHandler);
-			
-		
 		
 		try {
 			recipes.addAll(MampfStorage.loadRecipes());
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "IOException: Could not read recipes");
-			logger.log(Level.SEVERE, e.toString());
 			System.exit(1);
 		}
 		try {
 			meals.addAll(MampfStorage.loadMeals());
 		} catch (RecipeNotFoundException e) {
-			logger.log(Level.SEVERE, "IOException: Could not find recipe " +
-					e.getRecipeName() + " with UID " + e.getRecipeUID());
+			this.exceptionHandler.handle("meals.addAll(MampfStorage.loadMeals())",
+					"RecipeNotFoundException", "Could not find recipe", e);
 			System.exit(1);			
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "IOException: Could not read meals");
-			logger.log(Level.SEVERE, e.toString());
 			System.exit(1);
 		} catch (ClassNotFoundException e) {
-			logger.log(Level.SEVERE, "ClassNotFoundException");
 			System.exit(1);			
 		}
 		meals.addListener(new ListChangeListener<Meal>() {
@@ -100,8 +76,6 @@ public class MampfData {
 				try {
 					MampfStorage.saveMeals(meals);
 				} catch (IOException e) {
-					logger.log(Level.SEVERE, "IOException: Could not save meals");
-					logger.log(Level.SEVERE, e.toString());
 					System.exit(1);
 				}				
 			}
@@ -164,7 +138,6 @@ public class MampfData {
 					try {
 						MampfStorage.saveMeals(meals);
 					} catch (IOException e) {
-						logger.log(Level.SEVERE, "IOException: Could not read or write");
 						System.exit(1);
 					}
 					for (LocalDate tmpDate : tmpMeal.getDates()) {
@@ -182,8 +155,6 @@ public class MampfData {
 				try {
 					MampfStorage.saveMeals(meals);
 				} catch (IOException e) {
-					logger.log(Level.SEVERE, "IOException: Could not write meals");
-					logger.log(Level.SEVERE, e.toString());
 					System.exit(1);
 				}
 				changedDates.add(changedDates.size(), date);
@@ -209,8 +180,6 @@ public class MampfData {
 				try {
 					MampfStorage.saveMeals(meals);
 				} catch (IOException e) {
-					logger.log(Level.SEVERE, "IOException: Could not write meals");
-					logger.log(Level.SEVERE, e.toString());
 					System.exit(1);
 				}
 				for (LocalDate date : tmpMeal.getDates()) {
