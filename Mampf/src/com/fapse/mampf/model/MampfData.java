@@ -55,7 +55,7 @@ public class MampfData {
 	private MampfData() {
 		
 		try {
-			recipes.addAll(MampfStorage.loadRecipes());
+			recipes.addAll(ResourceBuilder.loadRecipes());
 		} catch (IOException e) {
 			System.exit(1);
 		}
