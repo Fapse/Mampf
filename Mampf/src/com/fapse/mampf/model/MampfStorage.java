@@ -19,37 +19,11 @@ class MampfStorage {
 	private final static Path path = Paths.get(System.getProperty("user.home") + File.separator + "Mampf"
 			+ File.separator + "data");
 
-	static List<Recipe> loadRecipes() throws IOException {
-		List<String> rows = CSVResourceLoader.loadCSVResource("/resources/Recipes.csv", true);
-		List<Condiment> condiments = loadCondiments();
-		List<Recipe> recipes  = new ArrayList<>();
-		for (String row : rows) {
-			List<String> values = new ArrayList<>();
-			values = Arrays.asList(row.split(";"));
-			values.removeIf(p -> p.equals(""));
-			Recipe tmpRecipe = new Recipe(condiments, (String[]) values.toArray());
-			recipes.add(tmpRecipe);
-		}
-		return recipes;
-	}
-
-	private static List<Condiment> loadCondiments() throws IOException {
-		List<String> rows = CSVResourceLoader.loadCSVResource("/resources/Condiments.csv", true);
-		List<Condiment> condiments = new ArrayList<>();
-		for (String row : rows) {
-			List<String> values = Arrays.asList(row.split(";"));
-			values.removeIf(p -> p.equals(""));
-			Condiment tmpCondiment = new Condiment((String[]) values.toArray());
-			condiments.add(tmpCondiment);
-		}
-		return condiments;
-	}	
-
 	static List<Meal> loadMeals() throws IOException, 
 			ClassNotFoundException {
 		boolean recipeFound;
 		List<Meal> meals = new ArrayList<>();
-		List<Recipe> recipes  = loadRecipes();
+		List<Recipe> recipes  = ResourceBuilder.loadRecipes();
 		File mealFile = new File(path + "/Meals.data");
 		mealFile.createNewFile();
 		InputStream is = new FileInputStream(path + "/Meals.data");
@@ -76,25 +50,25 @@ class MampfStorage {
 	}		
 
 	static void saveMeals(List<Meal> meals) throws IOException {
-			if (!Files.exists(path)) {
-				Files.createDirectory(path);				
-			}
-			OutputStream os = new FileOutputStream(path + "/Meals.data", false);
-			ObjectOutputStream oos = new ObjectOutputStream(os);
-			Meal[] mealsArray = new Meal[meals.size()];
-			int counter = 0;
-			for (Meal mealList : meals) {
-				Meal mealTemp = new Meal(mealList.getRecipe(), mealList.getRecipeUID());
-				mealTemp.setDates(mealList.getDates());
-				mealTemp.setServing(mealList.getServing());
-				mealsArray[counter] = mealTemp;
-				mealsArray[counter].setDates(mealTemp.getDates());
-				mealsArray[counter].setRecipe(null);
-				mealsArray[counter].setServing(mealTemp.getServing());
-				counter++;
-			}
-			oos.writeObject(mealsArray);
-			oos.flush();
-			oos.close();
+		if (!Files.exists(path)) {
+			Files.createDirectory(path);				
+		}
+		OutputStream os = new FileOutputStream(path + "/Meals.data", false);
+		ObjectOutputStream oos = new ObjectOutputStream(os);
+		Meal[] mealsArray = new Meal[meals.size()];
+		int counter = 0;
+		for (Meal mealList : meals) {
+			Meal mealTemp = new Meal(mealList.getRecipe(), mealList.getRecipeUID());
+			mealTemp.setDates(mealList.getDates());
+			mealTemp.setServing(mealList.getServing());
+			mealsArray[counter] = mealTemp;
+			mealsArray[counter].setDates(mealTemp.getDates());
+			mealsArray[counter].setRecipe(null);
+			mealsArray[counter].setServing(mealTemp.getServing());
+			counter++;
+		}
+		oos.writeObject(mealsArray);
+		oos.flush();
+		oos.close();
 	}
 }
