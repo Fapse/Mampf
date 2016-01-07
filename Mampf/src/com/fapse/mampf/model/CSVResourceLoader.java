@@ -24,7 +24,7 @@ class CSVResourceLoader {
 	private static List<String> loadRows(String resource) {
 		List<String> rows = new ArrayList<>();
 		try {
-			InputStream is = MampfStorage.class.getResourceAsStream(resource);
+			InputStream is = MealStorage.class.getResourceAsStream(resource);
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader bf = new BufferedReader(isr);
 			rows.addAll( bf.lines().collect(Collectors.toList()));

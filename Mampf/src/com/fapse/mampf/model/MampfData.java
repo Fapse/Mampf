@@ -1,6 +1,5 @@
 package com.fapse.mampf.model;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,8 +10,6 @@ import java.util.stream.Collectors;
 
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
-import com.fapse.mampf.util.EnrichableException;
-import com.fapse.mampf.util.ExceptionHandler;
 
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
@@ -25,26 +22,6 @@ public class MampfData {
 	private final ObservableList<Meal> meals = FXCollections.observableArrayList();
 	private final ObservableList<Recipe> recipes = FXCollections.observableArrayList();
 	private final ObservableList<LocalDate> changedDates = FXCollections.observableArrayList();
-
-    protected ExceptionHandler exceptionHandler = new ExceptionHandler(){
-        public void handle(String errorContext, String errorCode,
-                           String errorText, Throwable t){
-
-            if(! (t instanceof EnrichableException)){
-                throw new EnrichableException(
-                    errorContext, errorCode, errorText, t);
-            } else {
-                ((EnrichableException) t).addInfo(
-                    errorContext, errorCode, errorText);
-            }
-        }
-
-        public void raise(String errorContext, String errorCode,
-                          String errorText){
-            throw new EnrichableException(
-                errorContext, errorCode, errorText);
-        }
-    };
 	
 	private static class MampfDataHolder{
 		public static MampfData mampfData = new MampfData();
@@ -53,31 +30,12 @@ public class MampfData {
 		return MampfDataHolder.mampfData;
 	}
 	private MampfData() {
-		
-		try {
-			recipes.addAll(ResourceBuilder.loadRecipes());
-		} catch (IOException e) {
-			System.exit(1);
-		}
-		try {
-			meals.addAll(MampfStorage.loadMeals());
-		} catch (RecipeNotFoundException e) {
-			this.exceptionHandler.handle("meals.addAll(MampfStorage.loadMeals())",
-					"RecipeNotFoundException", "Could not find recipe", e);
-			System.exit(1);			
-		} catch (IOException e) {
-			System.exit(1);
-		} catch (ClassNotFoundException e) {
-			System.exit(1);			
-		}
+		recipes.addAll(ResourceBuilder.loadRecipes());
+		meals.addAll(MealStorage.loadMeals());
 		meals.addListener(new ListChangeListener<Meal>() {
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Meal> c) {
-				try {
-					MampfStorage.saveMeals(meals);
-				} catch (IOException e) {
-					System.exit(1);
-				}				
+				MealStorage.saveMeals(meals);
 			}
 		});
 	}
@@ -103,24 +61,17 @@ public class MampfData {
 		return Collections.unmodifiableSet(recipeCategories);
 	}
 	public Recipe getNextRecipe(Recipe recipe, int next) {
-		int position = 0;
+		// next < 0: previous recipe, next > 0: next recipe
+		// number of recipes always > 0
+		int index = recipes.indexOf(recipe);
 		int size = recipes.size();
-		for (Recipe tmpRecipe : recipes) {
-			if (recipe.equals(tmpRecipe)) {
-				position = recipes.indexOf(recipe);
-				break;
-			}
-		}
-		if (size == 0) {
-			return null;
-		}
-		position += next;
-		if (position >= size) {
+		index += next;
+		if (index >= size) {
 			return recipes.get(0);
-		} else if (position < 0) {
+		} else if (index < 0) {
 			return recipes.get(size - 1);
 		} else {
-			return recipes.get(position);
+			return recipes.get(index);
 		}
 	}
 	public List<Meal> getMeals(LocalDate date) {
@@ -133,13 +84,9 @@ public class MampfData {
 				tmpMeal.removeDate(date);
 				changedDates.add(changedDates.size(), date);
 				if(tmpMeal.getDateCount() == 0) {
-					meals.remove(tmpMeal);
+					meals.remove(tmpMeal); //item removed: meals saved automatically
 				} else {
-					try {
-						MampfStorage.saveMeals(meals);
-					} catch (IOException e) {
-						System.exit(1);
-					}
+					MealStorage.saveMeals(meals);
 					for (LocalDate tmpDate : tmpMeal.getDates()) {
 						changedDates.add(changedDates.size(), tmpDate);
 					}
@@ -149,14 +96,14 @@ public class MampfData {
 		}
 	}
 	public void addMealDay(Meal meal, LocalDate date) {
+		//meal.addDate(date);
+		//MealStorage.saveMeals(meals);
+		//changedDates.add(changedDates.size(), date);
+		
 		for (Meal tmpMeal : meals) {
 			if (tmpMeal.isMeal(meal)) {
 				tmpMeal.addDate(date);
-				try {
-					MampfStorage.saveMeals(meals);
-				} catch (IOException e) {
-					System.exit(1);
-				}
+				MealStorage.saveMeals(meals);
 				changedDates.add(changedDates.size(), date);
 				break;
 			}
@@ -168,7 +115,6 @@ public class MampfData {
 		meal.addDate(date);
 		meals.add(meal);
 		changedDates.add(changedDates.size(), date);
-		
 	}
 	public void printShoppingList(String text) {
 		Printer.printText(text);
@@ -177,11 +123,7 @@ public class MampfData {
 		for (Meal tmpMeal : meals) {
 			if (tmpMeal.isMeal(meal)) {
 				tmpMeal.setServing(serving);
-				try {
-					MampfStorage.saveMeals(meals);
-				} catch (IOException e) {
-					System.exit(1);
-				}
+				MealStorage.saveMeals(meals);
 				for (LocalDate date : tmpMeal.getDates()) {
 					changedDates.add(changedDates.size(), date);
 				}
