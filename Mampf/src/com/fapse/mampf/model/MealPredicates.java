@@ -13,6 +13,9 @@ public class MealPredicates {
     public static Predicate<Meal> isMeal(Meal meal) {
     	return p -> p.isMeal(meal) == true;
     }
+    public static Predicate<Meal> isCookDay(LocalDate date) {
+    	return p -> p.isCookDay(date) == true;
+    }
     public static List<Meal> filterMeals (ObservableList<Meal> mealActions, Predicate<Meal> predicate) {
         return mealActions.stream().filter( predicate ).collect(Collectors.<Meal>toList());
     }
