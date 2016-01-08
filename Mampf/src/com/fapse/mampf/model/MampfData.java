@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import com.fapse.mampf.model.Meal;
 import com.fapse.mampf.model.Recipe;
+import com.fapse.mampf.util.ExceptionHandlerImpl;
 
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
@@ -19,6 +20,8 @@ import javafx.collections.ObservableList;
 import static com.fapse.mampf.model.MealPredicates.*;
 
 public class MampfData {
+	private static ExceptionHandlerImpl exceptionHandler = new ExceptionHandlerImpl();
+
 	private final ObservableList<Meal> meals = FXCollections.observableArrayList();
 	private final ObservableList<Recipe> recipes = FXCollections.observableArrayList();
 	private final ObservableList<LocalDate> changedDates = FXCollections.observableArrayList();
@@ -38,6 +41,14 @@ public class MampfData {
 				MealStorage.saveMeals(meals);
 			}
 		});
+	}
+	private boolean isMealInList(Meal meal) {
+		if (!meals.contains(meal)) {
+			exceptionHandler.raise("model", "E3", "Meal " + meal.getUUID() + " could not be found in list: meals");
+			return false;
+		} else {
+			return true;
+		}
 	}
 	public ReadOnlyListWrapper<LocalDate> getChangedDates() {
 		return new ReadOnlyListWrapper<>(changedDates);
@@ -75,87 +86,77 @@ public class MampfData {
 		}
 	}
 	public List<Meal> getMeals(LocalDate date) {
-		List<Meal> mealsList = filterMeals(meals, hasDate(date));
-        return Collections.unmodifiableList(mealsList);
+		List<Meal> mealsOfTheDay = filterMeals(meals, hasDate(date));
+        return Collections.unmodifiableList(mealsOfTheDay);
     }
 	public void deleteMealDay(Meal meal, LocalDate date) {
-		for (Meal tmpMeal : meals) {
-			if (tmpMeal.isMeal(meal)) {
-				tmpMeal.removeDate(date);
-				changedDates.add(changedDates.size(), date);
-				if(tmpMeal.getDateCount() == 0) {
-					meals.remove(tmpMeal); //item removed: meals saved automatically
-				} else {
-					MealStorage.saveMeals(meals);
-					for (LocalDate tmpDate : tmpMeal.getDates()) {
-						changedDates.add(changedDates.size(), tmpDate);
-					}
-				}
-				break;
+		meal.removeDate(date);
+		changedDates.add(changedDates.size(), date);
+		if(meal.getDateCount() == 0) {
+			meals.remove(meal); //item removed: meals saved automatically
+		} else {
+			MealStorage.saveMeals(meals);
+			for (LocalDate tmpDate : meal.getDates()) {
+				changedDates.add(changedDates.size(), tmpDate);
 			}
 		}
 	}
+	
 	public void addMealDay(Meal meal, LocalDate date) {
-		//meal.addDate(date);
-		//MealStorage.saveMeals(meals);
-		//changedDates.add(changedDates.size(), date);
-		
-		for (Meal tmpMeal : meals) {
-			if (tmpMeal.isMeal(meal)) {
-				tmpMeal.addDate(date);
-				MealStorage.saveMeals(meals);
-				changedDates.add(changedDates.size(), date);
-				break;
-			}
-		}
-		return;
+		isMealInList(meal);
+		meal.addDate(date);
+		MealStorage.saveMeals(meals);
+		changedDates.add(changedDates.size(), date);
 	}
+	
 	public void addNewMeal(Recipe recipe, LocalDate date) {
 		Meal meal = new Meal(recipe);
 		meal.addDate(date);
 		meals.add(meal);
 		changedDates.add(changedDates.size(), date);
 	}
+	
 	public void printShoppingList(String text) {
 		Printer.printText(text);
 	}
+	
 	public void setMealServing(Meal meal, int serving) {
-		for (Meal tmpMeal : meals) {
-			if (tmpMeal.isMeal(meal)) {
-				tmpMeal.setServing(serving);
-				MealStorage.saveMeals(meals);
-				for (LocalDate date : tmpMeal.getDates()) {
-					changedDates.add(changedDates.size(), date);
-				}
-				break;
-			}
+		isMealInList(meal);
+		meal.setServing(serving);
+		MealStorage.saveMeals(meals);
+		for (LocalDate date : meal.getDates()) {
+			changedDates.add(changedDates.size(), date);
 		}
-		return;
 	}
-	public List<Condiment> getShoppingList(LocalDate date, int day) {
+	
+	public List<Condiment> getShoppingList(LocalDate date, int daysToShopFor) {
 		List<Condiment> shoppingList = new ArrayList<>();
-		for (int n = 0; n < day; n++) {
-			for (Meal meal : meals) {
-				if(meal.isCookDay(date.plusDays(n))) {
-					for (Condiment foundCond : meal.getRecipe().getCondiments()) {
-						if (shoppingList.contains(foundCond)) {
-							int pos = shoppingList.indexOf(foundCond);
-							Condiment oldListCond = shoppingList.get(pos);
-							shoppingList.remove(pos);
-							int amount;
-							amount = Integer.parseInt(oldListCond.getAmount());
-							amount += (Integer.parseInt(foundCond.getAmount())) * meal.getServing();
-							Condiment newListCond = new Condiment(oldListCond);
-							newListCond.setAmount(String.valueOf(amount));
-							shoppingList.add(newListCond);
-						} else {
-							Condiment tmpCondiment = new Condiment(foundCond);
-							tmpCondiment.setAmount(String.valueOf(Integer.parseInt(foundCond.getAmount()) * meal.getServing()));
-							shoppingList.add(tmpCondiment);
-						}
-					}
+		List<LocalDate> dates = new ArrayList<>();
+		List<Meal> mealsToShopFor = new ArrayList<>();
+		for (int n = 0; n < daysToShopFor; n++) {
+			dates.add(date.plusDays(n));
+		}
+		for (LocalDate dayToShopFor : dates) {
+			mealsToShopFor.addAll(filterMeals(meals, isCookDay(dayToShopFor)));
+		}
+		for (Meal mealToShopFor : mealsToShopFor) {
+			for (Condiment foundCond : mealToShopFor.getRecipe().getCondiments()) {
+				if (shoppingList.contains(foundCond)) {
+					int pos = shoppingList.indexOf(foundCond);
+					Condiment oldListCond = shoppingList.get(pos);
+					shoppingList.remove(pos);
+					int amount;
+					amount = Integer.parseInt(oldListCond.getAmount());
+					amount += (Integer.parseInt(foundCond.getAmount())) * mealToShopFor.getServing();
+					Condiment newListCond = new Condiment(oldListCond);
+					newListCond.setAmount(String.valueOf(amount));
+					shoppingList.add(newListCond);
+				} else {
+					Condiment tmpCondiment = new Condiment(foundCond);
+					tmpCondiment.setAmount(String.valueOf(Integer.parseInt(foundCond.getAmount()) * mealToShopFor.getServing()));
+					shoppingList.add(tmpCondiment);
 				}
-			}
+			}			
 		}
 		return Collections.unmodifiableList(shoppingList);
 	}
