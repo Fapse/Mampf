@@ -143,14 +143,10 @@ public class MampfData {
 			for (Condiment foundCond : mealToShopFor.getRecipe().getCondiments()) {
 				if (shoppingList.contains(foundCond)) {
 					int pos = shoppingList.indexOf(foundCond);
-					Condiment oldListCond = shoppingList.get(pos);
-					shoppingList.remove(pos);
-					int amount;
-					amount = Integer.parseInt(oldListCond.getAmount());
+					Condiment tmpCondiment = shoppingList.get(pos);
+					int amount = Integer.parseInt(tmpCondiment.getAmount());
 					amount += (Integer.parseInt(foundCond.getAmount())) * mealToShopFor.getServing();
-					Condiment newListCond = new Condiment(oldListCond);
-					newListCond.setAmount(String.valueOf(amount));
-					shoppingList.add(newListCond);
+					tmpCondiment.setAmount(String.valueOf(amount));
 				} else {
 					Condiment tmpCondiment = new Condiment(foundCond);
 					tmpCondiment.setAmount(String.valueOf(Integer.parseInt(foundCond.getAmount()) * mealToShopFor.getServing()));
